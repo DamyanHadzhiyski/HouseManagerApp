@@ -26,6 +26,9 @@
 		public const int LastNameMinLength = 2;
 		public const int LastNameMaxLength = 50;
 
+		public const string UnitCommonPartsMinArea = "0";
+		public const string UnitCommonPartsMaxArea = "100";
+
 		public const string PhoneNumberRegEx = @"^\+[0-9 ]{8,}$";
 	}
 }
