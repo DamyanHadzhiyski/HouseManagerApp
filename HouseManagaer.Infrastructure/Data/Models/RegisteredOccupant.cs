@@ -1,24 +1,39 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
+	/// <summary>
+	/// Entity that holds the connection between occupants and users that have app registration
+	/// </summary>
 	public class RegisteredOccupant
 	{
-		[Key] 
-		public int Id { get; set; }
-
-        [Required]
+		/// <summary>
+		/// Primary identifier of a registered user
+		/// </summary>
+		[Required]
+        [Comment("Primary identifier of a registered user")]
         public required int UserId { get; set; }
 
+		/// <summary>
+		/// Navigation property to the IdentityUsers table
+		/// </summary>
         [ForeignKey(nameof(UserId))]
         public required IdentityUser User { get; set; }
 
-        [Required]
+		/// <summary>
+		/// Primary identifier of a occupant
+		/// </summary>
+		[Required]
+		[Comment("Primary identifier of a occupant")]
 		public required int OccupantId { get; set; }
 
-        [ForeignKey(nameof(OccupantId))]
+		/// <summary>
+		/// Navigation property to the Occupants table
+		/// </summary>
+		[ForeignKey(nameof(OccupantId))]
         public required Occupant Occupant { get; set; }
     }
 }
