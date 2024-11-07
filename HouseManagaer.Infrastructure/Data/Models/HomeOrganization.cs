@@ -75,5 +75,10 @@ namespace HouseManager.Infrastructure.Data.Models
 		[ForeignKey(nameof(CashierId))]
 		public required BoardMember Cashier { get; set; }
 
-	}
+		/// <summary>
+		/// Collection of all units belonging to the home organization
+		/// </summary>
+		public ICollection<Unit> Units { get; set; } = [];
+
+    }
 }

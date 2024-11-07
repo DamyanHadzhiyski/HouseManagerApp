@@ -84,5 +84,10 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// </summary>
 		[ForeignKey(nameof(HomeOrganizationId))]
         public required HomeOrganization HomeOrganization { get; set; }
+
+        /// <summary>
+        /// Occupants that live in the unit
+        /// </summary>
+        public ICollection<Occupant> Occupants { get; set; } = [];
     }
 }
