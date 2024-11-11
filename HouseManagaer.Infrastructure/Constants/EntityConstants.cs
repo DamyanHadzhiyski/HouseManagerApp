@@ -5,8 +5,8 @@
 		public const int DescriptionMinLength = 10;
 		public const int DescriptionMaxLength = 200;
 
-		public const int HomeOrganizationNameMinLength = 3;
-		public const int HomeOrganizationNameMaxLength = 20;
+		public const int HouseOrganizationNameMinLength = 3;
+		public const int HouseOrganizationNameMaxLength = 20;
 
 		public const int AddressMinLength = 10;
 		public const int AddressMaxLength = 100;

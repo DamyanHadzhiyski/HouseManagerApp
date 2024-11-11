@@ -6,23 +6,23 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 namespace HouseManager.Infrastructure.Data.Models
 {
 	/// <summary>
-	/// Entity that holds information for the home organizations
+	/// Entity that holds information for the house organizations
 	/// </summary>
-	public class HomeOrganization
+	public class HouseOrganization
 	{
 		/// <summary>
 		/// Primary identifier of the Home Organization
 		/// </summary>
 		[Key]
-		[Comment("Primary identifier of the Home Organization")]
+		[Comment("Primary identifier of the House Organization")]
 		public int Id { get; set; }
 
 		/// <summary>
 		/// Name of the Home Organization
 		/// </summary>
 		[Required]
-		[StringLength(HomeOrganizationNameMaxLength)]
-		[Comment("Name of the Home Organization")]
+		[StringLength(HouseOrganizationNameMaxLength)]
+		[Comment("Name of the House Organization")]
 		public required string Name { get; set; }
 
 
@@ -47,36 +47,13 @@ namespace HouseManager.Infrastructure.Data.Models
         [ForeignKey(nameof(TownId))]
         public required Town Town { get; set; }
 
-
 		/// <summary>
-		/// Landlord of the Home Organization
+		/// Collection of board members(president and cashier) of the house organization
 		/// </summary>
-		[Required]
-		[Comment("President of the Home Organization")]
-        public required int PresidentId { get; set; }
+		public ICollection<BoardMember> BoardMembers { get; set; } = [];
 
 		/// <summary>
-		/// Navigation property to Management table
-		/// </summary>
-		[ForeignKey(nameof(PresidentId))]
-        public required BoardMember President { get; set; }
-
-
-		/// <summary>
-		/// Cashier of the Home Organization
-		/// </summary>
-		[Required]
-		[Comment("Cashier of the Home Organization")]
-		public required int CashierId { get; set; }
-
-		/// <summary>
-		/// Navigation property to Management table
-		/// </summary>
-		[ForeignKey(nameof(CashierId))]
-		public required BoardMember Cashier { get; set; }
-
-		/// <summary>
-		/// Collection of all units belonging to the home organization
+		/// Collection of all units belonging to the house organization
 		/// </summary>
 		public ICollection<Unit> Units { get; set; } = [];
 

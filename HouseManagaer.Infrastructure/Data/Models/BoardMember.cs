@@ -26,18 +26,18 @@ namespace HouseManager.Infrastructure.Data.Models
 		public required BoardMemberPosition Position { get; set; }
 
 
-		/// <summary>
-		/// Primary identifier of the home organization
-		/// </summary>
-		[Required]
-		[Comment("Primary identifier of the home organization")]
-		public required int HomeOrganizationId { get; set; }
+		///// <summary>
+		///// Primary identifier of the home organization
+		///// </summary>
+		//[Required]
+		//[Comment("Primary identifier of the home organization")]
+		//public required int HomeOrganizationId { get; set; }
 
-		/// <summary>
-		/// Navigation property to the HomeOrganizations table
-		/// </summary>
-		[ForeignKey(nameof(HomeOrganizationId))]
-		public required HomeOrganization HomeOrganization { get; set; }
+		///// <summary>
+		///// Navigation property to the HomeOrganizations table
+		///// </summary>
+		//[ForeignKey(nameof(HomeOrganizationId))]
+		//public required HomeOrganization HomeOrganization { get; set; }
 
 		/// <summary>
 		/// Start date of assignment to the board member position

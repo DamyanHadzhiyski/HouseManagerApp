@@ -15,7 +15,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// </summary>
 		[Required]
         [Comment("Primary identifier of a registered user")]
-        public required int UserId { get; set; }
+        public required string UserId { get; set; }
 
 		/// <summary>
 		/// Navigation property to the IdentityUsers table

@@ -83,7 +83,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// Navigation property to HomeOrganizations table
 		/// </summary>
 		[ForeignKey(nameof(HomeOrganizationId))]
-        public required HomeOrganization HomeOrganization { get; set; }
+        public required HouseOrganization HomeOrganization { get; set; }
 
         /// <summary>
         /// Occupants that live in the unit

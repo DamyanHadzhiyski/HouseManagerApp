@@ -47,18 +47,18 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Comment("Occupant date of birth")]
 		public required DateOnly BirthDate { get; set; }
 
-		/// <summary>
-		/// Unit occupied
-		/// </summary>
-		[Required]
-		[Comment("Unit occupied")]
-		public required int UnitId { get; set; }
+		///// <summary>
+		///// Unit occupied
+		///// </summary>
+		//[Required]
+		//[Comment("Unit occupied")]
+		//public required int UnitId { get; set; }
 
-		/// <summary>
-		/// Navigation property to the Units table
-		/// </summary>
-        [ForeignKey(nameof(UnitId))]
-        public required Unit Unit { get; set; }
+		///// <summary>
+		///// Navigation property to the Units table
+		///// </summary>
+		//[ForeignKey(nameof(UnitId))]
+		//public required Unit Unit { get; set; }
 
 		/// <summary>
 		/// Flag if the occupant is owner of the unit
@@ -75,3 +75,4 @@ namespace HouseManager.Infrastructure.Data.Models
         public string? PhoneNumber { get; set; }
     }
 }
+         

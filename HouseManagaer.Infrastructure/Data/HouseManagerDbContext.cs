@@ -3,25 +3,34 @@ using HouseManager.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Reflection.Emit;
 
 namespace HouseManager.Infrastructure.Data
 {
-	public class HouseManagerDbContext(DbContextOptions<HouseManagerDbContext> options) : IdentityDbContext<IdentityUser>(options)
+	public class HouseManagerDbContext : IdentityDbContext<IdentityUser>
 	{
-		protected override void OnModelCreating(ModelBuilder builder)
-		{ 
-			builder
-				.ApplyConfiguration(new RegisteredOccupantConfiguration());
+		public HouseManagerDbContext(DbContextOptions<HouseManagerDbContext> options) 
+			: base(options)
+		{
 		}
 
-		public DbSet<BoardMember> BoardMembers { get; set;}
-		public DbSet<Expense> Expenses { get; set;}
-		public DbSet<HomeOrganization> HomeOrganizations { get; set;}
-		public DbSet<Income> Incomes { get; set;}
-		public DbSet<Occupant> Occupants { get; set;}
-		public DbSet<RegisteredOccupant> RegisteredOccupants { get; set;}
-		public DbSet<Town> Towns { get; set;}
-		public DbSet<Unit> Units { get; set;}
-		public DbSet<UnitType> UnitTypes { get; set;}
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			//builder
+			//	.ApplyConfiguration(new RegisteredOccupantConfiguration());
+		}
+
+		//public DbSet<BoardMember> BoardMembers { get; set;}
+		//public DbSet<Expense> Expenses { get; set;}
+		public DbSet<HouseOrganization> HouseOrganizations { get; set;}
+		//public DbSet<Income> Incomes { get; set;}
+		//public DbSet<Occupant> Occupants { get; set;}
+		//public DbSet<RegisteredOccupant> RegisteredOccupants { get; set;}
+		//public DbSet<Town> Towns { get; set;}
+		//public DbSet<Unit> Units { get; set;}
+		//public DbSet<UnitType> UnitTypes { get; set;}
 	}
 }
