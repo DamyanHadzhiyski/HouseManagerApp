@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
 				options.Password.RequireUppercase = false;
 				options.Password.RequireDigit = false;
 			})
-				.AddEntityFrameworkStores<HouseManagerDbContext>();
+			.AddEntityFrameworkStores<HouseManagerDbContext>();
 
 			return services;
 		}
