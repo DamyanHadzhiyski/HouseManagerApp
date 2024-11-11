@@ -10,24 +10,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HouseManager.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
-    {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly ILogger<RegisterModel> _logger;
-
-        public RegisterModel(
+    public class RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger)
-        {
-            _userManager = userManager;
-            _userStore = userStore;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+            ILogger<RegisterModel> logger) : PageModel
+    {
+        //private readonly SignInManager<IdentityUser> _signInManager;
+        //private readonly UserManager<IdentityUser> _userManager;
+        //private readonly IUserStore<IdentityUser> _userStore;
+        //private readonly ILogger<RegisterModel> _logger;
+
+        //public RegisterModel(
+        //    UserManager<IdentityUser> userManager,
+        //    IUserStore<IdentityUser> userStore,
+        //    SignInManager<IdentityUser> signInManager,
+        //    ILogger<RegisterModel> logger)
+        //{
+        //    _userManager = userManager;
+        //    _userStore = userStore;
+        //    _signInManager = signInManager;
+        //    _logger = logger;
+        //}
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -91,13 +95,13 @@ namespace HouseManager.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
 
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
 
