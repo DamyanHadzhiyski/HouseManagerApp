@@ -1,5 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHouseManagerDbContext(builder.Configuration);
+builder.Services.AddHouseManagerIdentity(builder.Configuration);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -18,6 +21,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
