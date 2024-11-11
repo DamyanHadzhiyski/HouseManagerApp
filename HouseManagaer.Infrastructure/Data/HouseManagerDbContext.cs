@@ -1,14 +1,12 @@
-﻿using HouseManager.Infrastructure.Data.Configurations;
-using HouseManager.Infrastructure.Data.Models;
+﻿using HouseManager.Infrastructure.Data.Models;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Reflection.Emit;
 
 namespace HouseManager.Infrastructure.Data
 {
-	public class HouseManagerDbContext : IdentityDbContext<IdentityUser>
+    public class HouseManagerDbContext : IdentityDbContext<IdentityUser>
 	{
 		public HouseManagerDbContext(DbContextOptions<HouseManagerDbContext> options) 
 			: base(options)

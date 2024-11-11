@@ -1,14 +1,17 @@
-﻿using HouseManager.Infrastructure.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+using HouseManager.Infrastructure.Enums;
+
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds information for the incomes of the home orgaznizations
-	/// </summary>
-	public class Income
+    /// <summary>
+    /// Entity that holds information for the incomes of the home orgaznizations
+    /// </summary>
+    public class Income
 	{
 		/// <summary>
 		/// Primary identifier of the Income
@@ -47,7 +50,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// <summary>
 		/// Short description of the Income
 		/// </summary>
-		[StringLength(DescriptionMaxLength)]
+		[MaxLength(DescriptionMaxLength)]
 		[Comment("Short description of the Income")]
         public string? Description { get; set; }
     }

@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using Microsoft.EntityFrameworkCore;
+
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds information for the house organizations
-	/// </summary>
-	public class HouseOrganization
+    /// <summary>
+    /// Entity that holds information for the house organizations
+    /// </summary>
+    public class HouseOrganization
 	{
 		/// <summary>
 		/// Primary identifier of the Home Organization
@@ -21,7 +23,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// Name of the Home Organization
 		/// </summary>
 		[Required]
-		[StringLength(HouseOrganizationNameMaxLength)]
+		[MaxLength(HouseOrganizationNameMaxLength)]
 		[Comment("Name of the House Organization")]
 		public required string Name { get; set; }
 
@@ -30,7 +32,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// Address of the Home Organization
 		/// </summary>
 		[Required]
-		[StringLength(AddressMaxLength)]
+		[MaxLength(AddressMaxLength)]
 		[Comment("Address of the Home Organization")]
         public required string Address { get; set; }
 

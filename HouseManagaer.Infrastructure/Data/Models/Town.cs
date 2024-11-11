@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Microsoft.EntityFrameworkCore;
+
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds the towns names
-	/// </summary>
-	public class Town
+    /// <summary>
+    /// Entity that holds the towns names
+    /// </summary>
+    public class Town
 	{
 		/// <summary>
 		/// Primary identifier of the Town
@@ -20,7 +22,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// Name of the Town
 		/// </summary>
 		[Required]
-		[StringLength(TownNameMaxLength)]
+		[MaxLength(TownNameMaxLength)]
 		[Comment("Name of the Town")]
         public required string Name { get; set; }
 

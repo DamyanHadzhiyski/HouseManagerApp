@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using Microsoft.EntityFrameworkCore;
+
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds information about the units
-	/// </summary>
-	public class Unit
+    /// <summary>
+    /// Entity that holds information about the units
+    /// </summary>
+    public class Unit
 	{
 		/// <summary>
 		/// Primary identifier of the unit
@@ -71,19 +73,6 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Required]
         [Comment("The credit/debit of the unit")]
         public required decimal Balance { get; set; }
-
-		/// <summary>
-		/// Identifier of the home organization to which unit belongs
-		/// </summary>
-		[Required]
-        [Comment("Identifier of the home organization")]
-        public required int HomeOrganizationId { get; set; }
-
-		/// <summary>
-		/// Navigation property to HomeOrganizations table
-		/// </summary>
-		[ForeignKey(nameof(HomeOrganizationId))]
-        public required HouseOrganization HomeOrganization { get; set; }
 
         /// <summary>
         /// Occupants that live in the unit

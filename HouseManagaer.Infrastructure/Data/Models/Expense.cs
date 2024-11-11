@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Microsoft.EntityFrameworkCore;
+
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds information for made expenses
-	/// </summary>
-	public class Expense
+    /// <summary>
+    /// Entity that holds information for made expenses
+    /// </summary>
+    public class Expense
 	{
 		/// <summary>
 		/// Primary key of the expense
@@ -20,7 +22,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// Short description of the expense
 		/// </summary>
 		[Required]
-        [StringLength(DescriptionMaxLength)]
+        [MaxLength(DescriptionMaxLength)]
         [Comment("Short description of the expense")]
         public required string Description { get; set; }
 

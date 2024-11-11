@@ -1,15 +1,17 @@
-﻿using HouseManager.Infrastructure.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+using HouseManager.Infrastructure.Enums;
+
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds information for the board members of the home organizations
-	/// </summary>
-	public class BoardMember
+    /// <summary>
+    /// Entity that holds information for the board members of the home organizations
+    /// </summary>
+    public class BoardMember
 	{
 		/// <summary>
 		/// Primary identifier of the board member
@@ -18,26 +20,20 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Comment("Primary identifier of the board member")]
 		public int Id { get; set; }
 
-		/// <summary>
-		/// Board member position
-		/// </summary>
-		[Required]
+        /// <summary>
+        /// Board member name
+        /// </summary>
+        [Required]
+		[MaxLength(BoardMemberFullNameMaxLength)]
+        [Comment("Board member fullname")]
+        public required string Name { get; set; }
+
+        /// <summary>
+        /// Board member position
+        /// </summary>
+        [Required]
 		[Comment("Board member position")]
 		public required BoardMemberPosition Position { get; set; }
-
-
-		///// <summary>
-		///// Primary identifier of the home organization
-		///// </summary>
-		//[Required]
-		//[Comment("Primary identifier of the home organization")]
-		//public required int HomeOrganizationId { get; set; }
-
-		///// <summary>
-		///// Navigation property to the HomeOrganizations table
-		///// </summary>
-		//[ForeignKey(nameof(HomeOrganizationId))]
-		//public required HomeOrganization HomeOrganization { get; set; }
 
 		/// <summary>
 		/// Start date of assignment to the board member position

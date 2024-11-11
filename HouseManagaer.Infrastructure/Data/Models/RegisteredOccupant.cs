@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-	/// <summary>
-	/// Entity that holds the connection between occupants and users that have app registration
-	/// </summary>
-	public class RegisteredOccupant
+    /// <summary>
+    /// Entity that holds the connection between occupants and users that have app registration
+    /// </summary>
+    public class RegisteredOccupant
 	{
 		/// <summary>
 		/// Primary identifier of a registered user
