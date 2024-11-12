@@ -3,34 +3,54 @@
 
 @if (!Model.Any())
 {
-	<form>
-		<div class="bg-light rounded h-100 p-5">
-			<h2 class="text-center">You don't have any house organizations, yet!</h2>
-			<h2 class="text-center">Do you want to add one?</h2>
-			<button class="btn btn-lg btn-primary rounded-pill col-4 offset-4 mt-5" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
-		</div>
-	</form>
+    <form>
+        <div class="bg-light rounded h-100 p-5">
+            <h2 class="text-center">You don't have any house organizations, yet!</h2>
+            <h3 class="text-center">Do you want to add one?</h3>
+            <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
+        </div>
+    </form>
 }
 else
 {
-	<div class="card" style="width: 18rem;">
-		<img src="..." class="card-img-top" alt="...">
-		<div class="card-body">
-			<h5 class="card-title">Card title</h5>
-			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-		</div>
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item">An item</li>
-			<li class="list-group-item">A second item</li>
-			<li class="list-group-item">A third item</li>
-		</ul>
-		<div class="card-body">
-			<a href="#" class="card-link">Card link</a>
-			<a href="#" class="card-link">Another link</a>
-		</div>
-	</div>
+    <div class="col-12">
+        <div class="bg-light rounded h-100 p-4">
+            <h4 class="mb-4">Managed House Organizations</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Town</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var house in Model)
+                        {
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>@house.Name</td>
+                                <td>@house.Address</td>
+                                <td>@house.TownId</td>
+                                <td>
+                                    <button type="button" class="btn btn-info col-6" asp-controller="HouseOrganization" asp-action="Details">Details</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-warning col-6" asp-controller="HouseOrganization" asp-action="Details">Edit</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button class="btn btn-sml btn-success mt-4" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
+            </div>
+        </div>
+    </div>
 }
-
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
