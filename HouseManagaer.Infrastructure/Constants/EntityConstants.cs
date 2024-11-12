@@ -6,7 +6,7 @@
 		public const int DescriptionMaxLength = 200;
 
 		public const int HouseOrganizationNameMinLength = 3;
-		public const int HouseOrganizationNameMaxLength = 20;
+		public const int HouseOrganizationNameMaxLength = 50;
 
         public const int BoardMemberFullNameMinLength = 10;
         public const int BoardMemberFullNameMaxLength = 100;
