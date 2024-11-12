@@ -33,10 +33,15 @@ namespace HouseManager.Core.Models
         public string Address { get; set; } = string.Empty;
 
         /// <summary>
-        /// Town in which the House Organization is located
+        /// Id of the town in which the House Organization is located
         /// </summary>
         [Required(ErrorMessage = FieldRequiredErrorMessage)]
         [Display(Name = "Town")]
         public int TownId { get; set; }
+
+        /// <summary>
+        /// Name of the town in which the House Organization is located
+        /// </summary>
+        public string TownName { get; set; } = string.Empty;
     }
 }
