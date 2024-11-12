@@ -20,6 +20,7 @@ namespace HouseManager.Controllers
 							.GetAllReadonlyAsync()
 							.Select(h => new HouseOrganizationModel
 							{
+								Id = h.Id,
 								Name = h.Name,
 								Address = h.Address,
 								TownName = h.Town.Name
@@ -50,17 +51,53 @@ namespace HouseManager.Controllers
 				return View(model);
 			}
 
-			var newHouseOrganization = new HouseOrganization()
-			{
-				Name = model.Name,
-				Address = model.Address,
-				TownId = model.TownId
-			};
-
-			await context.HouseOrganizations.AddAsync(newHouseOrganization);
-			await context.SaveChangesAsync();
+			await houseService.AddHouseOrganizationAsync(model);
 
 			return RedirectToAction(nameof(All));
+		}
+		#endregion
+
+		#region Edit House Organization
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			var houseDb = await houseService.GetHouseOrganizationById(id);
+
+			if (houseDb == null)
+			{
+				//TODO: Redirect to custom error page
+				return View();
+			}
+
+			var model = new HouseOrganizationModel
+			{
+				Id = houseDb.Id,
+				Name = houseDb.Name,
+				Address = houseDb.Address,
+				TownId = houseDb.TownId,
+				TownName = houseDb.Town.Name
+			};
+
+			ViewBag.Towns = await GetTowns();
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(HouseOrganizationModel model, int id)
+		{
+			var houseDb = await houseService.GetHouseOrganizationById(id);
+
+			if (!ModelState.IsValid)
+			{
+				ViewBag.Towns = await GetTowns();
+				//TODO: Redirect to custom error page
+				return View(model);
+			}
+
+			await houseService.EditHouseOrganizationAsync(model, id);
+
+			return RedirectToAction(nameof(All), "HouseOrganization");
 		}
 		#endregion
 

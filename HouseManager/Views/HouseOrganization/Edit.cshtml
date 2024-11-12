@@ -1,0 +1,32 @@
+﻿@model HouseOrganizationModel
+
+<form class="col-8 offset-2 bg-light rounded h-100 p-4" method=post>
+	<div>
+		<h4 class="mb-5">Edit House Organization</h4>
+		<div visible="false"></div> 
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.Name" class="form-control" placeholder="@Model.Name">
+			<label asp-for="@Model.Name" class="form-label"></label>
+			<span asp-validation-for="@Model.Name" class="text-danger"></span>
+		</div>
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.Address" class="form-control" placeholder="@Model.Address">
+			<label asp-for="@Model.Address" class="form-label"></label>
+			<span asp-validation-for="@Model.Address" class="text-danger"></span>
+		</div>
+		<div class="form-floating mb-3">
+			<select asp-for="@Model.TownId" class="form-control" asp-items="@ViewBag.Towns">
+				<option selected value="@Model.TownId"></option>
+			</select>
+			<label for="floatingSelect">Select town</label>
+			<span asp-validation-for="@Model.TownId" class="text-danger"></span>
+		</div>
+	</div>
+	<button class="btn btn-success rounded-pill m-2" type="submit" asp-controller="HouseOrganization" asp-action="Edit" asp-route-id="@Model.Id">Save Changes</button>
+	<button class="btn btn-success rounded-pill m-2" asp-controller="HouseOrganization" asp-action="All">Cancel</button>
+</form>
+
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
