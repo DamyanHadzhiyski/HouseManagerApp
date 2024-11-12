@@ -7,10 +7,10 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-    /// <summary>
-    /// Entity that holds information for the house organizations
-    /// </summary>
-    public class HouseOrganization
+	/// <summary>
+	/// Entity that holds information for the house organizations
+	/// </summary>
+	public class HouseOrganization
 	{
         /// <summary>
         /// Primary identifier of the House Organization
