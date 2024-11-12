@@ -9,7 +9,7 @@ namespace HouseManager.Core.Contracts
 
         Task EditHouseOrganizationAsync(HouseOrganizationModel house, int houseId);
 
-        IQueryable<HouseOrganization> GetHouseOrganizationById(int houseId);
+        Task<HouseOrganization?> GetHouseOrganizationById(int houseId);
 
 		IQueryable<HouseOrganization> GetAllReadonlyAsync();
 	}

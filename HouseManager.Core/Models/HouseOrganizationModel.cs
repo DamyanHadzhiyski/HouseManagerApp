@@ -9,6 +9,11 @@ namespace HouseManager.Core.Models
     /// </summary>
     public class HouseOrganizationModel
     {
+		/// <summary>
+		/// Primary identifier of the House Organization
+		/// </summary>
+		public int Id { get; set; }
+
         /// <summary>
         /// Name of the House Organization
         /// </summary>

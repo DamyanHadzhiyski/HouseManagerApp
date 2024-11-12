@@ -30,7 +30,7 @@ namespace HouseManager.Core.Services
 
 		public async Task EditHouseOrganizationAsync(HouseOrganizationModel house, int houseId)
 		{
-			var editHouse = GetHouseOrganizationById(houseId);
+			var editHouse = await GetHouseOrganizationById(houseId);
 
 
             if (editHouse == null)
@@ -38,17 +38,11 @@ namespace HouseManager.Core.Services
 				throw new InvalidExpressionException("House organization does not exist");
 			}
 
+			editHouse.Name = house.Name;
+			editHouse.Address = house.Address;
+			editHouse.TownId = house.TownId;
+
 			await context.SaveChangesAsync();
-			//await editHouse
-			//        .Select(ho =>
-			//        {
-			//            ho.Name = house.Name;
-			//            ho.Address = house.Address;
-			//            ho.TownId = house.TownId;
-			//        });
-
-			//editHouse.
-
 		}
 
 		public IQueryable<HouseOrganization> GetAllReadonlyAsync()
@@ -57,10 +51,11 @@ namespace HouseManager.Core.Services
 								.AsNoTracking();
 		}
 
-		public IQueryable<HouseOrganization> GetHouseOrganizationById(int houseId)
+		public async Task<HouseOrganization?> GetHouseOrganizationById(int houseId)
 		{
-			return context.HouseOrganizations
-							.Where(ho => ho.Id == houseId);
+			return await context.HouseOrganizations
+							.Include("Town")
+							.FirstOrDefaultAsync(ho => ho.Id == houseId);
 		}
 	}
 }
