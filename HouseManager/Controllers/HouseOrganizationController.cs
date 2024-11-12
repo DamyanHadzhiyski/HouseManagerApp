@@ -16,19 +16,20 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> All()
 		{
-			var model = houseService
+			var model = await houseService
 							.GetAllReadonlyAsync()
 							.Select(h => new HouseOrganizationModel
 							{
+								Name = h.Name,
 								Address = h.Address,
-								TownId = h.TownId,
-								Name = h.Name
+								TownName = h.Town.Name
 							})
-							.ToList();
+							.ToListAsync();
 
 			return View(model);
 		}
 
+		#region Add New House Organization
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
@@ -61,6 +62,7 @@ namespace HouseManager.Controllers
 
 			return RedirectToAction(nameof(All));
 		}
+		#endregion
 
 		#region Private Methods
 		private async Task<ICollection<SelectListItem>> GetTowns()
