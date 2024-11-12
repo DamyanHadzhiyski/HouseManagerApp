@@ -1,0 +1,37 @@
+﻿@model List<HouseOrganizationModel>
+
+
+@if (!Model.Any())
+{
+	<form>
+		<div class="bg-light rounded h-100 p-5">
+			<h2 class="text-center">You don't have any house organizations, yet!</h2>
+			<h2 class="text-center">Do you want to add one?</h2>
+			<button class="btn btn-lg btn-primary rounded-pill col-4 offset-4 mt-5" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
+		</div>
+	</form>
+}
+else
+{
+	<div class="card" style="width: 18rem;">
+		<img src="..." class="card-img-top" alt="...">
+		<div class="card-body">
+			<h5 class="card-title">Card title</h5>
+			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+		</div>
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">An item</li>
+			<li class="list-group-item">A second item</li>
+			<li class="list-group-item">A third item</li>
+		</ul>
+		<div class="card-body">
+			<a href="#" class="card-link">Card link</a>
+			<a href="#" class="card-link">Another link</a>
+		</div>
+	</div>
+}
+
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
