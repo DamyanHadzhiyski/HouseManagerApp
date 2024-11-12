@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using HouseManager.Infrastructure.Data.Models;
-
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Core.Models
