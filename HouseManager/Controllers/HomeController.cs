@@ -1,19 +1,26 @@
 using HouseManager.Models;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace HouseManager.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController(
+            ILogger<HomeController> logger,
+            UserManager<IdentityUser> userManager) : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
-
-		public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
-
 		public IActionResult Index()
+		{
+			if (User.Identity != null && User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("All", "HouseOrganization");
+			}
+
+			return View();
+        }
+
+		public IActionResult LogedIn()
 		{
 			return View();
 		}

@@ -16,23 +16,6 @@ namespace HouseManager.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger) : PageModel
     {
-        //private readonly SignInManager<IdentityUser> _signInManager;
-        //private readonly UserManager<IdentityUser> _userManager;
-        //private readonly IUserStore<IdentityUser> _userStore;
-        //private readonly ILogger<RegisterModel> _logger;
-
-        //public RegisterModel(
-        //    UserManager<IdentityUser> userManager,
-        //    IUserStore<IdentityUser> userStore,
-        //    SignInManager<IdentityUser> signInManager,
-        //    ILogger<RegisterModel> logger)
-        //{
-        //    _userManager = userManager;
-        //    _userStore = userStore;
-        //    _signInManager = signInManager;
-        //    _logger = logger;
-        //}
-
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -101,6 +84,8 @@ namespace HouseManager.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    logger.LogInformation($"User is registered.");
+
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }

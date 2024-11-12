@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			return services;
 		}
 
-		public static IServiceCollection AddHouseManagerIdentity(this IServiceCollection services, IConfiguration config)
+		public static IServiceCollection AddHouseManagerIdentity(this IServiceCollection services)
 		{
 			services.AddDefaultIdentity<IdentityUser>(options =>
 			{

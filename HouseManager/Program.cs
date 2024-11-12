@@ -1,7 +1,12 @@
+using HouseManager.Core.Contracts;
+using HouseManager.Core.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
+
+builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

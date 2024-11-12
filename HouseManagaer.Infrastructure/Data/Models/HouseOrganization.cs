@@ -12,42 +12,42 @@ namespace HouseManager.Infrastructure.Data.Models
     /// </summary>
     public class HouseOrganization
 	{
-		/// <summary>
-		/// Primary identifier of the Home Organization
-		/// </summary>
-		[Key]
+        /// <summary>
+        /// Primary identifier of the House Organization
+        /// </summary>
+        [Key]
 		[Comment("Primary identifier of the House Organization")]
 		public int Id { get; set; }
 
-		/// <summary>
-		/// Name of the Home Organization
-		/// </summary>
-		[Required]
+        /// <summary>
+        /// Name of the House Organization
+        /// </summary>
+        [Required]
 		[MaxLength(HouseOrganizationNameMaxLength)]
 		[Comment("Name of the House Organization")]
 		public required string Name { get; set; }
 
 
-		/// <summary>
-		/// Address of the Home Organization
-		/// </summary>
-		[Required]
+        /// <summary>
+        /// Address of the House Organization
+        /// </summary>
+        [Required]
 		[MaxLength(AddressMaxLength)]
-		[Comment("Address of the Home Organization")]
+		[Comment("Address of the House Organization")]
         public required string Address { get; set; }
 
-		/// <summary>
-		/// Town of the Home Organization
-		/// </summary>
-		[Required]
-		[Comment("Town of the Home Organization")]
+        /// <summary>
+        /// Town in which the House Organization is located
+        /// </summary>
+        [Required]
+		[Comment("Town of the House Organization")]
         public required int TownId { get; set; }
 
-		/// <summary>
-		/// Navigation property to Towns table
-		/// </summary>
+        /// <summary>
+        /// Navigation property to Towns table
+        /// </summary>
         [ForeignKey(nameof(TownId))]
-        public required Town Town { get; set; }
+        public Town Town { get; set; } = null!;
 
 		/// <summary>
 		/// Collection of board members(president and cashier) of the house organization
