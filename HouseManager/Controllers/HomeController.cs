@@ -1,14 +1,12 @@
+using System.Diagnostics;
+
 using HouseManager.Models;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace HouseManager.Controllers
 {
-	public class HomeController(
-            ILogger<HomeController> logger,
-            UserManager<IdentityUser> userManager) : Controller
+    public class HomeController() : Controller
 	{
 		public IActionResult Index()
 		{
