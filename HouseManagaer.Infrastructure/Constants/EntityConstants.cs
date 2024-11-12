@@ -27,5 +27,8 @@
 		public const string UnitCommonPartsMaxArea = "100";
 
 		public const string PhoneNumberRegEx = @"^\+[0-9 ]{8,}$";
+
+		public const string FieldLengthErrorMessage = "Field {0} must be between {2} and {1} characters long!";
+		public const string FieldRequiredErrorMessage = "Field {0} is required";
 	}
 }
