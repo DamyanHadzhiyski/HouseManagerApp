@@ -13,7 +13,7 @@
 }
 else
 {
-    <div class="col-12">
+    <form class="col-12">
         <div class="bg-light rounded h-100 p-4">
             <h4 class="mb-4">Managed House Organizations</h4>
             <div class="table-responsive">
@@ -29,27 +29,27 @@ else
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var house in Model)
+                        @for (int i=0; i < Model.Count(); i++)
                         {
                             <tr>
-                                <th scope="row">1</th>
-                                <td>@house.Name</td>
-                                <td>@house.Address</td>
-                                <td>@house.TownId</td>
+                                <th scope="row">@(i+1)</th>
+                                <td>@Model[i].Name</td>
+                                <td>@Model[i].Address</td>
+                                <td>@Model[i].TownName</td>
                                 <td>
-                                    <button type="button" class="btn btn-info col-6" asp-controller="HouseOrganization" asp-action="Details">Details</button>
+                                    <button type="button" class="btn btn-info" asp-controller="HouseOrganization" asp-action="Details">Details</button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-warning col-6" asp-controller="HouseOrganization" asp-action="Details">Edit</button>
+                                    <button type="button" class="btn btn-warning" asp-controller="HouseOrganization" asp-action="Details">Edit</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                <button class="btn btn-sml btn-success mt-4" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
+                <button class="btn btn-sml btn-success m-4" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
             </div>
         </div>
-    </div>
+    </form>
 }
 
 @section Scripts {
