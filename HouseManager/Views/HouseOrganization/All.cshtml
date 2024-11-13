@@ -37,7 +37,7 @@ else
                                 <td>@Model[i].Address</td>
                                 <td>@Model[i].TownName</td>
                                 <td>
-                                    <button type="submit" class="btn btn-info" asp-controller="HouseOrganization" asp-action="Details" asp-fragment="id=@Model[i].Id">Details</button>
+                                    <button type="submit" class="btn btn-info" asp-controller="HouseOrganization" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
                                 </td>
                                 <td>
                                     <button class="btn btn-warning" asp-controller="HouseOrganization" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
