@@ -23,7 +23,7 @@
 		</div>
 	</div>
 	<button class="btn btn-success rounded-pill m-2" type="submit" asp-controller="HouseOrganization" asp-action="Edit" asp-route-id="@Model.Id">Save Changes</button>
-	<button class="btn btn-success rounded-pill m-2" asp-controller="HouseOrganization" asp-action="All">Cancel</button>
+	<button class="btn btn-success rounded-pill m-2" type="button" value="Cancel" onclick="location.href='@Url.Action("All","HouseOrganization")';">Cancel</button>
 </form>
 
 
