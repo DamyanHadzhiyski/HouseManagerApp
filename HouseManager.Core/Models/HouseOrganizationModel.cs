@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using static HouseManager.Core.Constants.ErrorMessages;
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Core.Models

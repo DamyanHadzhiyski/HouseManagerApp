@@ -1,7 +1,6 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models;
 using HouseManager.Infrastructure.Data;
-using HouseManager.Infrastructure.Data.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-	public class HouseOrganizationController(
+    public class HouseOrganizationController(
 		IHouseOrganizationService houseService,
 		HouseManagerDbContext context) : Controller
 	{
@@ -47,6 +46,8 @@ namespace HouseManager.Controllers
 			if (!ModelState.IsValid)
 			{
 				ViewBag.Towns = await GetTowns();
+
+				ModelState.AddModelError(string.Empty, "");
 
 				return View(model);
 			}
