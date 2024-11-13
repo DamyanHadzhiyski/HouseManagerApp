@@ -24,8 +24,8 @@ namespace HouseManager.Infrastructure.Data.Models
         /// Board member name
         /// </summary>
         [Required]
-		[MaxLength(BoardMemberFullNameMaxLength)]
-        [Comment("Board member fullname")]
+		[MaxLength(FullNameMaxLength)]
+        [Comment("Board member full name")]
         public required string Name { get; set; }
 
         /// <summary>

@@ -1,34 +1,55 @@
 ﻿namespace HouseManager.Infrastructure.Constants
 {
+	/// <summary>
+	/// Constants used for data validation of the data models
+	/// </summary>
 	public static class EntityConstants
 	{
+		/// <summary>
+		/// Min and Max length of the description fields
+		/// </summary>
 		public const int DescriptionMinLength = 10;
 		public const int DescriptionMaxLength = 200;
 
-		public const int HouseOrganizationNameMinLength = 3;
+        /// <summary>
+        /// Min and Max length of the House Organization name
+        /// </summary>
+        public const int HouseOrganizationNameMinLength = 3;
 		public const int HouseOrganizationNameMaxLength = 50;
 
-        public const int BoardMemberFullNameMinLength = 10;
-        public const int BoardMemberFullNameMaxLength = 100;
+        /// <summary>
+        /// Min and Max length of the 
+        /// </summary>
+        public const int FullNameMinLength = 10;
+        public const int FullNameMaxLength = 100;
 
+        /// <summary>
+        /// Min and Max length of the
+        /// </summary>
         public const int AddressMinLength = 10;
 		public const int AddressMaxLength = 100;
 
-		public const int TownNameMinLength = 3;
+        /// <summary>
+        /// Min and Max length of the
+        /// </summary>
+        public const int TownNameMinLength = 3;
 		public const int TownNameMaxLength = 20;
 
+        /// <summary>
+        /// Min and Max length of the
+        /// </summary>
 		public const int UnitTypeNameMinLength = 3;
 		public const int UnitTypeNameMaxLength = 20;
 
-        public const int OccupantFullNameMinLength = 10;
-        public const int OccupantFullNameMaxLength = 100;
-
+        /// <summary>
+        /// Min and Max length of the
+        /// </summary>
         public const string UnitCommonPartsMinArea = "0";
 		public const string UnitCommonPartsMaxArea = "100";
 
+        /// <summary>
+        /// Min and Max length of the
+        /// </summary>
 		public const string PhoneNumberRegEx = @"^\+[0-9 ]{8,}$";
-
-		public const string FieldLengthErrorMessage = "Field {0} must be between {2} and {1} characters long!";
-		public const string FieldRequiredErrorMessage = "Field {0} is required";
 	}
 }

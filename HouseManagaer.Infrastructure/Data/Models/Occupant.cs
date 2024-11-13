@@ -22,7 +22,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// Occupant full name
 		/// </summary>
 		[Required]
-		[MaxLength(OccupantFullNameMaxLength)]
+		[MaxLength(FullNameMaxLength)]
         [Comment("Occupant full name")]
         public required string FullName { get; set; }
 
