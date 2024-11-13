@@ -5,12 +5,12 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
-<div class="row bg-light rounded h-100 p-4">
-    <div class="col-md-4 offset-4">
+<div class="row bg-light rounded p-3">
+    <h1 class="text-center display-3">@ViewData["Title"]</h1>
+    <div class="col-md-4 offset-md-4">
         <section>
             <form id="account" method="post">
-                <h2 class="text-center">Use a local account to log in.</h2>
+                <h3 class="text-center">Use a local account to log in.</h3>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
@@ -24,7 +24,7 @@
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-success">Log in</button>
                 </div>
             </form>
         </section>
