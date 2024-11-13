@@ -1,6 +1,7 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models;
 using HouseManager.Infrastructure.Data;
+using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -101,6 +102,29 @@ namespace HouseManager.Controllers
 			return RedirectToAction(nameof(All), "HouseOrganization");
 		}
 		#endregion
+
+		[HttpGet]
+		public async Task<IActionResult> Details(int id)
+		{
+			var houseDb = await houseService.GetHouseOrganizationById(id);
+
+			if(houseDb == null)
+			{
+				return RedirectToAction(nameof(All), "HouseOrganization");
+			}
+
+			var model = new HouseOrganizationDetailModel
+			{
+				Id = houseDb.Id,
+				Name = houseDb.Name,
+				Address = houseDb.Address,
+				TownName = houseDb.Town.Name,
+				UnitsCount = houseDb.Units.Count(),
+				OccupantsCount = houseDb.Units.Sum(o => o.Occupants.Count())
+			};
+
+			return View(model);
+		}
 
 		#region Private Methods
 		private async Task<ICollection<SelectListItem>> GetTowns()
