@@ -1,7 +1,6 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models;
 using HouseManager.Infrastructure.Data;
-using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-    public class HouseOrganizationController(
+	public class HouseOrganizationController(
 		IHouseOrganizationService houseService,
 		HouseManagerDbContext context) : Controller
 	{
+		#region Show All House Organizations
 		[HttpGet]
 		public async Task<IActionResult> All()
 		{
@@ -29,6 +29,7 @@ namespace HouseManager.Controllers
 
 			return View(model);
 		}
+		#endregion
 
 		#region Add New House Organization
 		[HttpGet]
@@ -103,6 +104,7 @@ namespace HouseManager.Controllers
 		}
 		#endregion
 
+		#region Show House Organization Details
 		[HttpGet]
 		public async Task<IActionResult> Details(int id)
 		{
@@ -125,6 +127,7 @@ namespace HouseManager.Controllers
 
 			return View(model);
 		}
+		#endregion
 
 		#region Private Methods
 		private async Task<ICollection<SelectListItem>> GetTowns()
