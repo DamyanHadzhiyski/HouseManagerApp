@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\BoardMembers\" />
     <Folder Include="Views\Units\" />
   </ItemGroup>
 
