@@ -7,6 +7,7 @@ builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
 
 builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>();
+builder.Services.AddScoped<IBoardMemberService, BoardMemberService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

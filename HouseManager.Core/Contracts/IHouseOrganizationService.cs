@@ -1,4 +1,4 @@
-﻿using HouseManager.Core.Models;
+﻿using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts

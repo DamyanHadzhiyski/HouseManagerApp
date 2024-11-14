@@ -1,7 +1,7 @@
 ﻿using System.Data;
 
 using HouseManager.Core.Contracts;
-using HouseManager.Core.Models;
+using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace HouseManager.Core.Services
 {
-	public class HouseOrganizationService(
+    public class HouseOrganizationService(
 		HouseManagerDbContext context) : IHouseOrganizationService
 	{
 		public async Task AddHouseOrganizationAsync(HouseOrganizationModel house)
