@@ -50,6 +50,6 @@
         /// <summary>
         /// Requested phone number format
         /// </summary>
-		public const string PhoneNumberRegEx = @"^\+359[0-9]{10}$";
+		public const string PhoneNumberRegEx = @"^\+359[0-9]{9}$";
 	}
 }
