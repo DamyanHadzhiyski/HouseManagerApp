@@ -1,5 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Models;
+using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
 
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-	public class HouseOrganizationsController(
+    public class HouseOrganizationsController(
 		IHouseOrganizationService houseService,
 		HouseManagerDbContext context) : BaseController
 	{
