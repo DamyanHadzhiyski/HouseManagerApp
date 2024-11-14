@@ -53,9 +53,42 @@ namespace HouseManager.Controllers
 		#endregion
 
 		#region Edit Board Member
+		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
+			var boardMember = await boardMemberService.GetBoardMemberByIdAsync(id);
 
+			if (boardMember == null)
+			{
+				///TODO: Add exception logic
+			}
+
+			var model = new BoardMemberModel
+			{
+				Id = boardMember.Id,
+				Name = boardMember.Name,
+				Position = boardMember.Position,
+				StartDate = boardMember.StartDate,
+				EndDate = boardMember.EndDate,
+				PhoneNumber = boardMember.PhoneNumber
+			};
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(BoardMemberModel model)
+		{
+			if(!ModelState.IsValid)
+			{
+				//TODO: exception logic
+
+				return View(model);
+			}
+
+			await boardMemberService.EditBoardMemberAsync(model);
+
+			return RedirectToAction(nameof(All));
 		}
 		#endregion
 

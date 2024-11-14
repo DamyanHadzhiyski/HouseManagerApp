@@ -8,8 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HouseManager.Core.Services
 {
 	public class BoardMemberService(
-		HouseManagerDbContext context,
-		IHouseOrganizationService houseOrganizationService) : IBoardMemberService
+		HouseManagerDbContext context) : IBoardMemberService
 	{
 		public async Task AddBoardMemberAsync(BoardMemberModel model)
 		{
@@ -26,10 +25,29 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
+		public async Task EditBoardMemberAsync(BoardMemberModel model)
+		{
+			var editedMember = await GetBoardMemberByIdAsync(model.Id);
+
+			editedMember.Name = model.Name;
+			editedMember.Position = model.Position;
+			editedMember.StartDate = model.StartDate;
+			editedMember.EndDate = model.EndDate;
+			editedMember.PhoneNumber = model.PhoneNumber;
+
+			await context.SaveChangesAsync();
+		}
+
 		public IQueryable<BoardMember> GetAllReadonlyAsync()
 		{
 			return context.BoardMembers
 								.AsNoTracking();
+		}
+		
+		public async Task<BoardMember?> GetBoardMemberByIdAsync(int id)
+		{
+			return await context.BoardMembers				
+							.FirstOrDefaultAsync(bm => bm.Id == id);
 		}
 	}
 }
