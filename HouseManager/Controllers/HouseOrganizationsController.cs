@@ -10,7 +10,7 @@ namespace HouseManager.Controllers
 {
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseService,
-		HouseManagerDbContext context) : Controller
+		HouseManagerDbContext context) : BaseController
 	{
 		#region Show All House Organizations
 		[HttpGet]

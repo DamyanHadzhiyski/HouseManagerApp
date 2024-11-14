@@ -2,7 +2,7 @@
 
 namespace HouseManager.Controllers
 {
-	public class UnitsController : Controller
+	public class UnitsController : BaseController
 	{
 		public IActionResult Index()
 		{
