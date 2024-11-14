@@ -29,4 +29,8 @@
     <ProjectReference Include="..\HouseManager.Core\HouseManager.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Units\" />
+  </ItemGroup>
+
 </Project>

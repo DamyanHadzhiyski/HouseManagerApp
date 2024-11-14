@@ -7,7 +7,7 @@
         <div class="bg-light rounded h-100 p-5">
             <h2 class="text-center">You don't have any house organizations, yet!</h2>
             <h3 class="text-center">Do you want to add one?</h3>
-            <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
+            <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
         </div>
     </form>
 }
@@ -37,16 +37,16 @@ else
                                 <td>@Model[i].Address</td>
                                 <td>@Model[i].TownName</td>
                                 <td>
-                                    <button type="submit" class="btn btn-info" asp-controller="HouseOrganization" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
+                                    <button type="submit" class="btn btn-info" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-warning" asp-controller="HouseOrganization" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
+                                    <button class="btn btn-warning" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                <button class="btn btn-sml btn-success m-4" asp-controller="HouseOrganization" asp-action="Add">Add House Organization</button>
+                <button class="btn btn-sml btn-success m-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
             </div>
         </div>
     </form>

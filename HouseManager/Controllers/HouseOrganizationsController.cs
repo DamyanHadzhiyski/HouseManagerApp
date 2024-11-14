@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-	public class HouseOrganizationController(
+	public class HouseOrganizationsController(
 		IHouseOrganizationService houseService,
 		HouseManagerDbContext context) : Controller
 	{
@@ -112,7 +112,7 @@ namespace HouseManager.Controllers
 
 			if(houseDb == null)
 			{
-				return RedirectToAction(nameof(All), "HouseOrganization");
+				return RedirectToAction(nameof(All), "HouseOrganizations");
 			}
 
 			var model = new HouseOrganizationDetailModel

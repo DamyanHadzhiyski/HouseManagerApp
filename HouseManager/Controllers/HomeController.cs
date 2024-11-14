@@ -12,7 +12,7 @@ namespace HouseManager.Controllers
 		{
 			if (User.Identity != null && User.Identity.IsAuthenticated)
 			{
-				return RedirectToAction("All", "HouseOrganization");
+				return RedirectToAction("All", "HouseOrganizations");
 			}
 
 			return View();
