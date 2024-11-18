@@ -121,8 +121,8 @@ namespace HouseManager.Controllers
 				Name = houseDb.Name,
 				Address = houseDb.Address,
 				TownName = houseDb.Town.Name,
-				UnitsCount = houseDb.Units.Count(),
-				OccupantsCount = houseDb.Units.Sum(o => o.Occupants.Count())
+				UnitsCount = houseDb.Units.Count,
+				OccupantsCount = houseDb.Units.Sum(o => o.Occupants.Count)
 			};
 
 			return View(model);
