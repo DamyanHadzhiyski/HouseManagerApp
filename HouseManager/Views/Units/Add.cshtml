@@ -2,23 +2,32 @@
 
 <form class="col-8 offset-2 bg-light rounded h-100 p-4" asp-action="Add" method=post>
 	<div>
-		<h4 class="mb-5">Add new House Organization</h4>
+		<h4 class="mb-5">Add new Unit</h4>
 		<div class="form-floating mb-3">
-			<input asp-for="@Model.Name" class="form-control" placeholder="Name">
-			<label asp-for="@Model.Name" class="form-label"></label>
-			<span asp-validation-for="@Model.Name" class="text-danger"></span>
-		</div>
-		<div class="form-floating mb-3">
-			<input asp-for="@Model.Address" class="form-control" placeholder="Address">
-			<label asp-for="@Model.Address" class="form-label"></label>
-			<span asp-validation-for="@Model.Address" class="text-danger"></span>
-		</div>
-		<div class="form-floating mb-3">
-			<select asp-for="@Model.TownId" class="form-control" asp-items="@ViewBag.Towns">
+			<select asp-for="@Model.TypeId" class="form-control" asp-items="@ViewBag.UnitTypes">
 				<option disabled selected>...</option>
 			</select>
-			<label for="floatingSelect">Select town</label>
-			<span asp-validation-for="@Model.TownId" class="text-danger"></span>
+			<label for="floatingSelect">Select unit type</label>
+			<span asp-validation-for="@Model.TypeId" class="text-danger"></span>
+		</div>
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.Floor" class="form-control" placeholder="Floor">
+			<label asp-for="@Model.Floor" class="form-label"></label>
+			<span asp-validation-for="@Model.Floor" class="text-danger"></span>
+		</div>
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.Number" class="form-control" placeholder="Number">
+			<label asp-for="@Model.Number" class="form-label"></label>
+			<span asp-validation-for="@Model.Number" class="text-danger"></span>
+		</div><div class="form-floating mb-3">
+			<input asp-for="@Model.TotalArea" class="form-control" placeholder="Total Area">
+			<label asp-for="@Model.TotalArea" class="form-label"></label>
+			<span asp-validation-for="@Model.TotalArea" class="text-danger"></span>
+		</div>
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.CommonParts" class="form-control" placeholder="Common Parts">
+			<label asp-for="@Model.CommonParts" class="form-label"></label>
+			<span asp-validation-for="@Model.CommonParts" class="text-danger"></span>
 		</div>
 	</div>
 	<button class="btn btn-success rounded-pill m-2" type="submit">Add</button>
