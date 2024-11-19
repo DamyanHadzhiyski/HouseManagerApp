@@ -73,9 +73,24 @@ namespace HouseManager.Infrastructure.Data.Models
         [Comment("The credit/debit of the unit")]
         public decimal Balance { get; set; }
 
+		/// <summary>
+		/// House organization to which the unit belongs
+		/// </summary>
+		[Required]
+		[Comment("Identifier of the unit type")]
+		public required int HouseOrganizationId { get; set; }
+
         /// <summary>
-        /// Occupants that live in the unit
+        /// Navigation property to the House organization
         /// </summary>
-        public ICollection<Occupant> Occupants { get; set; } = [];
+        [ForeignKey(nameof(HouseOrganizationId))]
+        [Comment("Navigation property to the House organization")]
+        public HouseOrganization HouseOrganization { get; set; } = null!;
+
+
+		/// <summary>
+		/// Occupants that live in the unit
+		/// </summary>
+		public ICollection<Occupant> Occupants { get; set; } = [];
     }
 }

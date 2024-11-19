@@ -57,5 +57,12 @@ namespace HouseManager.Infrastructure.Data.Models
 		[RegularExpression(PhoneNumberRegEx)]
 		[Comment("Phone number of the board member")]
         public required string PhoneNumber { get; set; }
-    }
+
+		/// <summary>
+		/// Managed by the member house organization
+		/// </summary>
+		[Required]
+		[Comment("Managed by the member house organization")]
+		public required int HouseOrganizationId { get; set; }
+	}
 }
