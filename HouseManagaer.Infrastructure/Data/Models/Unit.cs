@@ -30,7 +30,7 @@ namespace HouseManager.Infrastructure.Data.Models
         /// Navigation property to UnitTypes table
         /// </summary>
         [ForeignKey(nameof(UnitTypeId))]
-        public required UnitType UnitType { get; set; }
+        public UnitType UnitType { get; set; } = null!;
 
 		/// <summary>
 		/// Floor on which the unit is located
@@ -70,9 +70,8 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// <summary>
 		/// The credit/debit of the unit
 		/// </summary>
-		[Required]
         [Comment("The credit/debit of the unit")]
-        public required decimal Balance { get; set; }
+        public decimal Balance { get; set; }
 
         /// <summary>
         /// Occupants that live in the unit
