@@ -7,7 +7,7 @@ namespace HouseManager.Core.Contracts
     {
         Task AddHouseOrganizationAsync(HouseOrganizationModel house);
 
-        Task EditHouseOrganizationAsync(HouseOrganizationModel house, int houseId);
+        Task EditHouseOrganizationAsync(HouseOrganizationModel house);
 
         Task<HouseOrganization?> GetHouseOrganizationById(int houseId);
 

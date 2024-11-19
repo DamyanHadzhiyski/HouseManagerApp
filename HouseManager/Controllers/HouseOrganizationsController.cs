@@ -87,9 +87,9 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(HouseOrganizationModel model, int id)
+		public async Task<IActionResult> Edit(HouseOrganizationModel model)
 		{
-			var houseDb = await houseService.GetHouseOrganizationById(id);
+			var houseDb = await houseService.GetHouseOrganizationById(model.Id);
 
 			if (!ModelState.IsValid)
 			{
@@ -98,9 +98,9 @@ namespace HouseManager.Controllers
 				return View(model);
 			}
 
-			await houseService.EditHouseOrganizationAsync(model, id);
+			await houseService.EditHouseOrganizationAsync(model);
 
-			return RedirectToAction(nameof(All), "HouseOrganization");
+			return RedirectToAction(nameof(All), "HouseOrganizations");
 		}
 		#endregion
 

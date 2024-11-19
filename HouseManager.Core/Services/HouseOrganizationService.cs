@@ -28,9 +28,9 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public async Task EditHouseOrganizationAsync(HouseOrganizationModel house, int houseId)
+		public async Task EditHouseOrganizationAsync(HouseOrganizationModel house)
 		{
-			var editHouse = await GetHouseOrganizationById(houseId);
+			var editHouse = await GetHouseOrganizationById(house.Id);
 
 
             if (editHouse == null)

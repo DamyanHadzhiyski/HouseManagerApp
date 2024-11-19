@@ -18,7 +18,8 @@ namespace HouseManager.Core.Services
 				Position = model.Position,
 				StartDate = model.StartDate,
 				EndDate = model.EndDate,
-				PhoneNumber = model.PhoneNumber
+				PhoneNumber = model.PhoneNumber,
+				HouseOrganizationId = model.HouseOrganizationId
 			};
 
 			await context.BoardMembers.AddAsync(newMember);

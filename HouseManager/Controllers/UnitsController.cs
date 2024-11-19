@@ -41,39 +41,39 @@ namespace HouseManager.Controllers
 			return View(model);
 		}
 
-		public async Task<IActionResult> Add(UnitFormModel model)
-		{
-			var unitTypes = await GetUnitTypes();
+		//public async Task<IActionResult> Add(UnitFormModel model)
+		//{
+		//	var unitTypes = await GetUnitTypes();
 
-			if (!ModelState.IsValid || !unitTypes.Any(ut => ut.Id == model.TypeId))
-			{
-				ViewBag.UnitTypes = unitTypes
-										.Select(ut => new SelectListItem
-										{
-											Text = ut.Name,
-											Value = ut.Id.ToString()
-										})
-										.ToList();
+		//	if (!ModelState.IsValid || !unitTypes.Any(ut => ut.Id == model.TypeId))
+		//	{
+		//		ViewBag.UnitTypes = unitTypes
+		//								.Select(ut => new SelectListItem
+		//								{
+		//									Text = ut.Name,
+		//									Value = ut.Id.ToString()
+		//								})
+		//								.ToList();
 
-				//TODO: Add Exception
+		//		//TODO: Add Exception
 
-				return View(model);
-			}
+		//		return View(model);
+		//	}
 
-			var addUnit = new Unit
-			{
-				UnitNumber = model.Number,
-				Floor = model.Floor,
-				UnitTypeId = model.TypeId,
-				CommonParts = model.CommonParts,
-				TotalArea = model.TotalArea,
-			};
+		//	var addUnit = new Unit
+		//	{
+		//		UnitNumber = model.Number,
+		//		Floor = model.Floor,
+		//		UnitTypeId = model.TypeId,
+		//		CommonParts = model.CommonParts,
+		//		TotalArea = model.TotalArea,
+		//	};
 
-			await context.Units.AddAsync(addUnit);
-			await context.SaveChangesAsync();
+		//	await context.Units.AddAsync(addUnit);
+		//	await context.SaveChangesAsync();
 
-			return RedirectToAction(nameof(All));
-		}
+		//	return RedirectToAction(nameof(All));
+		//}
 		#endregion
 
 		#region Edit Unit

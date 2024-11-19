@@ -4,6 +4,7 @@ using HouseManager.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(HouseManagerDbContext))]
-    partial class HouseManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118131554_RemovedRequiredForUnitTypeNavigationPropertyAndBalance")]
+    partial class RemovedRequiredForUnitTypeNavigationPropertyAndBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +64,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("HouseOrganizationId");
 
-                    b.ToTable("BoardMembers", (string)null);
+                    b.ToTable("BoardMembers");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Expense", b =>
@@ -89,7 +92,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Expenses", (string)null);
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
@@ -121,7 +124,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("TownId");
 
-                    b.ToTable("HouseOrganizations", (string)null);
+                    b.ToTable("HouseOrganizations");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Income", b =>
@@ -156,7 +159,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Incomes", (string)null);
+                    b.ToTable("Incomes");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Occupant", b =>
@@ -193,7 +196,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Occupants", (string)null);
+                    b.ToTable("Occupants");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.RegisteredOccupant", b =>
@@ -210,7 +213,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RegisteredOccupants", (string)null);
+                    b.ToTable("RegisteredOccupants");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Town", b =>
@@ -230,7 +233,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Towns", (string)null);
+                    b.ToTable("Towns");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Unit", b =>
@@ -280,7 +283,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("UnitTypeId");
 
-                    b.ToTable("Units", (string)null);
+                    b.ToTable("Units");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.UnitType", b =>
@@ -305,7 +308,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnitTypes", (string)null);
+                    b.ToTable("UnitTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

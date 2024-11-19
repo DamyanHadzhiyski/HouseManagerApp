@@ -53,5 +53,11 @@ namespace HouseManager.Core.Models.BoardMember
         [Required(ErrorMessage = FieldRequiredErrorMessage)]
         [RegularExpression(PhoneNumberRegEx)]
         public string PhoneNumber { get; set; } = string.Empty;
-    }
+
+		/// <summary>
+		/// House organization managed by the board member
+		/// </summary>
+		[Required(ErrorMessage = FieldRequiredErrorMessage)]
+		public int HouseOrganizationId { get; set; }
+	}
 }
