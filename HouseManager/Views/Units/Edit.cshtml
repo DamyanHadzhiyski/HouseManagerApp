@@ -4,7 +4,6 @@
 	<div>
 		<h4 class="mb-5">Edit Unit</h4>
 		<div class="form-floating mb-3">
-			
 			<input asp-for="@Model.Number" class="form-control" placeholder="@Model.Number">
 			<label asp-for="@Model.Number" class="form-label"></label>
 			<span asp-validation-for="@Model.Number" class="text-danger"></span>
@@ -20,6 +19,16 @@
 			</select>
 			<label asp-for="@Model.TypeId">Select Unit Type</label>
 		</div>
+	</div>
+	<div class="form-floating mb-3">
+		<input asp-for="@Model.TotalArea" class="form-control" placeholder="@Model.TotalArea">
+		<label asp-for="@Model.TotalArea" class="form-label"></label>
+		<span asp-validation-for="@Model.TotalArea" class="text-danger"></span>
+	</div>
+	<div class="form-floating mb-3">
+		<input asp-for="@Model.CommonParts" class="form-control" placeholder="@Model.CommonParts">
+		<label asp-for="@Model.CommonParts" class="form-label"></label>
+		<span asp-validation-for="@Model.CommonParts" class="text-danger"></span>
 	</div>
 	<button class="btn btn-success rounded-pill m-2" type="submit" asp-route-id="@Model.Id">Save Changes</button>
 	<button class="btn btn-success rounded-pill m-2" type="button" value="Cancel" onclick="location.href='@Url.Action("All","Units")';">Cancel</button>
