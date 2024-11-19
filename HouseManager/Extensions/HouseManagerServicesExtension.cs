@@ -1,11 +1,11 @@
 ﻿using HouseManager.Infrastructure.Data;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class HouseManagerServicesExtension
+    public static class HouseManagerServicesExtension
 	{
 		public static IServiceCollection AddHouseManagerDbContext(this IServiceCollection services, IConfiguration config)
 		{
