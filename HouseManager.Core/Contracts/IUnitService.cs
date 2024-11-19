@@ -7,8 +7,9 @@ namespace HouseManager.Core.Contracts
     {
         //Task EditUnitAsync(UnitModel model);
 
-        Task<List<UnitModel>> GetAllUnitsAsync();
+        Task<List<UnitViewModel>> GetAllUnitsAsync();
 
         Task<Unit?> GetUnitByIdAsync(int id);
-    }
+		Task<UnitDetailViewModel?> GetUnitDetailsByIdAsync(int id);
+	}
 }
