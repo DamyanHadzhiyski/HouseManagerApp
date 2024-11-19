@@ -1,5 +1,9 @@
+using System.Globalization;
+
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Services;
+
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
 
