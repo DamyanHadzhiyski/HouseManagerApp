@@ -3,14 +3,18 @@ using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
 {
-    public interface IHouseOrganizationService
+	public interface IHouseOrganizationService
     {
-        Task AddHouseOrganizationAsync(HouseOrganizationModel house);
+        Task AddHouseOrganizationAsync(HouseOrganizationFormModel houseOrg);
 
-        Task EditHouseOrganizationAsync(HouseOrganizationModel house);
+        Task EditHouseOrganizationAsync(HouseOrganizationFormModel houseOrg);
 
-        Task<HouseOrganization?> GetHouseOrganizationById(int houseId);
+        IQueryable<HouseOrganization> GetAllReadOnly();
 
-		IQueryable<HouseOrganization> GetAllReadonlyAsync();
+        IQueryable<HouseOrganization> GetByIdReadOnly(int houseOrgId);
+
+        Task<bool> ExistByIdAsync(int houseOrgId);
+
+		Task<HouseOrganization?> GetHouseOrganizationById(int houseOrgId);
 	}
 }

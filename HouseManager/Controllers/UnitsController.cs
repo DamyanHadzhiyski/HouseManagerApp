@@ -9,165 +9,170 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-	//[Route("units")]
-	public class UnitsController(
-		HouseManagerDbContext context,
-		IUnitService unitService) : BaseController
-	{
-		#region Show All Units
-		[HttpGet]
-		[Route("{houseOrgId}")]
-		public async Task<IActionResult> All(int houseOrgId)
-		{
-			//int houseOrgId = (int)HttpContext.Session.GetInt32("houseOrgId");
+    public class UnitsController(
+        HouseManagerDbContext context,
+        IUnitService unitService) : BaseController
+    {
+        #region Show All Units
+        [HttpGet]
+        [Route("Units/All/{houseOrgId}")]
+        public async Task<IActionResult> All(int houseOrgId)
+        {
+            var model = await unitService.GetAllUnitsFromHOAsync(houseOrgId);
 
-			var model = await unitService.GetAllUnitsFromHOAsync(houseOrgId);
+            ViewBag.HouseOrgId = houseOrgId;
 
-			return View(model);
-		}
-		#endregion
+            return View(model);
+        }
+        #endregion
 
-		#region Add New Unit
-		[HttpGet]
-        [Route("{houseOrgId}")]
+        #region Add New Unit
+        [HttpGet]
+        [Route("Units/Add/{houseOrgId}")]
         public async Task<IActionResult> Add(int houseOrgId)
-		{
-			var model = new UnitFormModel();
-			var unitTypes = await GetUnitTypes();
+        {
+            var model = new UnitFormModel();
 
-			ViewBag.UnitTypes = unitTypes
-										.Select(ut => new SelectListItem
-										{
-											Text = ut.Name,
-											Value = ut.Id.ToString()
-										})
-										.ToList(); ;
+            var unitTypes = await GetUnitTypes();
 
-			return View(model);
-		}
+            ViewBag.UnitTypes = unitTypes
+                                        .Select(ut => new SelectListItem
+                                        {
+                                            Text = ut.Name,
+                                            Value = ut.Id.ToString()
+                                        })
+                                        .ToList(); ;
 
-		//public async Task<IActionResult> Add(UnitFormModel model)
-		//{
-		//	var unitTypes = await GetUnitTypes();
+            return View(model);
+        }
 
-		//	if (!ModelState.IsValid || !unitTypes.Any(ut => ut.Id == model.TypeId))
-		//	{
-		//		ViewBag.UnitTypes = unitTypes
-		//								.Select(ut => new SelectListItem
-		//								{
-		//									Text = ut.Name,
-		//									Value = ut.Id.ToString()
-		//								})
-		//								.ToList();
+        [HttpPost]
+        [Route("Units/Add/{houseOrgId}")]
+        public async Task<IActionResult> Add(UnitFormModel model, int houseOrgId)
+        {
+            var unitTypes = await GetUnitTypes();
 
-		//		//TODO: Add Exception
+            if (!ModelState.IsValid || !unitTypes.Any(ut => ut.Id == model.TypeId))
+            {
+                ViewBag.UnitTypes = unitTypes
+                                        .Select(ut => new SelectListItem
+                                        {
+                                            Text = ut.Name,
+                                            Value = ut.Id.ToString()
+                                        })
+                                        .ToList();
 
-		//		return View(model);
-		//	}
+                //TODO: Add Exception
 
-		//	var addUnit = new Unit
-		//	{
-		//		UnitNumber = model.Number,
-		//		Floor = model.Floor,
-		//		UnitTypeId = model.TypeId,
-		//		CommonParts = model.CommonParts,
-		//		TotalArea = model.TotalArea,
-		//	};
+                return View(model);
+            }
 
-		//	await context.Units.AddAsync(addUnit);
-		//	await context.SaveChangesAsync();
+            var addUnit = new Unit
+            {
+                UnitNumber = model.Number,
+                Floor = model.Floor,
+                UnitTypeId = model.TypeId,
+                CommonParts = model.CommonParts,
+                TotalArea = model.TotalArea,
+                HouseOrganizationId = houseOrgId
 
-		//	return RedirectToAction(nameof(All));
-		//}
-		#endregion
+            };
 
-		#region Edit Unit
-		[HttpGet]
-		public async Task<IActionResult> Edit(int id)
-		{
-			try
-			{
-				var unitFromDb = await unitService.GetUnitByIdAsync(id);
+            await context.Units.AddAsync(addUnit);
+            await context.SaveChangesAsync();
 
-				var unitTypes = await GetUnitTypes();
+            return RedirectToAction("All", "Units", new {houseOrgId = houseOrgId});
+        }
+        #endregion
 
-				ViewBag.UnitTypes = unitTypes
-										.Select(ut => new SelectListItem
-										{
-											Text = ut.Name,
-											Value = ut.Id.ToString()
-										})
-										.ToList();
+        #region Edit Unit
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                var unitFromDb = await unitService.GetUnitByIdAsync(id);
 
-				var model = new UnitFormModel
-				{
-					Id = unitFromDb.Id,
-					Number = unitFromDb.UnitNumber,
-					Floor = unitFromDb.Floor,
-					TypeId = unitFromDb.UnitTypeId,
-					TotalArea = unitFromDb.TotalArea,
-					CommonParts = unitFromDb.CommonParts
-				};
+                var unitTypes = await GetUnitTypes();
 
-				return View(model);
-			}
-			catch (NullReferenceException argNullEx)
-			{
-				throw new NullReferenceException("There is no unit with the provided Id", argNullEx);
-			}
-		}
+                ViewBag.UnitTypes = unitTypes
+                                        .Select(ut => new SelectListItem
+                                        {
+                                            Text = ut.Name,
+                                            Value = ut.Id.ToString()
+                                        })
+                                        .ToList();
 
-		[HttpPost]
-		public async Task<IActionResult> Edit(UnitFormModel model)
-		{
+                var model = new UnitFormModel
+                {
+                    Id = unitFromDb.Id,
+                    Number = unitFromDb.UnitNumber,
+                    Floor = unitFromDb.Floor,
+                    TypeId = unitFromDb.UnitTypeId,
+                    TotalArea = unitFromDb.TotalArea,
+                    CommonParts = unitFromDb.CommonParts,
+                    HouseOrganizationId = unitFromDb.HouseOrganizationId
+                };
+
+                return View(model);
+            }
+            catch (NullReferenceException argNullEx)
+            {
+                throw new NullReferenceException("There is no unit with the provided Id", argNullEx);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UnitFormModel model)
+        {
 
 
-			if (!ModelState.IsValid)
-			{
-				var unitTypes = await GetUnitTypes();
+            if (!ModelState.IsValid)
+            {
+                var unitTypes = await GetUnitTypes();
 
-				ViewBag.UnitTypes = unitTypes
-										.Select(ut => new SelectListItem
-										{
-											Text = ut.Name,
-											Value = ut.Id.ToString()
-										})
-										.ToList();
+                ViewBag.UnitTypes = unitTypes
+                                        .Select(ut => new SelectListItem
+                                        {
+                                            Text = ut.Name,
+                                            Value = ut.Id.ToString()
+                                        })
+                                        .ToList();
 
-				//TODO: add exception handling
+                //TODO: add exception handling
 
-				return View(model);
-			}
+                return View(model);
+            }
 
-			var unitFromDb = await unitService.GetUnitByIdAsync(model.Id);
+            var unitFromDb = await unitService.GetUnitByIdAsync(model.Id);
 
-			unitFromDb.UnitNumber = model.Number;
-			unitFromDb.Floor = model.Floor;
-			unitFromDb.UnitTypeId = model.TypeId;
-			unitFromDb.TotalArea = model.TotalArea;
-			unitFromDb.CommonParts = model.CommonParts;
+            unitFromDb.UnitNumber = model.Number;
+            unitFromDb.Floor = model.Floor;
+            unitFromDb.UnitTypeId = model.TypeId;
+            unitFromDb.TotalArea = model.TotalArea;
+            unitFromDb.CommonParts = model.CommonParts;
 
-			await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-			return RedirectToAction(nameof(All));
-		}
-		#endregion
+            return RedirectToAction("All", "Units", new { houseOrgId = unitFromDb.HouseOrganizationId });
+        }
+        #endregion
 
-		#region Show Unit Details
-		[HttpGet]
-		public async Task<IActionResult> Details(int id)
-		{
-			var model = await unitService.GetUnitDetailsByIdAsync(id);
+        #region Show Unit Details
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await unitService.GetUnitDetailsByIdAsync(id);
 
-			return View(model);
-		}
-		#endregion
+            return View(model);
+        }
+        #endregion
 
-		#region Private Methods TODO: Change method to return List<SelectedListItems>
-		private async Task<List<UnitType>> GetUnitTypes()
-		{
-			return await context.UnitTypes.ToListAsync();
-		}
-		#endregion
-	}
+        #region Private Methods TODO: Change method to return List<SelectedListItems>
+        private async Task<List<UnitType>> GetUnitTypes()
+        {
+            return await context.UnitTypes.ToListAsync();
+        }
+        #endregion
+    }
 }

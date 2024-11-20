@@ -1,6 +1,7 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
+using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-    public class HouseOrganizationsController(
+	public class HouseOrganizationsController(
 		IHouseOrganizationService houseService,
 		HouseManagerDbContext context) : BaseController
 	{
@@ -17,8 +18,8 @@ namespace HouseManager.Controllers
 		public async Task<IActionResult> All()
 		{
 			var model = await houseService
-							.GetAllReadonlyAsync()
-							.Select(h => new HouseOrganizationModel
+							.GetAllReadOnly()
+							.Select(h => new HouseOrganizationViewModel
 							{
 								Id = h.Id,
 								Name = h.Name,
@@ -35,7 +36,7 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
-			var model = new HouseOrganizationModel();
+			var model = new HouseOrganizationFormModel();
 
 			ViewBag.Towns = await GetTowns();
 
@@ -43,7 +44,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(HouseOrganizationModel model)
+		public async Task<IActionResult> Add(HouseOrganizationFormModel model)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -72,13 +73,12 @@ namespace HouseManager.Controllers
 				return View();
 			}
 
-			var model = new HouseOrganizationModel
+			var model = new HouseOrganizationFormModel
 			{
 				Id = houseDb.Id,
 				Name = houseDb.Name,
 				Address = houseDb.Address,
-				TownId = houseDb.TownId,
-				TownName = houseDb.Town.Name
+				TownId = houseDb.TownId
 			};
 
 			ViewBag.Towns = await GetTowns();
@@ -87,7 +87,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(HouseOrganizationModel model)
+		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
 			var houseDb = await houseService.GetHouseOrganizationById(model.Id);
 
@@ -108,21 +108,28 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Details(int id)
 		{
-			var houseDb = await houseService.GetHouseOrganizationById(id);
-
-			if(houseDb == null)
+			if (!await houseService.ExistByIdAsync(id))
 			{
 				return RedirectToAction(nameof(All), "HouseOrganizations");
 			}
 
-			var model = new HouseOrganizationDetailModel
+			var houseOrgDb = await houseService
+									.GetHouseOrganizationById(id);
+
+			var model = new HouseOrganizationDetailViewModel
 			{
-				Id = houseDb.Id,
-				Name = houseDb.Name,
-				Address = houseDb.Address,
-				TownName = houseDb.Town.Name,
-				UnitsCount = houseDb.Units.Count,
-				OccupantsCount = houseDb.Units.Sum(o => o.Occupants.Count)
+				Id = houseOrgDb.Id,
+				Name = houseOrgDb.Name,
+				Address = houseOrgDb.Address,
+				TownName = houseOrgDb.Town.Name,
+				PresidentName = houseOrgDb.Managers
+											.Where(m => m.IsActive && m.Position.Equals(ManagerPosition.President))
+											.Select(m => m.Name).FirstOrDefault() ?? "Not Assigned",
+				CashierName = houseOrgDb.Managers
+											.Where(m => m.IsActive && m.Position.Equals(ManagerPosition.Cashier))
+											.Select(m => m.Name).FirstOrDefault() ?? "Not Assigned",
+				UnitsCount = houseOrgDb.Units.Count.ToString(),
+				OccupantsCount = houseOrgDb.Units.Sum(u => u.Occupants.Count).ToString(),
 			};
 
 			return View(model);
