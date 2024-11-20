@@ -4,6 +4,7 @@ using HouseManager.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(HouseManagerDbContext))]
-    partial class HouseManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241120132816_AddedUniqueConstraintForUnitNumber")]
+    partial class AddedUniqueConstraintForUnitNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,10 +292,10 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("HouseOrganizationId");
 
-                    b.HasIndex("UnitTypeId");
-
-                    b.HasIndex("UnitNumber", "HouseOrganizationId")
+                    b.HasIndex("UnitNumber")
                         .IsUnique();
+
+                    b.HasIndex("UnitTypeId");
 
                     b.ToTable("Units");
                 });

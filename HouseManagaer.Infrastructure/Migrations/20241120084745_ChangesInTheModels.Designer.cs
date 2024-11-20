@@ -4,6 +4,7 @@ using HouseManager.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(HouseManagerDbContext))]
-    partial class HouseManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241120084745_ChangesInTheModels")]
+    partial class ChangesInTheModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,13 +198,17 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Phone number of the occupant");
 
-                    b.Property<int>("UnitId")
-                        .HasColumnType("int")
-                        .HasComment("Unit to which occupant is assigned");
+                    b.Property<int?>("UnitId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UnitId1")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UnitId");
+
+                    b.HasIndex("UnitId1");
 
                     b.ToTable("Occupants");
                 });
@@ -278,7 +285,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.Property<string>("UnitNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Number of the unit");
 
                     b.Property<int>("UnitTypeId")
@@ -290,9 +297,6 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasIndex("HouseOrganizationId");
 
                     b.HasIndex("UnitTypeId");
-
-                    b.HasIndex("UnitNumber", "HouseOrganizationId")
-                        .IsUnique();
 
                     b.ToTable("Units");
                 });
@@ -543,13 +547,13 @@ namespace HouseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Occupant", b =>
                 {
-                    b.HasOne("HouseManager.Infrastructure.Data.Models.Unit", "Unit")
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.Unit", null)
                         .WithMany("Occupants")
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitId");
 
-                    b.Navigation("Unit");
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.Unit", null)
+                        .WithMany("Owners")
+                        .HasForeignKey("UnitId1");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.RegisteredOccupant", b =>
@@ -651,6 +655,8 @@ namespace HouseManager.Infrastructure.Migrations
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Unit", b =>
                 {
                     b.Navigation("Occupants");
+
+                    b.Navigation("Owners");
                 });
 #pragma warning restore 612, 618
         }

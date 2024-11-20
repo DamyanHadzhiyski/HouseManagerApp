@@ -4,6 +4,7 @@ using HouseManager.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(HouseManagerDbContext))]
-    partial class HouseManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241120111919_AddingUnitToOccupantModel")]
+    partial class AddingUnitToOccupantModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,7 +281,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.Property<string>("UnitNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Number of the unit");
 
                     b.Property<int>("UnitTypeId")
@@ -290,9 +293,6 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasIndex("HouseOrganizationId");
 
                     b.HasIndex("UnitTypeId");
-
-                    b.HasIndex("UnitNumber", "HouseOrganizationId")
-                        .IsUnique();
 
                     b.ToTable("Units");
                 });
