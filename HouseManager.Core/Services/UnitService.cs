@@ -53,5 +53,19 @@ namespace HouseManager.Core.Services
 							.Where(u => u.Id == id)
 							.FirstOrDefaultAsync();//u => u.Id == id);
 		}
-	}
+
+        public async Task<List<UnitViewModel>> GetAllUnitsFromHOAsync(int houseOrgId)
+        {
+            return await context.Units
+								.Where(u => u.HouseOrganizationId == houseOrgId)
+                                .Select(u => new UnitViewModel
+                                {
+                                    Id = u.Id,
+                                    Number = u.UnitNumber,
+                                    Floor = u.Floor.ToString(),
+                                    Type = u.UnitType.Name,
+                                })
+                                .ToListAsync();
+        }
+    }
 }

@@ -11,5 +11,7 @@ namespace HouseManager.Core.Contracts
 
         Task<Unit?> GetUnitByIdAsync(int id);
 		Task<UnitDetailViewModel?> GetUnitDetailsByIdAsync(int id);
+
+        Task<List<UnitViewModel>> GetAllUnitsFromHOAsync(int houseOrgId);
 	}
 }
