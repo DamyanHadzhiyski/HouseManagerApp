@@ -7,7 +7,7 @@
         <div class="bg-light rounded h-100 p-5">
             <h2 class="text-center">You don't have any units added, yet!</h2>
             <h3 class="text-center">Do you want to add one?</h3>
-            <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="Units" asp-action="Add">Add Unit</button>
+            <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Unit</button>
         </div>
     </form>
 }
@@ -24,29 +24,29 @@ else
                             <th scope="col">Number</th>
                             <th scope="col">Type</th>
                             <th scope="col">Floor</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Edit</th>
+                            <th class="text-center" scope="col">Details</th>
+                            <th class="text-center" scope="col">Edit</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="align-middle">
                         @for (int i=0; i < Model.Count(); i++)
                         {
                             <tr>
-                                <th scope="row">@(i+1)</th>
+                                <th scope="row">@(i + 1)</th>
                                 <td>@Model[i].Number</td>
                                 <td>@Model[i].Type</td>
                                 <td>@Model[i].Floor</td>
-                                <td>
+                                <td class="text-center">
                                     <button type="submit" class="btn btn-info" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <button class="btn btn-warning" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                <button class="btn btn-sml btn-success m-4" asp-controller="Units" asp-action="Add">Add Unit</button>
+                <button class="btn btn-sml btn-success m-4" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Unit</button>
             </div>
         </div>
     </form>

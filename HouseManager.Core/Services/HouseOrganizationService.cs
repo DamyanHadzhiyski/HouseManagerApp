@@ -6,29 +6,28 @@ using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace HouseManager.Core.Services
 {
-    public class HouseOrganizationService(
+	public class HouseOrganizationService(
 		HouseManagerDbContext context) : IHouseOrganizationService
 	{
-		public async Task AddHouseOrganizationAsync(HouseOrganizationModel house)
+		public async Task AddHouseOrganizationAsync(HouseOrganizationFormModel houseOrg)
 		{
-			var newHouse = new HouseOrganization()
+			var newHouseOrg = new HouseOrganization()
 			{
-				Name = house.Name,
-				TownId = house.TownId,
-				Address = house.Address,
+				Name = houseOrg.Name,
+				TownId = houseOrg.TownId,
+				Address = houseOrg.Address,
 				Units = [],
-				BoardMembers = []
+				Managers = []
 			};
 
-			await context.HouseOrganizations.AddAsync(newHouse);
+			await context.HouseOrganizations.AddAsync(newHouseOrg);
 			await context.SaveChangesAsync();
 		}
 
-		public async Task EditHouseOrganizationAsync(HouseOrganizationModel house)
+		public async Task EditHouseOrganizationAsync(HouseOrganizationFormModel house)
 		{
 			var editHouse = await GetHouseOrganizationById(house.Id);
 
@@ -45,7 +44,18 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public IQueryable<HouseOrganization> GetAllReadonlyAsync()
+		public Task<bool> ExistByIdAsync(int houseOrgId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<HouseOrganization> GetAllReadOnly()
+		{
+			return context.HouseOrganizations
+								.AsNoTracking();
+		}
+
+		public IQueryable<HouseOrganization> GetByIdReadOnly(int houseOrgId)
 		{
 			return context.HouseOrganizations
 								.AsNoTracking();

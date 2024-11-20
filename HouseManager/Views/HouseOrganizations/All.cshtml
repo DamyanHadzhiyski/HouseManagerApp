@@ -1,6 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
-@model List<HouseOrganizationModel>
+﻿@model List<HouseOrganizationViewModel>
 
 @if (!Model.Any())
 {
@@ -25,12 +23,12 @@ else
                             <th scope="col">Name</th>
                             <th scope="col">Address</th>
                             <th scope="col">Town</th>
-                            <th scope="col">Manage</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Edit</th>
+                            <th class="text-center" scope="col">Manage</th>
+                            <th class="text-center" scope="col">Details</th>
+                            <th class="text-center" scope="col">Edit</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class ="align-middle">
                         @for (int i=0; i < Model.Count(); i++)
                         {      
                             <tr>
@@ -38,13 +36,13 @@ else
                                 <td>@Model[i].Name</td>
                                 <td>@Model[i].Address</td>
                                 <td>@Model[i].TownName</td>
-                                <td>
+                                <td class ="text-center">
                                     <button class="btn btn-primary rounded-pill" asp-controller="Units" asp-action="All" asp-route-houseOrgId="@Model[i].Id">Manage</button>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <button type="submit" class="btn btn-info rounded-pill" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <button class="btn btn-warning rounded-pill" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
                                 </td>
                             </tr>
