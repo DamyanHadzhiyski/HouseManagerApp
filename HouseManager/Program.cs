@@ -3,6 +3,7 @@ using System.Globalization;
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Services;
 
+
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
 
 builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>();
-builder.Services.AddScoped<IBoardMemberService, BoardMemberService>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 
 // Add services to the container.
@@ -22,9 +23,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseExceptionHandler("/Error");
@@ -38,8 +39,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "Units",
+    pattern: "Units/{action=All}/{houseOrgId}");
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapRazorPages();
 
