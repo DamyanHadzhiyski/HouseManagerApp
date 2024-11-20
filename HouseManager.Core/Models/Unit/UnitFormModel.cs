@@ -49,6 +49,9 @@ namespace HouseManager.Core.Models.Unit
 		/// </summary>
 		public int PetsCount { get; set; }
 
+		[Required]
+		public int HouseOrganizationId { get; set; }
+
 		/// <summary>
 		/// Occupants that live in the unit
 		/// </summary>
