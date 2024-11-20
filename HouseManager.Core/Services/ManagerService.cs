@@ -1,5 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.BoardMember;
+using HouseManager.Core.Models.Manager;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 
@@ -7,26 +7,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Core.Services
 {
-	public class BoardMemberService(
-		HouseManagerDbContext context) : IBoardMemberService
+	public class ManagerService(
+		HouseManagerDbContext context) : IManagerService
 	{
-		public async Task AddBoardMemberAsync(BoardMemberModel model)
+		public async Task AddBoardMemberAsync(ManagerViewModel model)
 		{
-			var newMember = new BoardMember
+			var newMember = new Manager
 			{
 				Name = model.Name,
 				Position = model.Position,
 				StartDate = model.StartDate,
 				EndDate = model.EndDate,
 				PhoneNumber = model.PhoneNumber,
-				HouseOrganizationId = model.HouseOrganizationId
+				HouseOrganizationId = model.HouseOrganizationId,
+				IsActive = model.IsActive
 			};
 
-			await context.BoardMembers.AddAsync(newMember);
+			await context.Managers.AddAsync(newMember);
 			await context.SaveChangesAsync();
 		}
 
-		public async Task EditBoardMemberAsync(BoardMemberModel model)
+		public async Task EditBoardMemberAsync(ManagerViewModel model)
 		{
 			var editedMember = await GetBoardMemberByIdAsync(model.Id);
 
@@ -39,15 +40,15 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public IQueryable<BoardMember> GetAllReadonlyAsync()
+		public IQueryable<Manager> GetAllReadonlyAsync()
 		{
-			return context.BoardMembers
+			return context.Managers
 								.AsNoTracking();
 		}
 		
-		public async Task<BoardMember?> GetBoardMemberByIdAsync(int id)
+		public async Task<Manager?> GetBoardMemberByIdAsync(int id)
 		{
-			return await context.BoardMembers				
+			return await context.Managers
 							.FirstOrDefaultAsync(bm => bm.Id == id);
 		}
 	}

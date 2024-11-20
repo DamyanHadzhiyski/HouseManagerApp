@@ -1,6 +1,6 @@
 ﻿namespace HouseManager.Infrastructure.Enums
 {
-	public enum BoardMemberPosition
+	public enum ManagerPosition
 	{
 		President,
 		Cashier

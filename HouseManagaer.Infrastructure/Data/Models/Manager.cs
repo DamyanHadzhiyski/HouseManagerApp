@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using HouseManager.Infrastructure.Enums;
 
@@ -8,10 +9,10 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-    /// <summary>
-    /// Entity that holds information for the board members of the home organizations
-    /// </summary>
-    public class BoardMember
+	/// <summary>
+	/// Entity that holds information for the board members of the home organizations
+	/// </summary>
+	public class Manager
 	{
 		/// <summary>
 		/// Primary identifier of the board member
@@ -33,7 +34,7 @@ namespace HouseManager.Infrastructure.Data.Models
         /// </summary>
         [Required]
 		[Comment("Board member position")]
-		public required BoardMemberPosition Position { get; set; }
+		public required ManagerPosition Position { get; set; }
 
 		/// <summary>
 		/// Start date of assignment to the board member position
@@ -64,5 +65,25 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Required]
 		[Comment("Managed by the member house organization")]
 		public required int HouseOrganizationId { get; set; }
-	}
+
+		/// <summary>
+		/// Navigation property to the House organization
+		/// </summary>
+		[ForeignKey(nameof(HouseOrganizationId))]
+		[Comment("Navigation property to the House organization")]
+		public HouseOrganization HouseOrganization { get; set; } = null!;
+
+		/// <summary>
+		/// Current status of the manager
+		/// </summary>
+		[Required]
+		[Comment("Current status of the manager")]
+		public required bool IsActive { get; set; }
+
+		/// <summary>
+		/// Date on which the term of the manager is terminated
+		/// </summary>
+        [Comment("Date on which the term is ended")]
+        public DateTime? TerminationDate { get; set; }
+    }
 }

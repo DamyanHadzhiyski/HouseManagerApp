@@ -1,4 +1,4 @@
-﻿@model List<BoardMemberModel>
+﻿@model List<ManagerViewModel>
 
 
 @if (!Model.Any())
@@ -8,7 +8,7 @@
 			<h2 class="text-center">There are no board members assigned to this house organization!</h2>
 			<h3 class="text-center text-danger"><b>Having a board members is mandatory!</b></h3>
 			<h3 class="text-center text-danger"><b>Please, assign President and Cashier!</b></h3>
-			<button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="BoardMembers" asp-action="Add">Add Board member</button>
+			<button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="Managers" asp-action="Add">Add Manager</button>
 		</div>
 	</form>
 }
@@ -16,7 +16,7 @@ else
 {
 	<form class="col-12">
 		<div class="bg-light rounded h-100 p-4">
-			<h4 class="mb-4">Board members</h4>
+			<h4 class="mb-4">Managers</h4>
 			<div class="table-responsive">
 				<table class="table">
 					<thead>
@@ -27,11 +27,11 @@ else
 							<th scope="col">Start Date</th>
 							<th scope="col">End Date</th>
 							<th scope="col">Phone Number</th>
-							<th scope="col">End Term</th>
-							<th scope="col">Edit</th>
+							<th class="text-center" scope="col">End Term</th>
+							<th class="text-center" scope="col">Edit</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="align-middle">
 						@for (int i = 0; i < Model.Count(); i++)
 						{
 							<tr>
@@ -41,17 +41,17 @@ else
 									<td>@Model[i].StartDate</td>
 									<td>@Model[i].EndDate</td>
 									<td>@Model[i].PhoneNumber</td>
-								<td>
-									<button type="submit" class="btn btn-info btn-danger" asp-controller="BoardMembers" asp-action="All" asp-route-id="">End term</button>
+								<td class="text-center">
+									<button type="submit" class="btn btn-info btn-danger" asp-controller="Managers" asp-action="All" asp-route-id="">End term</button>
 								</td>
-								<td>
-									<button class="btn btn-warning" asp-controller="BoardMembers" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
+								<td class="text-center">
+									<button class="btn btn-warning" asp-controller="Managers" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
 								</td>
 							</tr>
 						}
 					</tbody>
 				</table>
-				<button class="btn btn-sml btn-success m-4" asp-controller="BoardMembers" asp-action="Add">Add Board member</button>
+				<button class="btn btn-sml btn-success m-4" asp-controller="Managers" asp-action="Add">Add Manager</button>
 			</div>
 		</div>
 	</form>

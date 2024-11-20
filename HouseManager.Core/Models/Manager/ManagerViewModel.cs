@@ -2,15 +2,15 @@
 
 using HouseManager.Infrastructure.Enums;
 
-using static HouseManager.Infrastructure.Constants.EntityConstants;
 using static HouseManager.Core.Constants.ErrorMessages;
+using static HouseManager.Infrastructure.Constants.EntityConstants;
 
-namespace HouseManager.Core.Models.BoardMember
+namespace HouseManager.Core.Models.Manager
 {
-    /// <summary>
-    /// Model of a board member used in the top level layers of the app
-    /// </summary>
-    public class BoardMemberModel
+	/// <summary>
+	/// Model of a board member used in the top level layers of the app
+	/// </summary>
+	public class ManagerViewModel
     {
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace HouseManager.Core.Models.BoardMember
         /// Board member position
         /// </summary>
         [Required(ErrorMessage = FieldRequiredErrorMessage)]
-        public BoardMemberPosition Position { get; set; }
+        public ManagerPosition Position { get; set; }
 
         /// <summary>
         /// Start date of assignment to the board member position
@@ -59,5 +59,16 @@ namespace HouseManager.Core.Models.BoardMember
 		/// </summary>
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public int HouseOrganizationId { get; set; }
+
+		/// <summary>
+		/// Current status of the manager
+		/// </summary>
+		[Required(ErrorMessage = FieldRequiredErrorMessage)]
+		public required bool IsActive { get; set; }
+
+		/// <summary>
+		/// Date on which the term of the manager is terminated
+		/// </summary>
+		public DateTime? TerminationDate { get; set; }
 	}
 }
