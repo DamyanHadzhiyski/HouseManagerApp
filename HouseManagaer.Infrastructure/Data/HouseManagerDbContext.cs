@@ -20,9 +20,15 @@ namespace HouseManager.Infrastructure.Data
 
 			builder
 				.ApplyConfiguration(new RegisteredOccupantConfiguration());
+
+			builder
+				.ApplyConfiguration(new HouseOrganizationConfiguration());
+
+			builder
+				.ApplyConfiguration(new UnitConfiguration());
 		}
 
-		public DbSet<BoardMember> BoardMembers { get; set; }
+		public DbSet<Manager> Managers { get; set; }
 		public DbSet<Expense> Expenses { get; set; }
 		public DbSet<HouseOrganization> HouseOrganizations { get; set; }
 		public DbSet<Income> Incomes { get; set; }
