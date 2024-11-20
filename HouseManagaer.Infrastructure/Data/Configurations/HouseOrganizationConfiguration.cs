@@ -15,7 +15,12 @@ namespace HouseManager.Infrastructure.Data.Configurations
 			builder
 				.HasMany(h => h.Units)
 				.WithOne(u => u.HouseOrganization)
-				.HasForeignKey(h => h.HouseOrganizationId);
+				.HasForeignKey(u => u.HouseOrganizationId);
+
+			builder
+				.HasMany(h => h.Managers)
+				.WithOne(m => m.HouseOrganization)
+				.HasForeignKey(m => m.HouseOrganizationId);
 		}
 	}
 }

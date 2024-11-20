@@ -1,4 +1,5 @@
 ﻿using HouseManager.Infrastructure.Data.Models;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
