@@ -50,9 +50,9 @@ namespace HouseManager.Infrastructure.Data.Models
         public Town Town { get; set; } = null!;
 
 		/// <summary>
-		/// Collection of board members(president and cashier) of the house organization
+		/// Management(president and cashier) of the house organization
 		/// </summary>
-		public ICollection<BoardMember> BoardMembers { get; set; } = [];
+		public ICollection<Manager> Managers { get; set; } = [];
 
 		/// <summary>
 		/// Collection of all units belonging to the house organization

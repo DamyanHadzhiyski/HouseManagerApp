@@ -25,12 +25,5 @@ namespace HouseManager.Infrastructure.Data.Models
 		[MaxLength(UnitTypeNameMaxLength)]
 		[Comment("Name of the UnitType")]
 		public required string Name { get; set; }
-
-		/// <summary>
-		/// Short description of the UnitType
-		/// </summary>
-		[MaxLength(DescriptionMaxLength)]
-		[Comment("Short description of the UnitType")]
-        public string? Description { get; set; }
     }
 }

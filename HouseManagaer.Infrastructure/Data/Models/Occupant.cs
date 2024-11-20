@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -46,6 +47,19 @@ namespace HouseManager.Infrastructure.Data.Models
 		[RegularExpression(PhoneNumberRegEx)]
 		[Comment("Phone number of the occupant")]
         public string? PhoneNumber { get; set; }
+
+		/// <summary>
+		/// House Organization of the unit
+		/// </summary>
+		[Required]
+		[Comment("Unit to which occupant is assigned")]
+        public int UnitId { get; set; }
+
+		/// <summary>
+		/// Navigation property to Units table
+		/// </summary>
+		[ForeignKey(nameof(UnitId))]
+		public Unit Unit { get; set; } = null!;
     }
 }
          
