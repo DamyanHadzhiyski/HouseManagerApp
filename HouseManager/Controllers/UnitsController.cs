@@ -9,15 +9,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
+	//[Route("units")]
 	public class UnitsController(
 		HouseManagerDbContext context,
 		IUnitService unitService) : BaseController
 	{
 		#region Show All Units
 		[HttpGet]
-		public async Task<IActionResult> All()
+		[Route("{houseOrgId}")]
+		public async Task<IActionResult> All(int houseOrgId)
 		{
-			var model = await unitService.GetAllUnitsAsync();
+			//int houseOrgId = (int)HttpContext.Session.GetInt32("houseOrgId");
+
+			var model = await unitService.GetAllUnitsFromHOAsync(houseOrgId);
 
 			return View(model);
 		}
@@ -25,7 +29,8 @@ namespace HouseManager.Controllers
 
 		#region Add New Unit
 		[HttpGet]
-		public async Task<IActionResult> Add()
+        [Route("{houseOrgId}")]
+        public async Task<IActionResult> Add(int houseOrgId)
 		{
 			var model = new UnitFormModel();
 			var unitTypes = await GetUnitTypes();
