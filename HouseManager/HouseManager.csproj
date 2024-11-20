@@ -26,11 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HouseManager.Core\HouseManager.Core.csproj" />
+    <Folder Include="Views\Units\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Units\" />
+    <ProjectReference Include="..\HouseManager.Core\HouseManager.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
