@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using HouseManager.Infrastructure.Data.Models;
+using HouseManager.Infrastructure.Enums;
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
@@ -17,7 +18,7 @@ namespace HouseManager.Core.Models.Unit
         /// Identifier of the unit type
         /// </summary>
         [Required]
-		public int TypeId { get; set; }
+		public UnitType Type { get; set; }
 
 		/// <summary>
 		/// Floor on which the unit is located

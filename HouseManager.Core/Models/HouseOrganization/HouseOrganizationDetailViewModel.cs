@@ -3,7 +3,7 @@
 namespace HouseManager.Core.Models.HouseOrganization
 {
 	/// <summary>
-	/// Model that extends the HouseOrganizationModel in order to 
+	/// Model that extends the HouseOrganizationViewModel in order to 
 	/// show additional details for the House Organization
 	/// </summary>
 	public class HouseOrganizationDetailViewModel : HouseOrganizationViewModel
@@ -23,11 +23,13 @@ namespace HouseManager.Core.Models.HouseOrganization
 		/// <summary>
 		/// Number of units in the House Organization
 		/// </summary>
+		[Display(Name = "Units Count")]
 		public string UnitsCount { get; set; } = string.Empty;
 
 		/// <summary>
 		/// Number of occupants of the House Organization
 		/// </summary>
+		[Display(Name = "Occupants Count")]
 		public string OccupantsCount { get; set; } = string.Empty;
 	}
 }

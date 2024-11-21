@@ -41,6 +41,6 @@ namespace HouseManager.Core.Models.HouseOrganization
         /// </summary>
         [Required(ErrorMessage = FieldRequiredErrorMessage)]
         [Display(Name = "Town")]
-        public int TownId { get; set; }
+        public string Town{ get; set; } = string.Empty;
     }
 }

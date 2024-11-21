@@ -9,6 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IHouseOrganizationService
+	/// </summary>
+	/// <param name="context"></param>
 	public class HouseOrganizationService(
 		HouseManagerDbContext context) : IHouseOrganizationService
 	{
@@ -17,10 +21,10 @@ namespace HouseManager.Core.Services
 			var newHouseOrg = new HouseOrganization()
 			{
 				Name = houseOrg.Name,
-				TownId = houseOrg.TownId,
+				Town = houseOrg.Town,
 				Address = houseOrg.Address,
-				Units = [],
-				Managers = []
+				Units = new List<Unit>(),
+				Managers = new List<Manager>()
 			};
 
 			await context.HouseOrganizations.AddAsync(newHouseOrg);
@@ -32,40 +36,44 @@ namespace HouseManager.Core.Services
 			var editHouse = await GetHouseOrganizationById(house.Id);
 
 
-            if (editHouse == null)
+			if (editHouse == null)
 			{
 				throw new InvalidExpressionException("House organization does not exist");
 			}
 
 			editHouse.Name = house.Name;
 			editHouse.Address = house.Address;
-			editHouse.TownId = house.TownId;
+			editHouse.Town = house.Town;
 
 			await context.SaveChangesAsync();
 		}
 
-		public Task<bool> ExistByIdAsync(int houseOrgId)
+		public async Task<bool> ExistByIdAsync(int houseOrgId)
 		{
-			throw new NotImplementedException();
+			return await context.HouseOrganizations
+									.AnyAsync(ho => ho.Id == houseOrgId);
 		}
 
 		public IQueryable<HouseOrganization> GetAllReadOnly()
 		{
 			return context.HouseOrganizations
-								.AsNoTracking();
+							  .AsNoTracking();
 		}
 
 		public IQueryable<HouseOrganization> GetByIdReadOnly(int houseOrgId)
 		{
 			return context.HouseOrganizations
-								.AsNoTracking();
+							  .AsNoTracking();
 		}
 
 		public async Task<HouseOrganization?> GetHouseOrganizationById(int houseId)
 		{
 			return await context.HouseOrganizations
-							.Include("Town")
-							.FirstOrDefaultAsync(ho => ho.Id == houseId);
+									.Include("Town")
+									.Include(ho=>ho.Managers)
+									.Include(ho=>ho.Units)
+									.ThenInclude(u => u.Occupants)
+									.FirstOrDefaultAsync(ho => ho.Id == houseId);
 		}
 	}
 }

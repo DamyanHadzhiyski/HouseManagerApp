@@ -24,7 +24,7 @@ namespace HouseManager.Core.Services
 									Id = u.Id,
 									Number = u.UnitNumber,
 									Floor = u.Floor.ToString(),
-									Type = u.UnitType.Name,
+									Type = u.UnitType.ToString()
 								})
 								.ToListAsync();
 		}
@@ -38,7 +38,7 @@ namespace HouseManager.Core.Services
 									Id = u.Id,
 									Number = u.UnitNumber,
 									Floor = u.Floor.ToString(),
-									Type = u.UnitType.Name,
+									Type = u.UnitType.ToString(),
 									TotalArea = u.TotalArea.ToString("f2"),
 									CommonParts = u.CommonParts.ToString("f2"),
 									PetsCount = u.PetsCount.ToString(),
@@ -63,7 +63,7 @@ namespace HouseManager.Core.Services
                                     Id = u.Id,
                                     Number = u.UnitNumber,
                                     Floor = u.Floor.ToString(),
-                                    Type = u.UnitType.Name,
+                                    Type = u.UnitType.ToString(),
                                 })
                                 .ToListAsync();
         }
