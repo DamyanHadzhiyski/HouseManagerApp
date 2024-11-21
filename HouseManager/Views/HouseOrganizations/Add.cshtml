@@ -14,11 +14,9 @@
 			<span asp-validation-for="@Model.Address" class="text-danger"></span>
 		</div>
 		<div class="form-floating mb-3">
-			<select asp-for="@Model.TownId" class="form-control" asp-items="@ViewBag.Towns">
-				<option disabled selected>...</option>
-			</select>
-			<label for="floatingSelect">Select town</label>
-			<span asp-validation-for="@Model.TownId" class="text-danger"></span>
+			<input asp-for="@Model.Town" class="form-control" placeholder="Town">
+			<label asp-for="@Model.Town" class="form-label"></label>
+			<span asp-validation-for="@Model.Town" class="text-danger"></span>
 		</div>
 	</div>
 	<button class="btn btn-success rounded-pill m-2" type="submit">Add</button>

@@ -14,10 +14,10 @@
 			<span asp-validation-for="@Model.Floor" class="text-danger"></span>
 		</div>
 		<div class="form-floating mb-3">
-			<select asp-for="@Model.TypeId" class="form-select" id="floatingSelect" asp-items="@ViewBag.UnitTypes">
-				<option selected value="@Model.TypeId">...</option>
+			<select asp-for="@Model.Type" class="form-select" id="floatingSelect" asp-items="@ViewBag.UnitTypes">
+				<option selected value="@Model.Type">...</option>
 			</select>
-			<label asp-for="@Model.TypeId">Select Unit Type</label>
+			<label asp-for="@Model.Type">Select Unit Type</label>
 		</div>
 	</div>
 	<div class="form-floating mb-3">

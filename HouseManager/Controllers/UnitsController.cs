@@ -29,49 +29,35 @@ namespace HouseManager.Controllers
         #region Add New Unit
         [HttpGet]
         [Route("Units/Add/{houseOrgId}")]
-        public async Task<IActionResult> Add(int houseOrgId)
+        public IActionResult Add(int houseOrgId)
         {
             var model = new UnitFormModel();
 
-            var unitTypes = await GetUnitTypes();
+			//TODO: ViewBag.UnitTypes = get all unit types
 
-            ViewBag.UnitTypes = unitTypes
-                                        .Select(ut => new SelectListItem
-                                        {
-                                            Text = ut.Name,
-                                            Value = ut.Id.ToString()
-                                        })
-                                        .ToList(); ;
-
-            return View(model);
+			return View(model);
         }
 
         [HttpPost]
         [Route("Units/Add/{houseOrgId}")]
         public async Task<IActionResult> Add(UnitFormModel model, int houseOrgId)
         {
-            var unitTypes = await GetUnitTypes();
+			//TODO: ViewBag.UnitTypes = get all unit types
 
-            if (!ModelState.IsValid || !unitTypes.Any(ut => ut.Id == model.TypeId))
+			if (!ModelState.IsValid) //TODO: check if unit type exists || !unitTypes.Any(ut => ut.Id == model.TypeId))
             {
-                ViewBag.UnitTypes = unitTypes
-                                        .Select(ut => new SelectListItem
-                                        {
-                                            Text = ut.Name,
-                                            Value = ut.Id.ToString()
-                                        })
-                                        .ToList();
+				//TODO: ViewBag.UnitTypes = get all unit types
 
-                //TODO: Add Exception
+				//TODO: Add Exception
 
-                return View(model);
+				return View(model);
             }
 
             var addUnit = new Unit
             {
                 UnitNumber = model.Number,
                 Floor = model.Floor,
-                UnitTypeId = model.TypeId,
+                UnitType = model.Type,
                 CommonParts = model.CommonParts,
                 TotalArea = model.TotalArea,
                 HouseOrganizationId = houseOrgId
@@ -93,22 +79,14 @@ namespace HouseManager.Controllers
             {
                 var unitFromDb = await unitService.GetUnitByIdAsync(id);
 
-                var unitTypes = await GetUnitTypes();
-
-                ViewBag.UnitTypes = unitTypes
-                                        .Select(ut => new SelectListItem
-                                        {
-                                            Text = ut.Name,
-                                            Value = ut.Id.ToString()
-                                        })
-                                        .ToList();
+                //TODO: ViewBag.UnitTypes = unit types
 
                 var model = new UnitFormModel
                 {
                     Id = unitFromDb.Id,
                     Number = unitFromDb.UnitNumber,
                     Floor = unitFromDb.Floor,
-                    TypeId = unitFromDb.UnitTypeId,
+                    Type = unitFromDb.UnitType,
                     TotalArea = unitFromDb.TotalArea,
                     CommonParts = unitFromDb.CommonParts,
                     HouseOrganizationId = unitFromDb.HouseOrganizationId
@@ -129,26 +107,18 @@ namespace HouseManager.Controllers
 
             if (!ModelState.IsValid)
             {
-                var unitTypes = await GetUnitTypes();
+				//TODO: ViewBag.UnitTypes = get all unit types
 
-                ViewBag.UnitTypes = unitTypes
-                                        .Select(ut => new SelectListItem
-                                        {
-                                            Text = ut.Name,
-                                            Value = ut.Id.ToString()
-                                        })
-                                        .ToList();
+				//TODO: add exception handling
 
-                //TODO: add exception handling
-
-                return View(model);
+				return View(model);
             }
 
             var unitFromDb = await unitService.GetUnitByIdAsync(model.Id);
 
             unitFromDb.UnitNumber = model.Number;
             unitFromDb.Floor = model.Floor;
-            unitFromDb.UnitTypeId = model.TypeId;
+            unitFromDb.UnitType = model.Type;
             unitFromDb.TotalArea = model.TotalArea;
             unitFromDb.CommonParts = model.CommonParts;
 
@@ -169,10 +139,11 @@ namespace HouseManager.Controllers
         #endregion
 
         #region Private Methods TODO: Change method to return List<SelectedListItems>
-        private async Task<List<UnitType>> GetUnitTypes()
-        {
-            return await context.UnitTypes.ToListAsync();
-        }
+        //TODO: get all unit types
+        //private Task<List<SelectListItem>> GetUnitTypes()
+        //{
+        //    throw new NotImplementedException();
+        //}
         #endregion
     }
 }

@@ -4,14 +4,12 @@ using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
 	public class HouseOrganizationsController(
-		IHouseOrganizationService houseService,
-		HouseManagerDbContext context) : BaseController
+		IHouseOrganizationService houseService) : BaseController
 	{
 		#region Show All House Organizations
 		[HttpGet]
@@ -24,7 +22,7 @@ namespace HouseManager.Controllers
 								Id = h.Id,
 								Name = h.Name,
 								Address = h.Address,
-								TownName = h.Town.Name
+								Town = h.Town
 							})
 							.ToListAsync();
 
@@ -34,11 +32,11 @@ namespace HouseManager.Controllers
 
 		#region Add New House Organization
 		[HttpGet]
-		public async Task<IActionResult> Add()
+		public IActionResult Add()
 		{
 			var model = new HouseOrganizationFormModel();
 
-			ViewBag.Towns = await GetTowns();
+			//TODO: ViewBag.Towns = all towns
 
 			return View(model);
 		}
@@ -48,7 +46,7 @@ namespace HouseManager.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				ViewBag.Towns = await GetTowns();
+				//TODO: ViewBag.Towns = all towns
 
 				ModelState.AddModelError(string.Empty, "");
 
@@ -78,10 +76,10 @@ namespace HouseManager.Controllers
 				Id = houseDb.Id,
 				Name = houseDb.Name,
 				Address = houseDb.Address,
-				TownId = houseDb.TownId
+				Town = houseDb.Town
 			};
 
-			ViewBag.Towns = await GetTowns();
+			//TODO: ViewBag.Towns = all towns
 
 			return View(model);
 		}
@@ -93,7 +91,7 @@ namespace HouseManager.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				ViewBag.Towns = await GetTowns();
+				//TODO: ViewBag.Towns = all towns
 				//TODO: Redirect to custom error page
 				return View(model);
 			}
@@ -121,7 +119,7 @@ namespace HouseManager.Controllers
 				Id = houseOrgDb.Id,
 				Name = houseOrgDb.Name,
 				Address = houseOrgDb.Address,
-				TownName = houseOrgDb.Town.Name,
+				Town = houseOrgDb.Town,
 				PresidentName = houseOrgDb.Managers
 											.Where(m => m.IsActive && m.Position.Equals(ManagerPosition.President))
 											.Select(m => m.Name).FirstOrDefault() ?? "Not Assigned",
@@ -137,18 +135,11 @@ namespace HouseManager.Controllers
 		#endregion
 
 		#region Private Methods
-		private async Task<ICollection<SelectListItem>> GetTowns()
-		{
-			return await context.Towns
-								.Select(t => new SelectListItem()
-								{
-									Text = t.Name,
-									Value = t.Id.ToString()
-
-								})
-								.AsNoTracking()
-								.ToListAsync();
-		}
+		//TODO: get all towns
+		//private async Task<ICollection<SelectListItem>> GetTowns()
+		//{
+		//	return 
+		//}
 		#endregion
 	}
 }
