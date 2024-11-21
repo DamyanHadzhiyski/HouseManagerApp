@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -40,14 +39,9 @@ namespace HouseManager.Infrastructure.Data.Models
         /// Town in which the House Organization is located
         /// </summary>
         [Required]
+		[MaxLength(TownNameMaxLength)]
 		[Comment("Town of the House Organization")]
-        public required int TownId { get; set; }
-
-        /// <summary>
-        /// Navigation property to Towns table
-        /// </summary>
-        [ForeignKey(nameof(TownId))]
-        public Town Town { get; set; } = null!;
+        public required string Town { get; set; }
 
 		/// <summary>
 		/// Management(president and cashier) of the house organization

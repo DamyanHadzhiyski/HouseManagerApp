@@ -34,8 +34,6 @@ namespace HouseManager.Infrastructure.Data
 		public DbSet<Income> Incomes { get; set; }
 		public DbSet<Occupant> Occupants { get; set; }
 		public DbSet<RegisteredOccupant> RegisteredOccupants { get; set; }
-		public DbSet<Town> Towns { get; set; }
 		public DbSet<Unit> Units { get; set; }
-		public DbSet<UnitType> UnitTypes { get; set; }
 	}
 }

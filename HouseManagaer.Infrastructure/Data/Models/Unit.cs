@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using HouseManager.Infrastructure.Enums;
+
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-    /// <summary>
-    /// Entity that holds information about the units
-    /// </summary>
-    public class Unit
+	/// <summary>
+	/// Entity that holds information about the units
+	/// </summary>
+	public class Unit
 	{
 		/// <summary>
 		/// Primary identifier of the unit
@@ -20,17 +22,11 @@ namespace HouseManager.Infrastructure.Data.Models
 		public int Id { get; set; }
 
         /// <summary>
-        /// Identifier of the unit type
+        /// Type of the unit
         /// </summary>
         [Required]
-        [Comment("Identifier of the unit type")]
-        public required int UnitTypeId { get; set; }
-
-        /// <summary>
-        /// Navigation property to UnitTypes table
-        /// </summary>
-        [ForeignKey(nameof(UnitTypeId))]
-        public UnitType UnitType { get; set; } = null!;
+        [Comment("Type of the unit")]
+        public required UnitType UnitType { get; set; }
 
 		/// <summary>
 		/// Floor on which the unit is located
