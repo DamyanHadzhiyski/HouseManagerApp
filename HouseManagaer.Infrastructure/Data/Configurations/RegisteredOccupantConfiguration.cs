@@ -10,7 +10,10 @@ namespace HouseManager.Infrastructure.Data.Configurations
 	/// </summary>
 	public class RegisteredOccupantConfiguration : IEntityTypeConfiguration<RegisteredOccupant>
 	{
-		
+		/// <summary>
+		/// Defining primary key as combination from OccupantId and UserId
+		/// </summary>
+		/// <param name="builder"></param>
 		public void Configure(EntityTypeBuilder<RegisteredOccupant> builder)
 		{
 			builder

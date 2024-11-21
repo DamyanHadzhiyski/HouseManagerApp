@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace HouseManager.Infrastructure.Data.Configurations
 {
 	/// <summary>
-	/// Configuration of the HouseOrganization entity
+	/// Configuration of the Unit entity
 	/// </summary>
 	public class UnitConfiguration : IEntityTypeConfiguration<Unit>
 	{
