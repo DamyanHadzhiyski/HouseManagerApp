@@ -32,14 +32,8 @@
         /// <summary>
         /// Min and Max length of a name of the town
         /// </summary>
-        public const int TownNameMinLength = 3;
-		public const int TownNameMaxLength = 20;
-
-        /// <summary>
-        /// Min and Max length of a unit type
-        /// </summary>
-		public const int UnitTypeNameMinLength = 3;
-		public const int UnitTypeNameMaxLength = 20;
+        public const int TownNameMinLength = 2;
+		public const int TownNameMaxLength = 40;
 
         /// <summary>
         /// Min and Max values of a units' common parts
