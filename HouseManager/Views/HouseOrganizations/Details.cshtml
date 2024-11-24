@@ -7,35 +7,27 @@
 <div class="bg-light rounded h-100 p-4">
 	<h4 class="mb-4 text-center">@ViewBag.Name</h4>
 	<hr />
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Address: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.Address">
+	<div class="form-group row align-items-center mb-2 mb-sm-0">
+		<label class="col-sm-2 fw-bold text-sm-end">Address: </label>
+		<label class="col-auto col-form-label">@Model.Address</label>
+	</div>
+	<div class="form-group row align-items-center mb-2 mb-sm-0">
+		<label class="col-sm-2 fw-bold text-sm-end">Town: </label>
+		<label class="col-auto col-form-label">@Model.Town</label>
+	</div>
+	<div class="form-group row align-items-center mb-2 mb-sm-0">
+		<label class="col-sm-2 fw-bold text-sm-end">Managers: </label>
+		<div class="col-auto d-flex flex-column">
+			<label class="col-auto col-form-label pb-0"><b>President -</b> @Model.PresidentName</label>
+			<label class="col-auto col-form-label pt-0"><b>Cashier - </b> @Model.CashierName</label>
 		</div>
 	</div>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Town: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.Town">
-		</div>
+	<div class="form-group row align-items-center mb-2 mb-sm-0">
+		<label class="col-sm-2 fw-bold text-sm-end">Units: </label>
+		<label class="col-auto col-form-label">@Model.UnitsCount</label>
 	</div>
-	<div class="form-group row align-items-top">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Board Members: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.PresidentName - President">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.CashierName - Cashier">
-		</div>
-	</div>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Occupants: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.OccupantsCount">
-		</div>
-	</div>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Units: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.UnitsCount">
-		</div>
+	<div class="form-group row align-items-center mb-2 mb-sm-0">
+		<label class="col-sm-2 fw-bold text-sm-end">Occupants: </label>
+		<label class="col-auto col-form-label">@Model.OccupantsCount</label>
 	</div>
 </div>
