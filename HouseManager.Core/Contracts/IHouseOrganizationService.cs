@@ -14,7 +14,7 @@ namespace HouseManager.Core.Contracts
         /// </summary>
         /// <param name="houseOrg">HouseOrganization data</param>
         /// <returns></returns>
-        Task AddAsync(HouseOrganizationFormModel houseOrg);
+        Task<int> AddAsync(HouseOrganizationFormModel houseOrg);
 
 		/// <summary>
 		/// Method to change House Organization existing in the database
@@ -41,7 +41,7 @@ namespace HouseManager.Core.Contracts
 		/// </summary>
 		/// <param name="houseOrgId">House Organization Id</param>
 		/// <returns></returns>
-		IQueryable<HouseOrganization> GetByIdReadOnly(int houseOrgId);
+		IQueryable<HouseOrganizationFormModel> GetByIdReadOnly(int houseOrgId);
 
         /// <summary>
         /// Method that checks, if House Organization with this Id exist in the database

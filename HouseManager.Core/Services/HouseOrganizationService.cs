@@ -17,7 +17,7 @@ namespace HouseManager.Core.Services
 	public class HouseOrganizationService(
 		HouseManagerDbContext context) : IHouseOrganizationService
 	{
-		public async Task AddAsync(HouseOrganizationFormModel houseOrg)
+		public async Task<int> AddAsync(HouseOrganizationFormModel houseOrg)
 		{
 			var newHouseOrg = new HouseOrganization()
 			{
@@ -30,6 +30,17 @@ namespace HouseManager.Core.Services
 
 			await context.HouseOrganizations.AddAsync(newHouseOrg);
 			await context.SaveChangesAsync();
+
+			var someId = await GetIdByNameAsync(newHouseOrg.Name);
+			return someId;
+		}
+
+		private async Task<int> GetIdByNameAsync(string name)
+		{
+			return await context.HouseOrganizations
+				.Where(ho => ho.Name == name)
+				.Select(ho => ho.Id)
+				.FirstOrDefaultAsync();
 		}
 
 		public async Task EditAsync(HouseOrganizationFormModel houseOrg)
@@ -62,10 +73,17 @@ namespace HouseManager.Core.Services
 							.AsNoTracking();
 		}
 
-		public IQueryable<HouseOrganization> GetByIdReadOnly(int houseOrgId)
+		public IQueryable<HouseOrganizationFormModel> GetByIdReadOnly(int houseOrgId)
 		{
 			return context.HouseOrganizations
 							  .Where(ho => ho.Id == houseOrgId)
+							  .Select(ho => new HouseOrganizationFormModel
+							  {
+								  Id = ho.Id,
+								  Name = ho.Name,
+								  Address = ho.Address,
+								  Town = ho.Town
+							  })
 							  .AsNoTracking();
 		}
 
