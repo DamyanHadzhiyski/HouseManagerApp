@@ -2,44 +2,29 @@
 using HouseManager.Core.Models.Unit;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
+using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-    public class UnitsController(
+	public class UnitsController(
         HouseManagerDbContext context,
-        IUnitService unitService) : BaseController
+        IUnitService unitService,
+        IHouseOrganizationService houseOrgService) : BaseController
     {
-        #region Show All Units
-        [HttpGet]
-        [Route("Units/All/{houseOrgId}")]
-        public async Task<IActionResult> All(int houseOrgId)
-        {
-            var model = await unitService.GetAllUnitsFromHOAsync(houseOrgId);
-
-            ViewBag.HouseOrgId = houseOrgId;
-
-            return View(model);
-        }
-        #endregion
-
         #region Add New Unit
         [HttpGet]
-        [Route("Units/Add/{houseOrgId}")]
+        //[Route("Units/Add/{houseOrgId}")]
         public IActionResult Add(int houseOrgId)
         {
             var model = new UnitFormModel();
-
-			//TODO: ViewBag.UnitTypes = get all unit types
 
 			return View(model);
         }
 
         [HttpPost]
-        [Route("Units/Add/{houseOrgId}")]
+        //[Route("Units/Add/{houseOrgId}")]
         public async Task<IActionResult> Add(UnitFormModel model, int houseOrgId)
         {
 			//TODO: ViewBag.UnitTypes = get all unit types
@@ -77,7 +62,7 @@ namespace HouseManager.Controllers
         {
             try
             {
-                var unitFromDb = await unitService.GetUnitByIdAsync(id);
+                var unitFromDb = await unitService.GetByIdAsync(id);
 
                 //TODO: ViewBag.UnitTypes = unit types
 
@@ -114,7 +99,7 @@ namespace HouseManager.Controllers
 				return View(model);
             }
 
-            var unitFromDb = await unitService.GetUnitByIdAsync(model.Id);
+            var unitFromDb = await unitService.GetByIdAsync(model.Id);
 
             unitFromDb.UnitNumber = model.Number;
             unitFromDb.Floor = model.Floor;
@@ -132,18 +117,28 @@ namespace HouseManager.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await unitService.GetUnitDetailsByIdAsync(id);
+            var model = await unitService.GetDetailsByIdAsync(id);
 
             return View(model);
         }
-        #endregion
+		#endregion
 
-        #region Private Methods TODO: Change method to return List<SelectedListItems>
-        //TODO: get all unit types
-        //private Task<List<SelectListItem>> GetUnitTypes()
-        //{
-        //    throw new NotImplementedException();
-        //}
-        #endregion
-    }
+		#region Show All Units
+		[HttpGet]
+		//[Route("Units/All/{houseOrgId}")]
+		public async Task<IActionResult> All(int houseOrgId)
+		{
+            if(!await houseOrgService.ExistById(houseOrgId))
+            {
+                return BadRequest();
+            }
+
+			var model = await unitService.GetAllFromHOAsync(houseOrgId);
+
+			ViewBag.HouseOrgId = houseOrgId;
+
+			return View(model);
+		}
+		#endregion
+	}
 }
