@@ -29,9 +29,9 @@ namespace HouseManager.Controllers
 				return View(model);
 			}
 
-			await houseOrgService.AddAsync(model);
+			var id = await houseOrgService.AddAsync(model);
 
-			return RedirectToAction(nameof(All));
+			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id });
 		}
 		#endregion
 
@@ -46,13 +46,6 @@ namespace HouseManager.Controllers
 
 			var model = await houseOrgService
 								.GetByIdReadOnly(id)
-								.Select(ho => new HouseOrganizationFormModel
-								{
-									Id = ho.Id,
-									Name = ho.Name,
-									Address = ho.Address,
-									Town = ho.Town
-								})
 								.FirstOrDefaultAsync();
 
 			return View(model);
@@ -73,7 +66,7 @@ namespace HouseManager.Controllers
 
 			await houseOrgService.EditAsync(model);
 
-			return RedirectToAction(nameof(All), "HouseOrganizations");
+			return RedirectToAction(nameof(Details), "HouseOrganizations", new {id = model.Id});
 		}
 		#endregion
 
@@ -110,7 +103,8 @@ namespace HouseManager.Controllers
 		public async Task<IActionResult> Manage(int id)
 		{
 			var houseOrg = await houseOrgService
-								.GetByIdAsync(id);
+								.GetByIdReadOnly(id)
+								.FirstOrDefaultAsync();
 
 			if (houseOrg == null)
 			{
