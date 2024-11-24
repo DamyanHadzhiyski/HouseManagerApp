@@ -14,20 +14,27 @@ namespace HouseManager.Core.Contracts
         /// </summary>
         /// <param name="houseOrg">HouseOrganization data</param>
         /// <returns></returns>
-        Task AddHouseOrganizationAsync(HouseOrganizationFormModel houseOrg);
+        Task AddAsync(HouseOrganizationFormModel houseOrg);
 
 		/// <summary>
 		/// Method to change House Organization existing in the database
 		/// </summary>
 		/// <param name="houseOrg">HouseOrganization data</param>
 		/// <returns></returns>
-		Task EditHouseOrganizationAsync(HouseOrganizationFormModel houseOrg);
+		Task EditAsync(HouseOrganizationFormModel houseOrg);
 
         /// <summary>
-        /// Method that returns readonly information for all House Organization
+        /// Method that returns readonly information for all House Organization as a view model
         /// </summary>
         /// <returns></returns>
-        IQueryable<HouseOrganization> GetAllReadOnly();
+        IQueryable<HouseOrganizationViewModel> GetAllReadOnly();
+
+		/// <summary>
+		///  Method that returns readonly detailed information for specific House Organization as a view model
+		/// </summary>
+		/// <param name="houseOrgId"></param>
+		/// <returns></returns>
+		IQueryable<HouseOrganizationDetailViewModel> GetDetailsByIdReadOnly(int houseOrgId);
 
 		/// <summary>
 		/// Method that returns readonly information for specific House Organization
@@ -41,13 +48,13 @@ namespace HouseManager.Core.Contracts
         /// </summary>
         /// <param name="houseOrgId">House Organization Id</param>
         /// <returns></returns>
-        Task<bool> ExistByIdAsync(int houseOrgId);
+        Task<bool> ExistById(int houseOrgId);
 
 		/// <summary>
 		/// Method that returns specific House Organization in order it's data to be editable
 		/// </summary>
 		/// <param name="houseOrgId">House Organization Id</param>
 		/// <returns></returns>
-		Task<HouseOrganization?> GetHouseOrganizationById(int houseOrgId);
+		Task<HouseOrganization?> GetByIdAsync(int houseOrgId);
 	}
 }
