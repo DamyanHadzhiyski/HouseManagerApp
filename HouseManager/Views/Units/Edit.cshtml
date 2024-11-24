@@ -1,5 +1,9 @@
 ﻿@model UnitFormModel
 
+@{
+	ViewBag.UnitTypes = Html.GetEnumSelectList(typeof(UnitType));
+}
+
 <form class="col-8 offset-2 bg-light rounded h-100 p-4" asp-action="Edit" method=post>
 	<div>
 		<h4 class="mb-5">Edit Unit</h4>
@@ -15,7 +19,7 @@
 		</div>
 		<div class="form-floating mb-3">
 			<select asp-for="@Model.Type" class="form-select" id="floatingSelect" asp-items="@ViewBag.UnitTypes">
-				<option selected value="@Model.Type">...</option>
+				<option selected value="@Model.Type"></option>
 			</select>
 			<label asp-for="@Model.Type">Select Unit Type</label>
 		</div>

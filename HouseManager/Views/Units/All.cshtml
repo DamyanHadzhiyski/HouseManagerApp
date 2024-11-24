@@ -22,8 +22,8 @@ else
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Number</th>
-                            <th scope="col">Type</th>
                             <th scope="col">Floor</th>
+                            <th scope="col">Type</th>
                             <th class="text-center" scope="col">Details</th>
                             <th class="text-center" scope="col">Edit</th>
                         </tr>
@@ -34,8 +34,8 @@ else
                             <tr>
                                 <th scope="row">@(i + 1)</th>
                                 <td>@Model[i].Number</td>
-                                <td>@Model[i].Type</td>
                                 <td>@Model[i].Floor</td>
+                                <td>@Model[i].Type</td>
                                 <td class="text-center">
                                     <button type="submit" class="btn btn-info" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
                                 </td>
