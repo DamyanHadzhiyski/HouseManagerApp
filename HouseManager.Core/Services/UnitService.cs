@@ -11,12 +11,12 @@ namespace HouseManager.Core.Services
 	public class UnitService(
 		HouseManagerDbContext context) : IUnitService
 	{
-		public async Task EditUnitAsync(UnitViewModel model)
+		public async Task EditAsync(UnitViewModel model)
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task<List<UnitViewModel>> GetAllUnitsAsync()
+		public async Task<List<UnitViewModel>> GetAllAsync()
 		{
 			return await context.Units
 								.Select(u => new UnitViewModel
@@ -29,7 +29,7 @@ namespace HouseManager.Core.Services
 								.ToListAsync();
 		}
 
-		public async Task<UnitDetailViewModel?> GetUnitDetailsByIdAsync(int id)
+		public async Task<UnitDetailViewModel?> GetDetailsByIdAsync(int id)
 		{
 			return await context.Units
 								.Where(u => u.Id == id)
@@ -47,14 +47,14 @@ namespace HouseManager.Core.Services
 								.FirstOrDefaultAsync();
 		}
 
-		public async Task<Unit?> GetUnitByIdAsync(int id)
+		public async Task<Unit?> GetByIdAsync(int id)
 		{
 			return await context.Units
 							.Where(u => u.Id == id)
 							.FirstOrDefaultAsync();//u => u.Id == id);
 		}
 
-        public async Task<List<UnitViewModel>> GetAllUnitsFromHOAsync(int houseOrgId)
+        public async Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId)
         {
             return await context.Units
 								.Where(u => u.HouseOrganizationId == houseOrgId)

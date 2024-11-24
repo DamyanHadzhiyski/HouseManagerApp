@@ -3,15 +3,20 @@ using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
 {
-    public interface IUnitService
+	/// <summary>
+	/// Interface that will be added into the IoC and 
+	/// used for retrieval and manipulation of data from the Units table
+	/// </summary>
+	public interface IUnitService
     {
         //Task EditUnitAsync(UnitModel model);
 
-        Task<List<UnitViewModel>> GetAllUnitsAsync();
+        Task<List<UnitViewModel>> GetAllAsync();
 
-        Task<Unit?> GetUnitByIdAsync(int id);
-		Task<UnitDetailViewModel?> GetUnitDetailsByIdAsync(int id);
+        Task<Unit?> GetByIdAsync(int id);
 
-        Task<List<UnitViewModel>> GetAllUnitsFromHOAsync(int houseOrgId);
+		Task<UnitDetailViewModel?> GetDetailsByIdAsync(int id);
+
+        Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId);
 	}
 }
