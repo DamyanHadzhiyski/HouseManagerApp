@@ -57,8 +57,8 @@
 					</div>
 					@if (cache.Get("ManagedHouseOrgName") != null)
 					{
-						<a asp-controller="Managers" asp-action="All" class="nav-item nav-link text-dark"><i class="fa fa-user-tie me-2"></i>Management</a>
-						<a asp-controller="Units" asp-action="All" class="nav-item nav-link text-dark"><i class="fa fa-key me-2"></i>Units</a>
+						<a asp-controller="Managers" asp-action="All" asp-route-houseOrgId="@cache.Get("ManagedHouseOrgId")" class="nav-item nav-link text-dark"><i class="fa fa-user-tie me-2"></i>Management</a>
+						<a asp-controller="Units" asp-action="All" asp-route-houseOrgId="@cache.Get("ManagedHouseOrgId")" class="nav-item nav-link text-dark"><i class="fa fa-key me-2"></i>Units</a>
 					}
 				}
 				<partial name="_LoginPartial" />
