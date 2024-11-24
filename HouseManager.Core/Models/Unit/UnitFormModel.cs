@@ -11,9 +11,14 @@ namespace HouseManager.Core.Models.Unit
 	public class UnitFormModel
 	{
 		/// <summary>
-		/// Identifier of the unit type
+		/// Primary identifier of the unit
 		/// </summary>
-		[Required(ErrorMessage = FieldRequiredErrorMessage)]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Identifier of the unit type
+        /// </summary>
+        [Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public UnitType Type { get; set; }
 
 		/// <summary>
