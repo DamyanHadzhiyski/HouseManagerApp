@@ -9,11 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//Add Session Config
 builder.Services.AddMemoryCache();
-
-// Add services to the container.
 builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
 
@@ -27,16 +23,15 @@ builder.Services.AddControllersWithViews(options =>
 });
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
-
-app.UseExceptionHandler("/Error");
+else
+{
+	app.UseDeveloperExceptionPage();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
