@@ -2,9 +2,10 @@
 using HouseManager.Core.Models.HouseOrganization;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+
+using static HouseManager.Constants.HouseOrganizationConstants;
 
 namespace HouseManager.Controllers
 {
@@ -111,8 +112,8 @@ namespace HouseManager.Controllers
 				BadRequest();
 			}
 
-			cache.Set("ManagedHouseOrgName", houseOrg.Name);
-			cache.Set("ManagedHouseOrgId", id);
+			cache.Set(ManagedHouseOrgCacheName, houseOrg.Name);
+			cache.Set(ManagedHouseOrgCacheId, id);
 
 			return RedirectToAction(nameof(All), "Units", new { houseOrgId = id });
 		}
