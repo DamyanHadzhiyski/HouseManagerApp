@@ -28,12 +28,6 @@ namespace HouseManager.Core.Models.Manager
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Board member position
-        /// </summary>
-        [Required(ErrorMessage = FieldRequiredErrorMessage)]
-        public ManagerPosition Position { get; set; }
-
-        /// <summary>
         /// Start date of assignment to the board member position
         /// </summary>
         [Required(ErrorMessage = FieldRequiredErrorMessage)]

@@ -97,8 +97,8 @@ namespace HouseManager.Core.Services
 								  Name = ho.Name,
 								  Address = ho.Address,
 								  Town = ho.Town,
-								  PresidentName = GetPresidentName(ho.Managers),
-								  CashierName = GetCashierName(ho.Managers),
+								  PresidentName = "TODO: ",
+								  CashierName = "TODO: ",
 								  UnitsCount = ho.Units.Count.ToString(),
 								  OccupantsCount = GetOccupantsCount(ho.Units).ToString()
 							  })
@@ -108,20 +108,6 @@ namespace HouseManager.Core.Services
 		private static int GetOccupantsCount(ICollection<Unit> units)
 		{
 			return units.Sum(u => u.Occupants.Count);
-		}
-
-		private static string GetPresidentName(ICollection<Manager> managers)
-		{
-			return managers
-					.Where(m => m.IsActive && m.Position.Equals(ManagerPosition.President))
-					.Select(m => m.Name).FirstOrDefault() ?? "Not Assigned";
-		}
-
-		private static string GetCashierName(ICollection<Manager> managers)
-		{
-			return managers
-					.Where(m => m.IsActive && m.Position.Equals(ManagerPosition.Cashier))
-					.Select(m => m.Name).FirstOrDefault() ?? "Not Assigned";
 		}
 
 		public async Task<HouseOrganization?> GetByIdAsync(int houseOrgId)

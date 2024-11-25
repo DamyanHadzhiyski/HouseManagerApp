@@ -29,13 +29,6 @@ namespace HouseManager.Infrastructure.Data.Models
         [Comment("Board member full name")]
         public required string Name { get; set; }
 
-        /// <summary>
-        /// Board member position
-        /// </summary>
-        [Required]
-		[Comment("Board member position")]
-		public required ManagerPosition Position { get; set; }
-
 		/// <summary>
 		/// Start date of assignment to the board member position
 		/// </summary>

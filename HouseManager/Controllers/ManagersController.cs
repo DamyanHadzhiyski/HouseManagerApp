@@ -11,7 +11,7 @@ namespace HouseManager.Controllers
 					IManagerService managerService) : BaseController
 	{
 		#region Show All Board Members
-		public async Task<IActionResult> All()
+		public async Task<IActionResult> All(int houseOrgId)
 		{
 			var model = await managerService
 								.GetAllReadonlyAsync()
@@ -19,7 +19,6 @@ namespace HouseManager.Controllers
 								{
 									Id = bm.Id,
 									Name = bm.Name,
-									Position = bm.Position,
 									StartDate = bm.StartDate,
 									EndDate = bm.EndDate,
 									PhoneNumber = bm.PhoneNumber,

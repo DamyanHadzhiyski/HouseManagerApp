@@ -15,7 +15,6 @@ namespace HouseManager.Core.Services
 			var newMember = new Manager
 			{
 				Name = model.Name,
-				Position = model.Position,
 				StartDate = model.StartDate,
 				EndDate = model.EndDate,
 				PhoneNumber = model.PhoneNumber,
@@ -32,7 +31,6 @@ namespace HouseManager.Core.Services
 			var editedMember = await GetBoardMemberByIdAsync(model.Id);
 
 			editedMember.Name = model.Name;
-			editedMember.Position = model.Position;
 			editedMember.StartDate = model.StartDate;
 			editedMember.EndDate = model.EndDate;
 			editedMember.PhoneNumber = model.PhoneNumber;
