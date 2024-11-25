@@ -15,12 +15,20 @@ namespace HouseManager.Infrastructure.Data.Configurations
 			builder
 				.HasMany(h => h.Units)
 				.WithOne(u => u.HouseOrganization)
-				.HasForeignKey(u => u.HouseOrganizationId);
+				.HasForeignKey(u => u.HouseOrganizationId)
+				.OnDelete(DeleteBehavior.Restrict);
 
 			builder
-				.HasMany(h => h.Managers)
+				.HasMany(h => h.Presidents)
 				.WithOne(m => m.HouseOrganization)
-				.HasForeignKey(m => m.HouseOrganizationId);
+				.HasForeignKey(m => m.HouseOrganizationId)
+				.OnDelete(DeleteBehavior.Restrict);
+			
+			builder
+				.HasMany(h => h.Cashiers)
+				.WithOne(m => m.HouseOrganization)
+				.HasForeignKey(m => m.HouseOrganizationId)
+				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

@@ -18,8 +18,8 @@ namespace HouseManager.Infrastructure.Data
 		{
 			base.OnModelCreating(builder);
 
-			builder
-				.ApplyConfiguration(new RegisteredOccupantConfiguration());
+			//builder
+			//	.ApplyConfiguration(new RegisteredOccupantConfiguration());
 
 			builder
 				.ApplyConfiguration(new HouseOrganizationConfiguration());

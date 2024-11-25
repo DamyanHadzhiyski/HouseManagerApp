@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Configurations\RegisteredOccupantConfiguration.cs" />
     <Compile Remove="Data\Models\Expense.cs" />
     <Compile Remove="Data\Models\Income.cs" />
     <Compile Remove="Data\Models\RegisteredOccupant.cs" />
