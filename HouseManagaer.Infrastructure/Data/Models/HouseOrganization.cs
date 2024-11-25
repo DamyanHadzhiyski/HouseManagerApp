@@ -44,9 +44,14 @@ namespace HouseManager.Infrastructure.Data.Models
         public required string Town { get; set; }
 
 		/// <summary>
-		/// Management(president and cashier) of the house organization
+		/// Presidents (active/inactive) of the house organization
 		/// </summary>
-		public ICollection<Manager> Managers { get; set; } = [];
+		public ICollection<President> Presidents { get; set; } = [];
+
+		/// <summary>
+		/// Cashier (active/inactive) of the house organization
+		/// </summary>
+		public ICollection<Cashier> Cashiers { get; set; } = [];
 
 		/// <summary>
 		/// Collection of all units belonging to the house organization

@@ -28,12 +28,13 @@ namespace HouseManager.Infrastructure.Data
 				.ApplyConfiguration(new UnitConfiguration());
 		}
 
-		public DbSet<Manager> Managers { get; set; }
-		public DbSet<Expense> Expenses { get; set; }
+		public DbSet<President> Presidents { get; set; }
+		public DbSet<Cashier> Cashiers { get; set; }
+		//public DbSet<Expense> Expenses { get; set; }
 		public DbSet<HouseOrganization> HouseOrganizations { get; set; }
-		public DbSet<Income> Incomes { get; set; }
+		//public DbSet<Income> Incomes { get; set; }
 		public DbSet<Occupant> Occupants { get; set; }
-		public DbSet<RegisteredOccupant> RegisteredOccupants { get; set; }
+		//public DbSet<RegisteredOccupant> RegisteredOccupants { get; set; }
 		public DbSet<Unit> Units { get; set; }
 	}
 }
