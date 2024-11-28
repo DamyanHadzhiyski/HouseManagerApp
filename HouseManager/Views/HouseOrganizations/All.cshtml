@@ -3,67 +3,67 @@
 
 @if (!Model.Any())
 {
-    <form>
-        <div class="bg-light rounded h-100 p-5">
-            <h2 class="text-center">You don't have any house organizations, yet!</h2>
-            <h3 class="text-center">Do you want to add one?</h3>
-            <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
-        </div>
-    </form>
+	<form>
+		<div class="bg-light rounded p-5">
+			<h2 class="text-center">You don't have any house organizations, yet!</h2>
+			<h3 class="text-center">Do you want to add one?</h3>
+			<button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
+		</div>
+	</form>
 }
 else
 {
-    <form class="col-12">
-        <div class="bg-light rounded h-100 p-4">
-            <h4 class="mb-4">Managed House Organizations</h4>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Town</th>
-                            <th class="text-center" scope="col">Manage</th>
-                            <th class="text-center" scope="col">Details</th>
-                            <th class="text-center" scope="col">Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody class ="align-middle">
-                        @for (int i=0; i < Model.Count(); i++)
-                        {      
-                            <tr>
-                                <th scope="row">@(i+1)</th>
-                                <td>@Model[i].Name</td>
-                                <td>@Model[i].Address</td>
-                                <td>@Model[i].Town</td>
-                                @if (cache.Get("ManagedHouseOrgName") != null &&
-                                            Model[i].Name == cache.Get("ManagedHouseOrgName").ToString())
-                                {
-                                    <td class ="text-center">
-                                        <button class="btn btn-secondary rounded-pill">Manage</button>
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td class ="text-center">
-                                        <button class="btn btn-primary rounded-pill" asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model[i].Id">Manage</button>
-                                    </td>
-                                }
-                                <td class="text-center">
-                                    <button type="submit" class="btn btn-info rounded-pill" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-warning rounded-pill" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <button class="btn btn-sml btn-success m-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
-            </div>
-        </div>
-    </form>
+	<form class="col-12">
+		<div class="bg-light rounded p-4">
+			<h4 class="mb-4">Managed House Organizations</h4>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Name</th>
+							<th scope="col">Address</th>
+							<th scope="col">Town</th>
+							<th class="text-center" scope="col">Manage</th>
+							<th class="text-center" scope="col">Details</th>
+							<th class="text-center" scope="col">Edit</th>
+						</tr>
+					</thead>
+					<tbody class="align-middle">
+						@for (int i = 0; i < Model.Count(); i++)
+						{
+							<tr>
+								<th scope="row">@(i + 1)</th>
+								<td>@Model[i].Name</td>
+								<td>@Model[i].Address</td>
+								<td>@Model[i].Town</td>
+								@if (cache.Get("ManagedHouseOrgName") != null &&
+													Model[i].Name == cache.Get("ManagedHouseOrgName").ToString())
+								{
+									<td class="text-center">
+										<button class="btn btn-secondary rounded-pill">Manage</button>
+									</td>
+								}
+								else
+								{
+									<td class="text-center">
+										<button class="btn btn-primary rounded-pill" asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model[i].Id">Manage</button>
+									</td>
+								}
+								<td class="text-center">
+									<button type="submit" class="btn btn-info rounded-pill" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
+								</td>
+								<td class="text-center">
+									<button class="btn btn-warning rounded-pill" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+				<button class="btn btn-sml btn-success m-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
+			</div>
+		</div>
+	</form>
 }
 
 @section Scripts {
