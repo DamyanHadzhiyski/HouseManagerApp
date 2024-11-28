@@ -1,0 +1,42 @@
+﻿@model PresidentFormModel
+
+<form class="col-8 offset-2 bg-light rounded p-4" asp-action="Add" method=post>
+	<div>
+		<h4 class="mb-5">Add President</h4>
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.Name" class="form-control" placeholder="Name">
+			<label asp-for="@Model.Name" class="form-label"></label>
+			<span asp-validation-for="@Model.Name" class="text-danger"></span>
+		</div>
+		<div class="input date form-floating mb-3" id="startDate" data-provide="datepicker" data-date-format="dd-MM-yyyy"
+			 data-date-autoclose="true" data-date-today-Btn="true" data-date-container="#startDate" data-date-orientation="auto">
+			<div class="input-group-addon form-floating">
+				<div class="form-floating mb-3">
+					<input asp-for="@Model.StartDate" type="text" class="form-control" placeholder="Start Date (dd-MM-yyyy)">
+					<label asp-for="@Model.StartDate" class="form-label">Start Date (dd-MM-yyyy)</label>
+					<span asp-validation-for="@Model.StartDate" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+		<div class="input date form-floating mb-3" id="endDate" data-provide="datepicker" data-date-format="dd-MM-yyyy"
+			 data-date-autoclose="true" data-date-today-Btn="true" data-date-container="#endDate" data-date-orientation="auto">
+			<div class="input-group-addon">
+				<div class="form-floating mb-3">
+					<input asp-for="@Model.EndDate" type="text" class="form-control" placeholder="End Date (dd-MM-yyyy)">
+					<label asp-for="@Model.EndDate" class="form-label">End Date (dd-MM-yyyy)</label>
+					<span asp-validation-for="@Model.EndDate" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+		<div class="form-floating mb-3">
+			<input asp-for="@Model.PhoneNumber" class="form-control" placeholder="Phone Number">
+			<label asp-for="@Model.PhoneNumber" class="form-label"></label>
+			<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+		</div>
+	</div>
+	<button class="btn btn-success rounded-pill m-2" type="submit">Add</button>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

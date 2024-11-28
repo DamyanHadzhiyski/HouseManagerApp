@@ -3,8 +3,8 @@
 using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
-using static HouseManager.Infrastructure.Constants.EntityConstants;
 using static HouseManager.Core.Constants.ErrorMessages;
+using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Core.Models.Unit
 {

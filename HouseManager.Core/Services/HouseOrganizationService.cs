@@ -25,7 +25,8 @@ namespace HouseManager.Core.Services
 				Town = houseOrg.Town,
 				Address = houseOrg.Address,
 				Units = [],
-				Managers = []
+				Presidents = [],
+				Cashiers = []
 			};
 
 			await context.HouseOrganizations.AddAsync(newHouseOrg);
@@ -113,7 +114,8 @@ namespace HouseManager.Core.Services
 		public async Task<HouseOrganization?> GetByIdAsync(int houseOrgId)
 		{
 			return await context.HouseOrganizations
-									.Include(ho => ho.Managers)
+									.Include(ho => ho.Presidents)
+									.Include(ho => ho.Cashiers)
 									.Include(ho => ho.Units)
 									.ThenInclude(u => u.Occupants)
 									.FirstOrDefaultAsync(ho => ho.Id == houseOrgId);

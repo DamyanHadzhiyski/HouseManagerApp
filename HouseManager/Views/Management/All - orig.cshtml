@@ -1,0 +1,142 @@
+﻿@inject IMemoryCache cache
+
+@model List<PresidentViewModel>
+
+@{
+	ViewBag.HouseOrgId = cache.Get(ManagedHouseOrgCacheId);
+	
+}
+
+@if (!Model.Any())
+{
+	<form>
+		<div class="bg-light rounded h-100 p-5">
+			<h2 class="text-center">There is no Management assigned to @ViewBag.HouseOrgName!</h2>
+			<h3 class="text-center text-danger"><b>Having a President and a Cashier is mandatory!</b></h3>
+			<h3 class="text-center text-danger"><b>Please, assign!</b></h3>
+			<div class="row d-flex justify-content-center">
+				<button class="btn btn-lg btn-success col-2 m-4" asp-controller="Management" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add President</button>
+				<button class="btn btn-lg btn-success col-2 m-4" asp-controller="Management" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Cashier</button>
+			</div>
+		</div>
+	</form>
+}
+else
+{
+	ViewBag.Progress = $"{Model[0].Progress}%";
+
+	<form class="col-12">
+		<div class="bg-light rounded h-100 p-4">
+			<h4 class="text-center mb-4">Management</h4>
+			<hr />
+			<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
+				<div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
+					<div class="card-header fw-bold">President</div>
+					<img class="img-fluid rounded-circle mx-auto m-2"
+						 src="~/img/testimonial-1.jpg" style="width: 100px; height: 100px;">
+					<div class="card-body text-dark">
+						<h5 class="card-title">@Model[0].Name</h5>
+						<div>
+							<div class="mb-2"><i class="fa fa-phone me-3"></i>@Model[0].PhoneNumber</div>
+							<p class="text-start mb-0">Mandate progress</p>
+							<div class="progress">
+								<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @ViewBag.Progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+							</div>
+							<div class="row row-cols-2 align-content-around mb-3">
+								<div class="text-start">@Model[0].StartDate</div>
+								<div class="text-end">@Model[0].EndDate</div>
+							</div>
+						</div>
+						<button class="btn btn-warning" asp-controller="Managers" asp-action="Edit" asp-route-id="@Model[0].Id">Edit</button>
+						<button class="btn btn-info btn-danger" asp-controller="Presidents" asp-action="EndTerm" asp-route-id="@Model[0].Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
+					</div>
+				</div>
+				<div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
+					<div class="card-header fw-bold">Cashier</div>
+					<img class="img-fluid rounded-circle mx-auto m-2"
+						 src="~/img/testimonial-2.jpg" style="width: 100px; height: 100px;">
+					<div class="card-body text-dark">
+						<h5 class="card-title">@Model[0].Name</h5>
+						<div>
+							<div class="mb-2"><i class="fa fa-phone me-3"></i>@Model[0].PhoneNumber</div>
+							<p class="text-start mb-0">Mandate progress</p>
+							<div class="progress">
+								<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @ViewBag.Progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+							</div>
+							<div class="row row-cols-2 align-content-around mb-3">
+								<div class="text-start">@Model[0].StartDate</div>
+								<div class="text-end">@Model[0].EndDate</div>
+							</div>
+						</div>
+						<button class="btn btn-warning" asp-controller="Managers" asp-action="Edit" asp-route-id="@Model[0].Id">Edit</button>
+						<button type="submit" class="btn btn-info btn-danger" asp-controller="Managers" asp-action="All" asp-route-id="@Model[0].Id">End term</button>
+					</div>
+				</div>
+
+			</div>
+			<div id="previous-managements" class="row row-cols-1 row-cols-md-2 justify-content-center">
+				<div>
+					<h5>Previous presidents</h5>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Name</th>
+									<th scope="col">Start Date</th>
+									<th scope="col">End Date</th>
+									<th scope="col">Ended On Date</th>
+								</tr>
+							</thead>
+							<tbody class="align-middle">
+								@for (int i = 0; i < Model.Count(); i++)
+								{
+									<tr>
+										<th scope="row">@(i + 1)</th>
+										<td>@Model[i].Name</td>
+										<td>@Model[i].StartDate</td>
+										<td>@Model[i].EndDate</td>
+										<td>@Model[i].TerminationDate</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div>
+					<h5>Previous cashiers</h5>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Name</th>
+									<th scope="col">Start Date</th>
+									<th scope="col">End Date</th>
+									<th scope="col">Ended On Date</th>
+								</tr>
+							</thead>
+							<tbody class="align-middle">
+								@for (int i = 0; i < Model.Count(); i++)
+								{
+									<tr>
+										<th scope="row">@(i + 1)</th>
+										<td>@Model[i].Name</td>
+										<td>@Model[i].StartDate</td>
+										<td>@Model[i].EndDate</td>
+										<td>Add termination day</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</form>
+}
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

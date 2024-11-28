@@ -1,0 +1,63 @@
+﻿@inject IMemoryCache cache
+
+@model List<PresidentViewModel>
+
+@{
+	ViewBag.HouseOrgId = cache.Get(ManagedHouseOrgCacheId);
+
+}
+
+@if (ViewBag.ActivePresident == null 
+				&& ViewBag.ActiveCashier == null)
+{
+	<form>
+		<div class="bg-light rounded h-100 p-5">
+			<h2 class="text-center">There is no Management assigned to @ViewBag.HouseOrgName!</h2>
+			<h3 class="text-center text-danger"><b>Having a President and a Cashier is mandatory!</b></h3>
+			<h3 class="text-center text-danger"><b>Please, assign!</b></h3>
+			<div class="row d-flex justify-content-center">
+				<button class="btn btn-lg btn-success col-2 m-4" asp-controller="Presidents" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add President</button>
+				<button class="btn btn-lg btn-success col-2 m-4" asp-controller="Cashier" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Cashier</button>
+			</div>
+		</div>
+	</form>
+}
+else
+{
+	<form class="col-12">
+		<div class="bg-light rounded h-100 p-4">
+			<h4 class="text-center mb-4">Management</h4>
+			<hr />
+			<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
+				<div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
+					<div class="card-header fw-bold">President</div>
+					<partial name="_ActiveManagerPartial" model="@ViewBag.ActivePresident" />
+						<button class="btn btn-warning" asp-controller="Managers" asp-action="Edit" asp-route-id="@ViewBag.ActivePresident.Id">Edit</button>
+						<button class="btn btn-info btn-danger" asp-controller="Presidents" asp-action="EndTerm" asp-route-id="@ViewBag.ActivePresident.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
+				</div>
+				<div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
+					<div class="card-header fw-bold">Cashier</div>
+					<partial name="_ActiveManagerPartial" model="@ViewBag.ActiveCashier" />
+					<div>
+						<button class="btn btn-warning" asp-controller="Managers" asp-action="Edit" asp-route-id="@ViewBag.ActiveCashier.Id">Edit</button>
+						<button type="submit" class="btn btn-info btn-danger" asp-controller="Managers" asp-action="All" asp-route-id="@ViewBag.ActiveCashier.Id">End term</button>
+					</div>
+				</div>
+			</div>
+			<div id="previous-managements" class="row row-cols-1 row-cols-md-2 justify-content-center">
+				<div>
+					<h5>Previous presidents</h5>
+					<partial name="_InactiveManagerPartial" model="@ViewBag.InactivePresidents" />
+				</div>
+				<div>
+					<h5>Previous cashiers</h5>
+					<partial name="_InactiveManagerPartial" model="@ViewBag.InactiveCashiers" />
+				</div>
+			</div>
+		</div>
+	</form>
+}
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
