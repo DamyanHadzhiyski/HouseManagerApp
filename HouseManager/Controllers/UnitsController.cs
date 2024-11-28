@@ -15,7 +15,6 @@ namespace HouseManager.Controllers
     {
         #region Add New Unit
         [HttpGet]
-        //[Route("Units/Add/{houseOrgId}")]
         public IActionResult Add(int houseOrgId)
         {
             var model = new UnitFormModel();
@@ -24,7 +23,6 @@ namespace HouseManager.Controllers
         }
 
         [HttpPost]
-        //[Route("Units/Add/{houseOrgId}")]
         public async Task<IActionResult> Add(UnitFormModel model, int houseOrgId)
         {
 			//TODO: ViewBag.UnitTypes = get all unit types
