@@ -11,52 +11,52 @@ namespace HouseManager.Core.Models.Manager
 	public class PresidentFormModel : IValidatableObject
     {
         /// <summary>
-        /// Primary identifier of the board member
+        /// Primary identifier of the president
         /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Board member name
-        /// </summary>
-        [Required(ErrorMessage = FieldRequiredErrorMessage)]
+		/// <summary>
+		/// President name
+		/// </summary>
+		[Required(ErrorMessage = FieldRequiredErrorMessage)]
         [StringLength(FullNameMaxLength,
             MinimumLength = FullNameMinLength,
             ErrorMessage = FieldLengthErrorMessage)]
         public string Name { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Start date of assignment to the board member position
-        /// </summary>
-        [Required(ErrorMessage = FieldRequiredErrorMessage)]
+		/// <summary>
+		/// Start date of assignment to the president position
+		/// </summary>
+		[Required(ErrorMessage = FieldRequiredErrorMessage)]
         public DateTime StartDate { get; set; }
 
 		/// <summary>
-		/// Due date of assignment to the board member position
+		/// Due date of assignment to the president position
 		/// </summary>
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public DateTime EndDate { get; set; }
 
 
-        /// <summary>
-        /// Phone number of the board member
-        /// </summary>
-        [Required(ErrorMessage = FieldRequiredErrorMessage)]
+		/// <summary>
+		/// Phone number of the president
+		/// </summary>
+		[Required(ErrorMessage = FieldRequiredErrorMessage)]
         [RegularExpression(PhoneNumberRegEx)]
         public string PhoneNumber { get; set; } = string.Empty;
 
 		/// <summary>
-		/// House organization managed by the board member
+		/// House organization managed by the president
 		/// </summary>
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public int HouseOrganizationId { get; set; }
 
 		/// <summary>
-		/// Current status of the manager
+		/// Current status of the president
 		/// </summary>
 		public bool IsActive { get; set; }
 
 		/// <summary>
-		/// Date on which the term of the manager is terminated
+		/// Date on which the term of the president is terminated
 		/// </summary>
 		public DateTime? TerminationDate { get; set; }
 
