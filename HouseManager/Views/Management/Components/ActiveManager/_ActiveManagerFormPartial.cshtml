@@ -1,8 +1,14 @@
-﻿@model PresidentFormModel
+﻿@inject IMemoryCache cache;
 
-<form class="col-8 offset-2 bg-light rounded p-4" asp-action="Add" method=post>
+@model ActiveManagementFormModel
+
+@{
+	ViewBag.HouseOrgId = cache.Get(ManagedHouseOrgCacheId);
+}
+
+<div class="col-1 text-center mb-5 mx-3 p-0" style="width: 18rem">
 	<div>
-		<h4 class="mb-5">Add President</h4>
+		<h4>Add @Model.ManagerPosition</h4>
 		<div class="form-floating mb-3">
 			<input asp-for="@Model.Name" class="form-control" placeholder="Name">
 			<label asp-for="@Model.Name" class="form-label"></label>
@@ -34,8 +40,8 @@
 			<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
 		</div>
 	</div>
-	<button class="btn btn-success rounded-pill m-2" type="submit">Add</button>
-</form>
+	<button class="btn btn-success" type="submit" formmethod="post" asp-controller="@Model.ManagerPosition" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add</button>
+</div>
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
