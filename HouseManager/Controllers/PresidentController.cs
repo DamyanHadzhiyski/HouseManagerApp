@@ -3,17 +3,19 @@ using HouseManager.Core.Models.Manager;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
-	public class PresidentsController(
+	public class PresidentController(
 		IPresidentService presidentService) : BaseController
 	{
 		#region Show President
 		public async Task<IActionResult> Show(int houseOrgId)
 		{
-			var model = await presidentService
-								.GetActiveReadOnlyAsync(houseOrgId);
+			var model = presidentService
+							.GetActiveReadOnlyAsync(houseOrgId)
+							.FirstOrDefaultAsync();
 
 			return View(model);
 		}
@@ -55,7 +57,7 @@ namespace HouseManager.Controllers
 
 			await presidentService.AddAsync(model);
 
-			return LocalRedirect($"Management/all/{houseOrgId}");
+			return LocalRedirect($"~/Management/all/{houseOrgId}");
 		}
 		#endregion
 
