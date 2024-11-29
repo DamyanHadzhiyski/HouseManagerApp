@@ -14,9 +14,9 @@ namespace HouseManager.Core.Contracts
 
 		Task<bool> ExistsByIdAsync(int id);
 
-		Task<PresidentViewModel?> GetActiveReadOnlyAsync(int houseOrgId);
+		IQueryable<PresidentViewModel?> GetActiveReadOnlyAsync(int houseOrgId);
 
-		Task<List<PresidentViewModel>> GetAllInactiveReadOnlyAsync(int houseOrgId);
+		IQueryable<PresidentViewModel> GetAllInactiveReadOnlyAsync(int houseOrgId);
 
 		Task<bool> IsActiveAsync(int id);
 	}

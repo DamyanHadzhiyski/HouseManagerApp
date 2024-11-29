@@ -40,11 +40,12 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public async Task<List<PresidentViewModel>> GetAllInactiveReadOnlyAsync(int houseOrgId)
+		public IQueryable<PresidentViewModel> GetAllInactiveReadOnlyAsync(int houseOrgId)
 		{
-			return await context.Presidents
+			return context.Presidents
 								.AsNoTracking()
 								.Where(p => p.HouseOrganizationId == houseOrgId && p.IsActive == false)
+								.OrderByDescending(p => p.TerminationDate)
 								.Select(p => new PresidentViewModel
 								{
 									Id = p.Id,
@@ -53,27 +54,25 @@ namespace HouseManager.Core.Services
 									EndDate = p.EndDate.ToString(DateFormat),
 									PhoneNumber = p.PhoneNumber,
 									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(DateFormat) ?? "NA"
-								})
-								.ToListAsync();
+								});
 
 		}
 
-		public async Task<PresidentViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
+		public IQueryable<PresidentViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
 		{
-			return await context.Presidents
-									.AsNoTracking()
-									.Where(p => p.HouseOrganizationId == houseOrgId
-														&& p.IsActive == true)
-									.Select(p => new PresidentViewModel
-									{
-										Id = p.Id,
-										Name = p.Name,
-										StartDate = p.StartDate.ToString(DateFormat),
-										EndDate = p.EndDate.ToString(DateFormat),
-										PhoneNumber = p.PhoneNumber,
-										Progress = GetProgress(p.StartDate, p.EndDate)
-									})
-									.FirstOrDefaultAsync();
+			return context.Presidents
+							.AsNoTracking()
+							.Where(p => p.HouseOrganizationId == houseOrgId
+											&& p.IsActive == true)
+							.Select(p => new PresidentViewModel
+							{
+								Id = p.Id,
+								Name = p.Name,
+								StartDate = p.StartDate.ToString(DateFormat),
+								EndDate = p.EndDate.ToString(DateFormat),
+								PhoneNumber = p.PhoneNumber,
+								Progress = GetProgress(p.StartDate, p.EndDate)
+							});
 		}
 
 		public async Task EndTermAsync(int id)
