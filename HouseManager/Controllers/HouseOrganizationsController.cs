@@ -103,16 +103,20 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Manage(int id)
 		{
-			var houseOrg = await houseOrgService
+			var houseOrgName = await houseOrgService
 								.GetByIdReadOnly(id)
+								.Select(ho => new
+								{
+									ho.Name
+								})
 								.FirstOrDefaultAsync();
 
-			if (houseOrg == null)
+			if (houseOrgName == null)
 			{
 				BadRequest();
 			}
 
-			cache.Set(ManagedHouseOrgCacheName, houseOrg.Name);
+			cache.Set(ManagedHouseOrgCacheName, houseOrgName.Name);
 			cache.Set(ManagedHouseOrgCacheId, id);
 
 			return RedirectToAction(nameof(All), "Units", new { houseOrgId = id });
