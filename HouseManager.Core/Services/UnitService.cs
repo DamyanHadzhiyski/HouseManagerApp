@@ -41,7 +41,8 @@ namespace HouseManager.Core.Services
 									Type = u.UnitType.ToString(),
 									TotalArea = u.TotalArea.ToString("f2"),
 									CommonParts = u.CommonParts.ToString("f2"),
-									PetsCount = u.PetsCount.ToString(),
+									PetsCount = u.PetsCount,
+									OccupantsCount = u.Occupants.Count,
 									Balance = u.Balance.ToString()
 								})
 								.FirstOrDefaultAsync();

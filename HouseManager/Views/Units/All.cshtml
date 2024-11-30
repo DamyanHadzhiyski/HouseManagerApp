@@ -1,11 +1,17 @@
-﻿@model List<UnitViewModel>
+﻿@inject IMemoryCache cache
 
+@model List<UnitViewModel>
+
+@{
+    ViewBag.HouseOrgName = cache.Get(ManagedHouseOrgCacheName);
+    ViewBag.HouseOrgId = cache.Get(ManagedHouseOrgCacheId);
+}
 
 @if (!Model.Any())
 {
     <form>
         <div class="bg-light rounded h-100 p-5">
-            <h2 class="text-center">You don't have any units added, yet!</h2>
+            <h2 class="text-center">You don't have any units added in @ViewBag.HouseOrgName, yet!</h2>
             <h3 class="text-center">Do you want to add one?</h3>
             <button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Unit</button>
         </div>
@@ -15,9 +21,10 @@ else
 {
     <form class="col-12">
         <div class="bg-light rounded h-100 p-4">
-            <h4 class="mb-4">Managed Units</h4>
+            <h4 class="mb-3">Units in @ViewBag.HouseOrgName</h4>
+            <button class="btn btn-sml btn-success mb-3 mx-3" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Unit</button>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -37,16 +44,15 @@ else
                                 <td>@Model[i].Floor</td>
                                 <td>@Model[i].Type</td>
                                 <td class="text-center">
-                                    <button type="submit" class="btn btn-info" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id">Details</button>
+                                    <button type="submit" class="btn btn-outline-info rounded-bottom-circle" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info" style="width: 20px; height: 20px"></i></button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-warning" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id">Edit</button>
+                                    <button class="btn btn-outline-warning rounded-bottom-circle" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil" style="width: 20px; height: 20px"></i></button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                <button class="btn btn-sml btn-success m-4" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Unit</button>
             </div>
         </div>
     </form>

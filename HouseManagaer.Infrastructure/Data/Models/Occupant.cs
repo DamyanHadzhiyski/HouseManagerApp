@@ -32,7 +32,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// </summary>
 		[Required]
 		[Comment("Occupant date of birth")]
-		public required DateOnly BirthDate { get; set; }
+		public required DateTime BirthDate { get; set; }
 
 		/// <summary>
 		/// Flag if the occupant is owner of the unit
@@ -60,6 +60,20 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// </summary>
 		[ForeignKey(nameof(UnitId))]
 		public Unit Unit { get; set; } = null!;
-    }
+
+		/// <summary>
+		/// Date from which the occupant is in the unit
+		/// </summary>
+        [Required]
+        [Comment("Start date of the occupation")]
+        public DateTime OccupationDate { get; set; }
+
+		/// <summary>
+		/// Date on which the occupant left the unit
+		/// </summary>
+		[Required]
+		[Comment("End date of the occupation")]
+		public DateTime LeaveDate { get; set; }
+	}
 }
          

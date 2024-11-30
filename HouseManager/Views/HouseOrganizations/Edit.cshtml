@@ -19,7 +19,7 @@
 			<span asp-validation-for="@Model.Town" class="text-danger"></span>
 		</div>
 	</div>
-	<button class="btn btn-success rounded-pill m-2" type="submit" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id">Save Changes</button>
+	<button class="btn btn-success rounded-pill m-2" type="submit" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id"><i class="fa-solid fa-save"></i>Save</button>
 	<button class="btn btn-success rounded-pill m-2" type="button" value="Cancel" onclick="location.href='@Url.Action("All","HouseOrganizations")';">Cancel</button>
 </form>
 

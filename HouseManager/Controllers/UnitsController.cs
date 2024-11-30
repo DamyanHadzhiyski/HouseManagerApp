@@ -5,13 +5,16 @@ using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
 {
 	public class UnitsController(
         HouseManagerDbContext context,
+        IHouseOrganizationService houseOrgService,
         IUnitService unitService,
-        IHouseOrganizationService houseOrgService) : BaseController
+        IOccupantService occupantService) : BaseController
     {
         #region Add New Unit
         [HttpGet]
@@ -25,13 +28,8 @@ namespace HouseManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(UnitFormModel model, int houseOrgId)
         {
-			//TODO: ViewBag.UnitTypes = get all unit types
-
-			if (!ModelState.IsValid) //TODO: check if unit type exists || !unitTypes.Any(ut => ut.Id == model.TypeId))
+			if (!ModelState.IsValid)
             {
-				//TODO: ViewBag.UnitTypes = get all unit types
-
-				//TODO: Add Exception
 
 				return View(model);
             }
@@ -117,13 +115,16 @@ namespace HouseManager.Controllers
         {
             var model = await unitService.GetDetailsByIdAsync(id);
 
+            model.Occupants = await occupantService
+                                        .GetAllReadOnlyAsync(id)
+                                        .OrderByDescending(o => o.IsOwner)
+                                        .ToListAsync();
             return View(model);
         }
 		#endregion
 
 		#region Show All Units
 		[HttpGet]
-		//[Route("Units/All/{houseOrgId}")]
 		public async Task<IActionResult> All(int houseOrgId)
 		{
             if(!await houseOrgService.ExistById(houseOrgId))

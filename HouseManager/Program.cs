@@ -19,6 +19,7 @@ builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>(
 builder.Services.AddScoped<IPresidentService, PresidentService>();
 builder.Services.AddScoped<ICashierService, CashierService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
+builder.Services.AddScoped<IOccupantService, OccupantService>();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -67,7 +68,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
 	name: "AddCashier",
-	pattern: "Cashier/Add/{houseOrgId}",
+	pattern: "Cashier/Add/{model}&{houseOrgId}",
 	defaults: new { Controller = "Cashier", Action = "Add" });
 
 app.MapControllerRoute(
@@ -77,8 +78,13 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
 	name: "PresidentEndTerm",
-	pattern: "Presidents/EndTerm/{id}/{houseOrgId}",
-	defaults: new { Controller = "Presidents", Action = "EndTerm" });
+	pattern: "President/EndTerm/{id}/{houseOrgId}",
+	defaults: new { Controller = "President", Action = "EndTerm" });
+
+app.MapControllerRoute(
+	name: "AddOccupant",
+	pattern: "Occupant/Add/{unitId}",
+	defaults: new { Controller = "Occupant", Action = "Add" });
 
 app.MapDefaultControllerRoute();
 

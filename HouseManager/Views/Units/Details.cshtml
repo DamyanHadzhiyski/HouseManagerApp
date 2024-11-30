@@ -5,47 +5,102 @@
 }
 
 <div class="bg-light rounded h-100 p-4">
-	<h4 class="mb-4">@ViewBag.Name</h4>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Floor: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.Floor">
-		</div>
+	<h4 class="text-center mb-4">@ViewBag.Name</h4>
+	<hr />
+	<div class="row row-cols-1 row-cols-sm-2 justify-content-center">
+		<section class="card border-dark p-0 mb-5 mx-3 col-lg-4">
+			<h4 class="card-header p-3 text-center">Details</h4>
+			<div class="card-body bg-light justify-content-center">
+				<div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.Type" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.Type" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.Number" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.Number" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.Floor" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.Floor" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.TotalArea" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.TotalArea" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.CommonParts" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.CommonParts" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.OccupantsCount" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.OccupantsCount" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.PetsCount" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.PetsCount" class="form-control p-2" disabled>
+						</div>
+					</div>
+					<div class="form-group row align-items-center mb-3">
+						<label asp-for="@Model.Balance" class="col-lg-3 control-label text-end"></label>
+						<div class="col-lg-9">
+							<input asp-for="@Model.Balance" class="form-control p-2" disabled>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="card border-dark p-0 mb-5 mx-3 col-lg-6">
+				<h4 class="card-header pt-3 text-center">Occupants list</h4>
+			<form id="occupants-list" class="col bg-light rounded">
+				<div class="card-body p-4">
+				<button type="submit" class="btn btn-sml btn-success mb-3" asp-controller="Occupant" asp-action="Add" asp-route-unitId="@Model.Id"><i class="fa-solid fa-user-plus me-2"></i>Add Occupant</button>
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th scope="col" class="text-center">#</th>
+								<th scope="col" class="text-center">Full Name</th>
+								<th scope="col" class="text-center">Phone Number</th>
+								<th scope="col" class="text-center">Owner</th>
+								<th class="text-center" scope="col">Details</th>
+								<th class="text-center" scope="col">Edit</th>
+							</tr>
+						</thead>
+						<tbody class="align-middle">
+									@for (int i = 0; i < Model.Occupants.Count(); i++)
+									{
+									<tr>
+										<th scope="row" class="text-center">@(i + 1)</th>
+										<td>@Model.Occupants[i].FullName</td>
+										<td>@Model.Occupants[i].PhoneNumber</td>
+										<td>@Model.Occupants[i].IsOwner</td>
+										<td class="text-center">
+											<button type="submit" class="btn  btn-outline-info rounded-bottom-circle" asp-controller="Occupant" asp-action="Details" asp-route-id="@Model.Occupants[i].Id"><i class="fa-solid fa-info" style="width: 20px; height: 20px"></i></button>
+										</td>
+										<td class="text-center">
+											<button class="btn btn-outline-warning rounded-bottom-circle" asp-controller="Occupant" asp-action="Edit" asp-route-id="@Model.Occupants[i].Id"><i class="fa-solid fa-pencil" style="width: 20px; height: 20px"></i></button>
+										</td>
+									</tr>
+									}
+						</tbody>
+					</table>
+				</div>
+				</div>
+			</form>
+		</section>
 	</div>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Type: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.Type">
-		</div>
-	</div>
-	<div class="form-group row align-items-top">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Total Area: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.TotalArea m2">
-		</div>
-	</div>
-	<div class="form-group row align-items-top">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Common Parts: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.CommonParts %">
-		</div>
-	</div>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Pets: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.PetsCount">
-		</div>
-	</div>
-	<div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Balance: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.Balance">
-		</div>
-	</div>
-	@* <div class="form-group row align-items-center">
-		<label class="col-sm-2 col-form-label fw-bold text-end">Occupants: </label>
-		<div class="col-auto">
-			<input type="text" readonly disabled class="form-control-plaintext border-0" value="@Model.OccupantsCount">
-		</div>
-	</div> *@
 </div>

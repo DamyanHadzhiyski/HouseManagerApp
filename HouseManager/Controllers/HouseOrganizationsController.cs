@@ -100,6 +100,7 @@ namespace HouseManager.Controllers
 		}
 		#endregion
 
+		#region Manage House Organization
 		[HttpGet]
 		public async Task<IActionResult> Manage(int id)
 		{
@@ -119,7 +120,8 @@ namespace HouseManager.Controllers
 			cache.Set(ManagedHouseOrgCacheName, houseOrgName.Name);
 			cache.Set(ManagedHouseOrgCacheId, id);
 
-			return RedirectToAction(nameof(All), "Units", new { houseOrgId = id });
+			return RedirectToAction(nameof(All), "HouseOrganizations", new { houseOrgId = id });
 		}
+		#endregion
 	}
 }

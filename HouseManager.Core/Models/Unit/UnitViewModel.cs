@@ -3,7 +3,7 @@
 namespace HouseManager.Core.Models.Unit
 {
     /// <summary>
-    /// Model of a house organization used in the top level layers of the app
+    /// Model of a unit used in the top level layers of the app
     /// </summary>
     public class UnitViewModel
 	{

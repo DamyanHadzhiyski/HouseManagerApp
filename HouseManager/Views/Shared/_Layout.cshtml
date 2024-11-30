@@ -3,9 +3,9 @@
 @inject IMemoryCache cache
 
 @{
-	var houseOrgName = cache.Get("ManagedHouseOrgName") ?? "none";
-
-	ViewBag.ManagedHouseOrg = houseOrgName;
+	var houseOrgCacheId = cache.Get(ManagedHouseOrgCacheId);
+	var houseOrgCacheName = cache.Get(ManagedHouseOrgCacheName);
+	var houseOrgName = houseOrgCacheName ?? "none";
 
 	ViewBag.HouseOrgs = houseOrg
 							.GetAllReadOnly()
@@ -50,38 +50,38 @@
 						<label class="text-wrap text-end fw-bold col" for="houseOrgSelect">Manage House Organization</label>
 						<div class="col">
 							<select class="form-select" onchange="getHouseOrg()" id="houseOrgSelect" asp-items="@ViewBag.HouseOrgs">
-								<option disabled selected>@ViewBag.ManagedHouseOrg</option>
+								<option disabled selected>@houseOrgName</option>
 								<option disabled>.....</option>
 							</select>
 						</div>
 					</div>
-					@if (cache.Get("ManagedHouseOrgName") != null)
+					@if (houseOrgCacheName != null)
 					{
-						<a asp-controller="Management" asp-action="All" asp-route-houseOrgId="@cache.Get("ManagedHouseOrgId")" class="nav-item nav-link text-dark"><i class="fa fa-user-tie me-2"></i>Management</a>
-						<a asp-controller="Units" asp-action="All" asp-route-houseOrgId="@cache.Get("ManagedHouseOrgId")" class="nav-item nav-link text-dark"><i class="fa fa-key me-2"></i>Units</a>
-						<a asp-controller="Finances" asp-action="All" asp-route-houseOrgId="@cache.Get("ManagedHouseOrgId")" class="nav-item nav-link text-dark"><i class="fa-solid fa-circle-dollar-to-slot me-2"></i>Finances</a>
+						<a asp-controller="Management" asp-action="All" asp-route-houseOrgId="@houseOrgCacheId" class="nav-item nav-link text-dark"><i class="fa fa-user-tie me-2"></i>Management</a>
+						<a asp-controller="Units" asp-action="All" asp-route-houseOrgId="@houseOrgCacheId" class="nav-item nav-link text-dark"><i class="fa fa-key me-2"></i>Units</a>
+						<a asp-controller="Finances" asp-action="All" asp-route-houseOrgId="@houseOrgCacheId" class="nav-item nav-link text-dark"><i class="fa-solid fa-circle-dollar-to-slot me-2"></i>Finances</a>
 					}
 
 				}
 				<partial name="_LoginPartial" />
 			</nav>
 			<div class="container-fluid d-flex flex-fill pt-4 px-4">
-				<div class="row bg-light d-flex flex-fill rounded align-items-top justify-content-center mx-0">
-					<main role="main" class="main p-3">
-						@if (TempData["Errors"] != null)
-						{
-							List<string> errors = TempData["Errors"] as List<string>;
+				<div class="row bg-light d-flex flex-fill rounded align-items-top mx-0">
+					@if (TempData["Errors"] != null)
+					{
+						List<string> errors = TempData["Errors"] as List<string>;
 
-							foreach (var error in errors)
-							{
-								<div class="alert alert-danger alert-dismissible fade show" role="alert">
-									@error
-									<button type="button" class="btn-close"
-											data-bs-dismiss="alert" aria-label="Close">
-									</button>
-								</div>
-							}
+						foreach (var error in errors)
+						{
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								@error
+								<button type="button" class="btn-close"
+										data-bs-dismiss="alert" aria-label="Close">
+								</button>
+							</div>
 						}
+					}
+					<main role="main" class="main p-3" style="position: center">
 						@RenderBody()
 					</main>
 				</div>

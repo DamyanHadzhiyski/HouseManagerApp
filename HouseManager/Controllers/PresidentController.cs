@@ -10,26 +10,18 @@ namespace HouseManager.Controllers
 	public class PresidentController(
 		IPresidentService presidentService) : BaseController
 	{
-		#region Show President
-		public async Task<IActionResult> Show(int houseOrgId)
-		{
-			var model = presidentService
-							.GetActiveReadOnlyAsync(houseOrgId)
-							.FirstOrDefaultAsync();
-
-			return View(model);
-		}
-		#endregion
-
 		#region Add President
 		[HttpGet]
 		public IActionResult Add(int houseOrgId)
 		{
-			var model = new PresidentFormModel();
+			var model = new ActiveManagementFormModel();
 
-			return View(model);
+			//return RedirectToAction("All", "Management", new {houseOrgId});
+
+			return ViewComponent("ActiveManager");
 		}
 
+		[HttpPost]
 		public async Task<IActionResult> Add(PresidentFormModel model, int houseOrgId)
 		{
 			if (await presidentService.ActiveExistsAsync(houseOrgId))
@@ -100,8 +92,20 @@ namespace HouseManager.Controllers
 		//	return RedirectToAction(nameof(All));
 		//}
 		#endregion
-		[HttpGet]
+
+		#region Show President
+		public async Task<IActionResult> Show(int houseOrgId)
+		{
+			var model = presidentService
+							.GetActiveReadOnlyAsync(houseOrgId)
+							.FirstOrDefaultAsync();
+
+			return View(model);
+		}
+		#endregion
+
 		#region End Term
+		[HttpGet]
 		public async Task<IActionResult> EndTerm(int id,int houseOrgId)
 		{
 			if (!await presidentService.ExistsByIdAsync(id))

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using HouseManager.Core.Models.OccupantModels;
+
 namespace HouseManager.Core.Models.Unit
 {
     /// <summary>
@@ -23,12 +25,23 @@ namespace HouseManager.Core.Models.Unit
 		/// <summary>
 		/// Number of pats that are going out in the common areas
 		/// </summary>
+		[Display(Name = "Occupants Count")]
+		public int OccupantsCount { get; set; }
+
+		/// <summary>
+		/// Number of pats that are going out in the common areas
+		/// </summary>
 		[Display(Name = "Pets Count")]
-		public string PetsCount { get; set; } = string.Empty;
+		public int PetsCount { get; set; }
 
 		/// <summary>
 		/// The credit/debit of the unit
 		/// </summary>
 		public string Balance { get; set; } = string.Empty;
+
+		/// <summary>
+		/// List with information for the unit occupants
+		/// </summary>
+		public List<OccupantViewModel> Occupants { get; set; } = [];
 	}
 }

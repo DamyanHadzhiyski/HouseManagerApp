@@ -25,9 +25,9 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public IActionResult Add(int houseOrgId)
 		{
-			var model = new CashierFormModel();
+			//var model = new ActiveManagementFormModel();
 
-			return View("_ActiveManagerFromPartial", model);
+			return RedirectToAction("All", "Management");
 		}
 
 		[HttpPost]
