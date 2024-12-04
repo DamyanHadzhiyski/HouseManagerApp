@@ -48,13 +48,9 @@
 					<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
 				</div>
 				<div class="row justify-content-center">
-					<button asp-controller="@Model.Position" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
+					<button asp-controller="Management" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </section>
-
-@section Scripts {
-	<partial name="_ValidationScriptsPartial" />
-}

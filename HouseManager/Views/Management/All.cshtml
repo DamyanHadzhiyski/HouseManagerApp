@@ -1,6 +1,9 @@
 ﻿@inject IMemoryCache cache
 
-@model ActiveManagementFormModel
+@{
+	var emptyPresidentModel = new ActiveManagementFormModel() { Position = ManagerPosition.President };
+	var emptyCashierModel = new ActiveManagementFormModel() { Position = ManagerPosition.Cashier };
+}
 
 <form class="col-12">
 	<div class="bg-light rounded h-100 p-4">
@@ -9,21 +12,16 @@
 		<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
 			@if (ViewBag.ActivePresident == null)
 			{
-				<partial name="_ActiveManagerFormPartial" model="@new ActiveManagementFormModel()" />
+				<partial name="_ActiveManagerFormPartial" model="@emptyPresidentModel" />
 			}
 			else
 			{
-				if (Model != null)
-				{
-					<partial name="_ActiveManagerFormPartial" model="@Model" />
-				}
-
 				<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActivePresident" />
 			}
 
 			@if (ViewBag.ActiveCashier == null)
 			{
-				<partial name="_ActiveManagerFormPartial" model="@new ActiveManagementFormModel()" />
+				<partial name="_ActiveManagerFormPartial" model="@emptyCashierModel" />
 			}
 			else
 			{
@@ -42,3 +40,7 @@
 		</div>
 	</div>
 </form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

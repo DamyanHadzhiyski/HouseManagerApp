@@ -1,9 +1,8 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Enums;
-using HouseManager.Core.Models.Manager;
+using HouseManager.Core.Models.Management;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
-using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +19,7 @@ namespace HouseManager.Core.Services
 			{
 				Name = model.Name,
 				PhoneNumber = model.PhoneNumber,
-				Position = ManagerPosition.President,
+				Position = model.Position,
 				StartDate = model.StartDate,
 				EndDate = GetEndDate(model.StartDate, model.TermPeriod),
 				HouseOrganizationId = model.HouseOrganizationId,
@@ -43,25 +42,9 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public IQueryable<InactiveManagementViewModel> GetAllInactiveReadOnlyAsync(int houseOrgId)
-		{
-			return context.Managers
-								.AsNoTracking()
-								.Where(p => p.HouseOrganizationId == houseOrgId && p.IsActive == false)
-								.OrderByDescending(p => p.TerminationDate)
-								.Select(p => new InactiveManagementViewModel
-								{
-									Name = p.Name,
-									StartDate = p.StartDate.ToString(DateFormat),
-									EndDate = p.EndDate.ToString(DateFormat),
-									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(DateFormat) ?? "NA"
-								});
-
-		}
-
 		public IQueryable<ActiveManagementViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
 		{
-			return context.Managers
+			var test = context.Managers
 							.AsNoTracking()
 							.Where(p => p.HouseOrganizationId == houseOrgId
 											&& p.IsActive == true)
@@ -69,11 +52,31 @@ namespace HouseManager.Core.Services
 							{
 								Id = p.Id,
 								Name = p.Name,
+								Position = p.Position,
 								StartDate = p.StartDate.ToString(DateFormat),
 								EndDate = p.EndDate.ToString(DateFormat),
 								PhoneNumber = p.PhoneNumber,
 								Progress = GetProgress(p.StartDate, p.EndDate)
 							});
+
+			return test;
+		}
+
+		public IQueryable<InactiveManagementViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId)
+		{
+			var test = context.Managers
+								.AsNoTracking()
+								.Where(p => p.HouseOrganizationId == houseOrgId && p.IsActive == false)
+								.OrderByDescending(p => p.TerminationDate)
+								.Select(p => new InactiveManagementViewModel
+								{
+									Name = p.Name,
+									Position = p.Position,
+									StartDate = p.StartDate.ToString(DateFormat),
+									EndDate = p.EndDate.ToString(DateFormat),
+									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(DateFormat) ?? "NA"
+								});
+			return test;
 		}
 
 		public async Task<int> EndTermAsync(int id)

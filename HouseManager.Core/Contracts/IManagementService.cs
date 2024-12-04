@@ -1,4 +1,4 @@
-﻿using HouseManager.Core.Models.Manager;
+﻿using HouseManager.Core.Models.Management;
 using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
@@ -19,7 +19,7 @@ namespace HouseManager.Core.Contracts
 
 		IQueryable<ActiveManagementViewModel?> GetActiveReadOnlyAsync(int houseOrgId);
 
-		IQueryable<InactiveManagementViewModel> GetAllInactiveReadOnlyAsync(int houseOrgId);
+		IQueryable<InactiveManagementViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId);
 
 		Task<bool> IsActiveAsync(int id);
 	}

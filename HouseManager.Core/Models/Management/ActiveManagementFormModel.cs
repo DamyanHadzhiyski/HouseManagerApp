@@ -6,7 +6,7 @@ using HouseManager.Infrastructure.Enums;
 using static HouseManager.Core.Constants.ErrorMessages;
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
-namespace HouseManager.Core.Models.Manager
+namespace HouseManager.Core.Models.Management
 {
 	/// <summary>
 	/// Model of a manager used for add/edit functionalities on the top level layers of the app

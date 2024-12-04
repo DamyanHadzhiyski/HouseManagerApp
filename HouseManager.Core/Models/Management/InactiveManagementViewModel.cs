@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HouseManager.Core.Models.Manager
+using HouseManager.Infrastructure.Enums;
+
+namespace HouseManager.Core.Models.Management
 {
 	/// <summary>
 	/// Model of a inactive manager used for visualization at the top level layers of the app
@@ -16,7 +18,7 @@ namespace HouseManager.Core.Models.Manager
 		/// Position of the manager
 		/// </summary>
 		[Display(Name = "Manager Position")]
-		public string Position { get; set; } = string.Empty;
+		public ManagerPosition Position { get; set; }
 
 		/// <summary>
 		/// Start date of assignment to the position
