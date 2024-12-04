@@ -13,7 +13,7 @@
 
 <div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
 	<form method=post>
-		<div class="card-header text-white bg-danger fw-bold">Add @Model.ManagerPosition</div>
+		<div class="card-header text-white bg-danger fw-bold">Add @Model.Position</div>
 		<div class="form-floating mb-3 mt-2 mx-3">
 			<input asp-for="@Model.Name" class="form-control" placeholder="Name">
 			<label asp-for="@Model.Name" class="form-label"></label>
@@ -40,6 +40,6 @@
 			<label asp-for="@Model.PhoneNumber" class="form-label"></label>
 			<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
 		</div>
-		<button class="btn btn-success mb-3" type="submit" asp-controller="@Model.ManagerPosition" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add</button>
+		<button class="btn btn-success mb-3" type="submit" asp-controller="@Model.Position" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add</button>
 	</form>
 </div>

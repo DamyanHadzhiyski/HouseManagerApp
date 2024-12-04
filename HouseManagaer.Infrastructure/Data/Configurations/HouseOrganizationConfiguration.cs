@@ -19,13 +19,7 @@ namespace HouseManager.Infrastructure.Data.Configurations
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder
-				.HasMany(h => h.Presidents)
-				.WithOne(m => m.HouseOrganization)
-				.HasForeignKey(m => m.HouseOrganizationId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			builder
-				.HasMany(h => h.Cashiers)
+				.HasMany(h => h.Managers)
 				.WithOne(m => m.HouseOrganization)
 				.HasForeignKey(m => m.HouseOrganizationId)
 				.OnDelete(DeleteBehavior.Restrict);

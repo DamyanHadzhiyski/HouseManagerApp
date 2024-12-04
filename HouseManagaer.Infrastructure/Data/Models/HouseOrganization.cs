@@ -59,14 +59,10 @@ namespace HouseManager.Infrastructure.Data.Models
         public IdentityUser Creator { get; set; } = null!;
 
         /// <summary>
-        /// Presidents (active/inactive) of the house organization
+        /// Active/inactive managers of the house organization
         /// </summary>
-        public ICollection<President> Presidents { get; set; } = [];
+        public ICollection<Manager> Managers { get; set; } = [];
 
-		/// <summary>
-		/// Cashier (active/inactive) of the house organization
-		/// </summary>
-		public ICollection<Cashier> Cashiers { get; set; } = [];
 
 		/// <summary>
 		/// Collection of all units belonging to the house organization

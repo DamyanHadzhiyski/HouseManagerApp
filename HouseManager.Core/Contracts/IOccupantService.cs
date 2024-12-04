@@ -2,7 +2,7 @@
 
 namespace HouseManager.Core.Contracts
 {
-    public interface IOccupantService
+	public interface IOccupantService
 	{
 		Task<int> AddAsync(OccupantFormModel model);
 

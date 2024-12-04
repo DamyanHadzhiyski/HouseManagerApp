@@ -9,7 +9,7 @@
 		<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
 			@if (ViewBag.ActivePresident == null)
 			{
-				<partial name="_ActiveManagerFormPartial" model="@new PresidentFormModel()" />
+				<partial name="_ActiveManagerFormPartial" model="@new ActiveManagementFormModel()" />
 			}
 			else
 			{
@@ -23,7 +23,7 @@
 
 			@if (ViewBag.ActiveCashier == null)
 			{
-				<partial name="_ActiveManagerFormPartial" model="@new CashierFormModel()" />
+				<partial name="_ActiveManagerFormPartial" model="@new ActiveManagementFormModel()" />
 			}
 			else
 			{

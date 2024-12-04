@@ -1,7 +1,7 @@
 ﻿@model ActiveManagementViewModel
 
 <div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
-	<div class="card-header fw-bold">@Model.ManagerPosition</div>
+	<div class="card-header fw-bold">@Model.Position</div>
 	@* <img class="img-fluid rounded-circle mx-auto m-2"
 		 src="~/img/testimonial-1.jpg" style="width: 100px; height: 100px;" /> *@
 	<div class="card-body text-dark">
@@ -17,7 +17,7 @@
 				<div class="text-end">@Model.EndDate</div>
 			</div>
 		</div>
-		<button class="btn btn-warning" asp-controller="@Model.ManagerPosition" asp-action="Edit" asp-route-id="@ViewBag.ActivePresident.Id">Edit</button>
-		<button class="btn btn-danger" asp-controller="@Model.ManagerPosition" asp-action="EndTerm" asp-route-id="@ViewBag.ActivePresident.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
+		<button class="btn btn-warning" asp-controller="@Model.Position" asp-action="Edit" asp-route-id="@ViewBag.ActivePresident.Id">Edit</button>
+		<button class="btn btn-danger" asp-controller="@Model.Position" asp-action="EndTerm" asp-route-id="@ViewBag.ActivePresident.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
 	</div>
 </div>

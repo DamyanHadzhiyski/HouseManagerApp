@@ -1,18 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
+
 using HouseManager.Core.Enums;
+using HouseManager.Infrastructure.Enums;
+
 using static HouseManager.Core.Constants.ErrorMessages;
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Core.Models.Manager
 {
-    /// <summary>
-    /// Model of a board member used in the top level layers of the app
-    /// </summary>
-    public class ActiveManagementFormModel
+	/// <summary>
+	/// Model of a manager used for add/edit functionalities on the top level layers of the app
+	/// </summary>
+	public class ActiveManagementFormModel
     {
         /// <summary>
-        /// Primary identifier of the board member
+        /// Primary identifier of the manager
         /// </summary>
         public int Id { get; set; }
 
@@ -26,7 +28,7 @@ namespace HouseManager.Core.Models.Manager
         public string Name { get; set; } = string.Empty;
 
         [Display(Name="Manager Position")]
-        public string ManagerPosition { get; set; } = string.Empty;
+        public ManagerPosition Position { get; set; }
 
         /// <summary>
         /// Start date of assignment to the management position

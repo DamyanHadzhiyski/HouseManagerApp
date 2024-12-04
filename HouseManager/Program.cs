@@ -16,8 +16,7 @@ builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
 
 builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>();
-builder.Services.AddScoped<IPresidentService, PresidentService>();
-builder.Services.AddScoped<ICashierService, CashierService>();
+builder.Services.AddScoped<IManagementService, ManagementService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IOccupantService, OccupantService>();
 

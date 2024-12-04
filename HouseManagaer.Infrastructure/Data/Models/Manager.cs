@@ -1,16 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using HouseManager.Infrastructure.Enums;
+
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
-namespace HouseManager.Infrastructure.Data.Models.Base
+namespace HouseManager.Infrastructure.Data.Models
 {
-    /// <summary>
-    /// Entity, on which the president and cashier of the home organizations will be based
-    /// </summary>
-    public class Manager
-    { 
+	/// <summary>
+	/// Entity, that holds information for the president and cashier of the home organizations
+	/// </summary>
+	public class Manager
+    {
         /// <summary>
         /// Primary identifier
         /// </summary>
@@ -26,10 +29,17 @@ namespace HouseManager.Infrastructure.Data.Models.Base
         [Comment("Full name")]
         public required string Name { get; set; }
 
-        /// <summary>
-        /// Start date of assignment to the position
-        /// </summary>
-        [Required]
+		/// <summary>
+		/// Position of the manager
+		/// </summary>
+		[Required]
+		[Comment("Position")]
+		public required ManagerPosition Position { get; set; }
+
+		/// <summary>
+		/// Start date of assignment to the position
+		/// </summary>
+		[Required]
         [Comment("Start date of assignment to the position")]
         public required DateTime StartDate { get; set; }
 
@@ -39,7 +49,6 @@ namespace HouseManager.Infrastructure.Data.Models.Base
         [Required]
         [Comment("Due date of assignment to the position")]
         public required DateTime EndDate { get; set; }
-
 
         /// <summary>
         /// Phone number

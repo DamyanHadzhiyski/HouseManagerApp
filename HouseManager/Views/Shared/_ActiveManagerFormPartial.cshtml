@@ -9,7 +9,7 @@
 
 <section class="row justify-content-center mb-4">
 	<div class="card border-dark p-0 col-8 col-xl-8">
-		<div class="card-header text-white text-center bg-danger fw-bold">Add @Model.ManagerPosition</div>
+		<div class="card-header text-white text-center bg-danger fw-bold">Add @Model.Position</div>
 		<div class="card-body bg-light rounded p-4 p-0">
 			<form method=post>
 				<div class="form-group row mb-3">
@@ -48,7 +48,7 @@
 					<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
 				</div>
 				<div class="row justify-content-center">
-					<button asp-controller="@Model.ManagerPosition" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
+					<button asp-controller="@Model.Position" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
 				</div>
 			</form>
 		</div>
