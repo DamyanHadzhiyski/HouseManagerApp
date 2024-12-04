@@ -1,4 +1,5 @@
 ﻿using HouseManager.Core.Models.Manager;
+using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
 {
@@ -10,9 +11,11 @@ namespace HouseManager.Core.Contracts
 
 		Task EditAsync(PresidentFormModel model);
 
-		Task EndTermAsync(int id);
+		Task<int> EndTermAsync(int id);
 
 		Task<bool> ExistsByIdAsync(int id);
+
+		Task<President?> GetByIdAsync(int id);
 
 		IQueryable<PresidentViewModel?> GetActiveReadOnlyAsync(int houseOrgId);
 

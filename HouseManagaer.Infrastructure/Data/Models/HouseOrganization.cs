@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
@@ -43,10 +45,23 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Comment("Town of the House Organization")]
         public required string Town { get; set; }
 
-		/// <summary>
-		/// Presidents (active/inactive) of the house organization
-		/// </summary>
-		public ICollection<President> Presidents { get; set; } = [];
+        /// <summary>
+        /// User that created the House Organization
+        /// </summary>
+        [Required]
+        [Comment("Creator of the House Organization")]
+        public required string CreatorId { get; set; }
+
+        /// <summary>
+        /// Navigation property to the users table
+        /// </summary>
+        [ForeignKey(nameof(CreatorId))]
+        public IdentityUser Creator { get; set; } = null!;
+
+        /// <summary>
+        /// Presidents (active/inactive) of the house organization
+        /// </summary>
+        public ICollection<President> Presidents { get; set; } = [];
 
 		/// <summary>
 		/// Cashier (active/inactive) of the house organization

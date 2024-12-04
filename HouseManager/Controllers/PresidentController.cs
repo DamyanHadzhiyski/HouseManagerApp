@@ -14,11 +14,11 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public IActionResult Add(int houseOrgId)
 		{
-			var model = new ActiveManagementFormModel();
+			var emptyModel = new PresidentFormModel();
 
 			//return RedirectToAction("All", "Management", new {houseOrgId});
 
-			return ViewComponent("ActiveManager");
+			return ViewComponent("ActiveManager", new {model = emptyModel, position = "President"});
 		}
 
 		[HttpPost]
@@ -54,43 +54,42 @@ namespace HouseManager.Controllers
 		#endregion
 
 		#region Edit President
-		//[HttpGet]
-		//public async Task<IActionResult> Edit(int id)
-		//{
-		//	var boardMember = await managerService.GetBoardMemberByIdAsync(id);
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			var president = await presidentService
+									.GetByIdAsync(id);
 
-		//	if (boardMember == null)
-		//	{
-		//		///TODO: Add exception logic
-		//	}
+			if (president == null)
+			{
+				///TODO: Add exception logic
+			}
 
-		//	var model = new ManagerViewModel
-		//	{
-		//		Id = boardMember.Id,
-		//		Name = boardMember.Name,
-		//		Position = boardMember.Position,
-		//		StartDate = boardMember.StartDate,
-		//		EndDate = boardMember.EndDate,
-		//		PhoneNumber = boardMember.PhoneNumber
-		//	};
+			var model = new PresidentFormModel
+			{
+				Id = president.Id,
+				Name = president.Name,
+				StartDate = president.StartDate,
+				PhoneNumber = president.PhoneNumber
+			};
 
-		//	return View(model);
-		//}
+			return LocalRedirect("~/Management/All"/, model);
+		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> Edit(ManagerViewModel model)
-		//{
-		//	if (!ModelState.IsValid)
-		//	{
-		//		//TODO: exception logic
+		[HttpPost]
+		public async Task<IActionResult> Edit(PresidentFormModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				//TODO: exception logic
 
-		//		return View(model);
-		//	}
+				return View(model);
+			}
 
-		//	await boardMemberService.EditBoardMemberAsync(model);
+			await presidentService.EditAsync(model);
 
-		//	return RedirectToAction(nameof(All));
-		//}
+			return RedirectToAction("All", "Management", new { model.HouseOrganizationId });
+		}
 		#endregion
 
 		#region Show President
@@ -106,7 +105,7 @@ namespace HouseManager.Controllers
 
 		#region End Term
 		[HttpGet]
-		public async Task<IActionResult> EndTerm(int id,int houseOrgId)
+		public async Task<IActionResult> EndTerm(int id)
 		{
 			if (!await presidentService.ExistsByIdAsync(id))
 			{
@@ -118,7 +117,7 @@ namespace HouseManager.Controllers
 				return BadRequest();
 			}
 
-			await presidentService.EndTermAsync(id);
+			var houseOrgId = await presidentService.EndTermAsync(id);
 
 			return LocalRedirect($"~/Management/all/{houseOrgId}");
 		}

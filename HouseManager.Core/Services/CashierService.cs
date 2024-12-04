@@ -1,4 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
+using HouseManager.Core.Enums;
 using HouseManager.Core.Models.Manager;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
@@ -19,7 +20,7 @@ namespace HouseManager.Core.Services
 				Name = model.Name,
 				PhoneNumber = model.PhoneNumber,
 				StartDate = model.StartDate,
-				EndDate = model.EndDate,
+				EndDate = GetEndDate(model.StartDate, model.TermPeriod),
 				HouseOrganizationId = model.HouseOrganizationId,
 				IsActive = true
 			};
@@ -35,7 +36,7 @@ namespace HouseManager.Core.Services
 			cashier.Name = model.Name;
 			cashier.PhoneNumber = model.PhoneNumber;
 			cashier.StartDate = model.StartDate;
-			cashier.EndDate = model.EndDate;
+			cashier.EndDate = GetEndDate(model.StartDate, model.TermPeriod);
 
 			await context.SaveChangesAsync();
 		}
@@ -75,14 +76,16 @@ namespace HouseManager.Core.Services
 							});
 		}
 
-		public async Task EndTermAsync(int id)
+		public async Task<int> EndTermAsync(int id)
 		{
 			var cashier = await GetByIdAsync(id);
 
 			cashier.IsActive = false;
 			cashier.TerminationDate = DateTime.Now;
+
 			await context.SaveChangesAsync();
 
+			return cashier.HouseOrganizationId;
 		}
 
 		public async Task<bool> ExistsByIdAsync(int id)
@@ -109,6 +112,7 @@ namespace HouseManager.Core.Services
 								.AnyAsync(p => p.Id == id && p.IsActive == true);
 		}
 
+		#region Private Methods
 		private static string GetProgress(DateTime startDate, DateTime endDate)
 		{
 			var range = (endDate - startDate).TotalDays;
@@ -117,5 +121,11 @@ namespace HouseManager.Core.Services
 
 			return progress.ToString();
 		}
+
+		private static DateTime GetEndDate(DateTime startDate, TermPeriod termPeriod)
+		{
+			return startDate.AddMonths((int)termPeriod);
+		}
+		#endregion
 	}
 }

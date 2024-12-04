@@ -30,6 +30,13 @@ namespace HouseManager.Core.Contracts
         IQueryable<HouseOrganizationViewModel> GetAllReadOnly();
 
 		/// <summary>
+		/// Method that returns readonly information for all House Organization created by a specifgic user as a view model
+		/// </summary>
+		/// <returns></returns>
+		IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId);
+
+
+		/// <summary>
 		///  Method that returns readonly detailed information for specific House Organization as a view model
 		/// </summary>
 		/// <param name="houseOrgId"></param>

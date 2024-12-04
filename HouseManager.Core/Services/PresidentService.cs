@@ -1,4 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
+using HouseManager.Core.Enums;
 using HouseManager.Core.Models.Manager;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
@@ -19,7 +20,7 @@ namespace HouseManager.Core.Services
 				Name = model.Name,
 				PhoneNumber = model.PhoneNumber,
 				StartDate = model.StartDate,
-				EndDate = model.EndDate,
+				EndDate = GetEndDate(model.StartDate, model.TermPeriod),
 				HouseOrganizationId = model.HouseOrganizationId,
 				IsActive = true
 			};
@@ -35,7 +36,7 @@ namespace HouseManager.Core.Services
 			president.Name = model.Name;
 			president.PhoneNumber = model.PhoneNumber;
 			president.StartDate = model.StartDate;
-			president.EndDate = model.EndDate;
+			president.EndDate = GetEndDate(model.StartDate, model.TermPeriod);
 
 			await context.SaveChangesAsync();
 		}
@@ -75,25 +76,22 @@ namespace HouseManager.Core.Services
 							});
 		}
 
-		public async Task EndTermAsync(int id)
+		public async Task<int> EndTermAsync(int id)
 		{
 			var president = await GetByIdAsync(id);
 
 			president.IsActive = false;
 			president.TerminationDate = DateTime.Now;
+
 			await context.SaveChangesAsync();
 
+			return president.HouseOrganizationId;
 		}
 
 		public async Task<bool> ExistsByIdAsync(int id)
 		{
 			return await context.Presidents
 								.AnyAsync(p => p.Id == id);
-		}
-
-		private async Task<President?> GetByIdAsync(int id)
-		{
-			return await context.Presidents.FindAsync(id);
 		}
 
 		public async Task<bool> ActiveExistsAsync(int houseOrgId)
@@ -109,6 +107,12 @@ namespace HouseManager.Core.Services
 								.AnyAsync(p => p.Id == id && p.IsActive == true);
 		}
 
+		public async Task<President?> GetByIdAsync(int id)
+		{
+			return await context.Presidents.FindAsync(id);
+		}
+
+		#region Private Methods
 		private static string GetProgress(DateTime startDate, DateTime endDate)
 		{
 			var range = (endDate - startDate).TotalDays;
@@ -117,5 +121,11 @@ namespace HouseManager.Core.Services
 
 			return progress.ToString();
 		}
+
+		private static DateTime GetEndDate(DateTime startDate, TermPeriod termPeriod)
+		{
+			return startDate.AddMonths((int)termPeriod);
+		}
+		#endregion
 	}
 }

@@ -2,10 +2,12 @@
 using HouseManager.Core.Models.HouseOrganization;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 using static HouseManager.Constants.HouseOrganizationConstants;
+using System.Security.Claims;
 
 namespace HouseManager.Controllers
 {
@@ -18,6 +20,8 @@ namespace HouseManager.Controllers
 		public IActionResult Add()
 		{
 			var model = new HouseOrganizationFormModel();
+
+			model.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			return View(model);
 		}
@@ -67,7 +71,7 @@ namespace HouseManager.Controllers
 
 			await houseOrgService.EditAsync(model);
 
-			return RedirectToAction(nameof(Details), "HouseOrganizations", new {id = model.Id});
+			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id = model.Id });
 		}
 		#endregion
 
@@ -92,8 +96,10 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> All()
 		{
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
 			var model = await houseOrgService
-							.GetAllReadOnly()
+							.GetAllByCreatorReadOnly(userId)
 							.ToListAsync();
 
 			return View(model);
@@ -121,6 +127,16 @@ namespace HouseManager.Controllers
 			cache.Set(ManagedHouseOrgCacheId, id);
 
 			return RedirectToAction(nameof(All), "HouseOrganizations", new { houseOrgId = id });
+		}
+		#endregion
+
+		#region Join House Organization
+		[HttpGet]
+		public IActionResult Join(int id)
+		{
+			var model = new HouseOrganizationJoinModel();
+
+			return View(model);
 		}
 		#endregion
 	}

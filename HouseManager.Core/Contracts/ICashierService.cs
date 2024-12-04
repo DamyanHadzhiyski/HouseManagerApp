@@ -10,7 +10,7 @@ namespace HouseManager.Core.Contracts
 
 		Task EditAsync(CashierFormModel model);
 
-		Task EndTermAsync(int id);
+		Task<int> EndTermAsync(int id);
 
 		Task<bool> ExistsByIdAsync(int id);
 

@@ -1,14 +1,16 @@
 ﻿@inject IMemoryCache cache
+
 @model List<HouseOrganizationViewModel>
+
+
 
 @if (!Model.Any())
 {
-	<form>
-		<div class="bg-light rounded p-5">
-			<h2 class="text-center">You don't have any house organizations, yet!</h2>
-			<h3 class="text-center">Do you want to add one?</h3>
-			<button class="btn btn-lg btn-success col-4 offset-4 mt-4" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
-		</div>
+	<form class="row justify-content-center">
+		<h2 class="text-center">You don't have any house organizations!</h2>
+		<h3 class="text-center">What do you want to do?</h3>
+		<button class="btn btn-lg btn-success col-6 col-md-2 text-center m-4" asp-controller="HouseOrganizations" asp-action="Add"><i class="fa-solid fa-house-medical me-2"></i>Add House Organization</button>
+		<button class="btn btn-lg btn-success col-6 col-md-2 text-center m-4" asp-controller="HouseOrganizations" asp-action="Join"><i class="fa-solid fa-house-user me-2"></i>Join House Organization</button>
 	</form>
 }
 else
@@ -16,18 +18,18 @@ else
 	<form class="col-12">
 		<div class="bg-light rounded p-4">
 			<h4 class="mb-3">Created House Organizations</h4>
-			<button class="btn btn-sml btn-success mb-3 mx-3" asp-controller="HouseOrganizations" asp-action="Add">Add House Organization</button>
-			<div class="table-responsive">
+			<button class="btn btn-sml btn-success mb-3 mx-3" asp-controller="HouseOrganizations" asp-action="Add"><i class="fa-solid fa-house-medical me-2"></i>Add House Organization</button>
+			<div class="table-responsive col-10">
 				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
-							<th class="text-center" scope="col">#</th>
-							<th class="text-center" scope="col">Name</th>
-							<th class="text-center" scope="col">Address</th>
-							<th class="text-center" scope="col">Town</th>
-							<th class="text-center" scope="col">Manage</th>
-							<th class="text-center" scope="col">Details</th>
-							<th class="text-center" scope="col">Edit</th>
+							<th class="text-center col-1" scope="col">#</th>
+							<th class="text-center col-2" scope="col">Name</th>
+							<th class="text-center col-3" scope="col">Address</th>
+							<th class="text-center col-3" scope="col">Town</th>
+							<th class="text-center col-1" scope="col">Manage</th>
+							<th class="text-center col-1" scope="col">Details</th>
+							<th class="text-center col-1" scope="col">Edit</th>
 						</tr>
 					</thead>
 					<tbody class="align-middle">
@@ -35,26 +37,26 @@ else
 						{
 							<tr>
 								<th class="text-center" scope="row">@(i + 1)</th>
-								<td>@Model[i].Name</td>
-								<td>@Model[i].Address</td>
-								<td>@Model[i].Town</td>
+								<td class="bg-white">@Model[i].Name</td>
+								<td class="bg-white">@Model[i].Address</td>
+								<td class="bg-white">@Model[i].Town</td>
 								@if (cache.Get("ManagedHouseOrgName") != null &&
 													Model[i].Name == cache.Get("ManagedHouseOrgName").ToString())
 								{
-									<td class="text-center">
+									<td class="text-center bg-white">
 										<button class="btn btn-success rounded-bottom-circle"><i class="fa-solid fa-check" style="width: 20px; height: 20px"></i></button>
 									</td>
 								}
 								else
 								{
-									<td class="text-center">
+									<td class="text-center bg-white">
 										<button class="btn btn-outline-secondary rounded-bottom-circle" asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model[i].Id"><i class="fa-solid fa-check" style="width: 20px; height: 20px"></i></button>
 									</td>
 								}
-								<td class="text-center">
+								<td class="text-center bg-white">
 									<button type="submit" class="btn btn-outline-info rounded-bottom-circle" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info" style="width: 20px; height: 20px"></i></button>
 								</td>
-								<td class="text-center">
+								<td class="text-center bg-white">
 									<button class="btn btn-outline-warning rounded-bottom-circle" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil" style="width: 20px; height: 20px"></i></button>
 								</td>
 							</tr>

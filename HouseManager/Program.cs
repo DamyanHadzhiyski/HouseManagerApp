@@ -68,7 +68,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
 	name: "AddCashier",
-	pattern: "Cashier/Add/{model}&{houseOrgId}",
+	pattern: "Cashier/Add/{houseOrgId}",
 	defaults: new { Controller = "Cashier", Action = "Add" });
 
 app.MapControllerRoute(

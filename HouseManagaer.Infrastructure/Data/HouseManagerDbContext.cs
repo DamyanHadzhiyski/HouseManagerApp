@@ -1,4 +1,5 @@
-﻿using HouseManager.Infrastructure.Data.Configurations;
+﻿using HouseManager.Infrastructure.Constants;
+using HouseManager.Infrastructure.Data.Configurations;
 using HouseManager.Infrastructure.Data.Models;
 
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,9 @@ namespace HouseManager.Infrastructure.Data
 
 			builder
 				.ApplyConfiguration(new UnitConfiguration());
+
+			builder
+				.ApplyConfiguration(new IdentityRolesConfiguration());
 		}
 
 		public DbSet<President> Presidents { get; set; }

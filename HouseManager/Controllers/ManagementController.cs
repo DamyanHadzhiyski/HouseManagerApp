@@ -16,7 +16,7 @@ namespace HouseManager.Controllers
 		{
 			ViewBag.ActivePresident = await presidentService
 									.GetActiveReadOnlyAsync(houseOrgId)
-									.Select(p => new Class1
+									.Select(p => new PresidentViewModel
 									{
 										Id = p.Id,
 										Name = p.Name,
@@ -40,7 +40,7 @@ namespace HouseManager.Controllers
 
 			ViewBag.ActiveCashier = await cashierService
 									.GetActiveReadOnlyAsync(houseOrgId)
-									.Select(p => new Class2
+									.Select(p => new CashierViewModel
 									{
 										Id = p.Id,
 										Name = p.Name,

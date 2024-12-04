@@ -22,6 +22,8 @@ namespace HouseManager.Controllers
         {
             var model = new UnitFormModel();
 
+            ViewBag.HouseOrgId = houseOrgId;
+
 			return View(model);
         }
 
@@ -30,7 +32,6 @@ namespace HouseManager.Controllers
         {
 			if (!ModelState.IsValid)
             {
-
 				return View(model);
             }
 

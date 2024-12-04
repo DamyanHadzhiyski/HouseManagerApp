@@ -24,6 +24,7 @@ namespace HouseManager.Core.Services
 				Name = houseOrg.Name,
 				Town = houseOrg.Town,
 				Address = houseOrg.Address,
+				CreatorId = houseOrg.CreatorId,
 				Units = [],
 				Presidents = [],
 				Cashiers = []
@@ -119,6 +120,20 @@ namespace HouseManager.Core.Services
 									.Include(ho => ho.Units)
 									.ThenInclude(u => u.Occupants)
 									.FirstOrDefaultAsync(ho => ho.Id == houseOrgId);
+		}
+
+		public IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId)
+		{
+			return context.HouseOrganizations
+							.Where(ho=>ho.CreatorId == creatorId)
+							.Select(h => new HouseOrganizationViewModel
+							{
+								Id = h.Id,
+								Name = h.Name,
+								Address = h.Address,
+								Town = h.Town
+							})
+							.AsNoTracking();
 		}
 	}
 }

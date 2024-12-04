@@ -1,5 +1,7 @@
 ﻿@inject IMemoryCache cache
 
+@model ActiveManagementFormModel
+
 <form class="col-12">
 	<div class="bg-light rounded h-100 p-4">
 		<h4 class="text-center mb-4">Management</h4>
@@ -7,14 +9,26 @@
 		<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
 			@if (ViewBag.ActivePresident == null)
 			{
-				<button asp-controller="President" asp-action="Add" asp-route-houseOrgId="@cache.Get(ManagedHouseOrgCacheId)"></button>
+				<partial name="_ActiveManagerFormPartial" model="@new PresidentFormModel()" />
 			}
 			else
 			{
-				
+				if (Model != null)
+				{
+					<partial name="_ActiveManagerFormPartial" model="@Model" />
+				}
+
+				<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActivePresident" />
 			}
-			@* @await Component.InvokeAsync("ActiveManager", new { model = ViewBag.ActivePresident, position = "President"})
-			@await Component.InvokeAsync("ActiveManager", new { model = ViewBag.ActiveCashier, position = "Cashier" }) *@
+
+			@if (ViewBag.ActiveCashier == null)
+			{
+				<partial name="_ActiveManagerFormPartial" model="@new CashierFormModel()" />
+			}
+			else
+			{
+				<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActiveCashier" />
+			}
 		</div>
 		<div id="previous-managements" class="row row-cols-1 row-cols-md-2 justify-content-center">
 			<div>
@@ -28,7 +42,3 @@
 		</div>
 	</div>
 </form>
-
-@section Scripts {
-	<partial name="_ValidationScriptsPartial" />
-}

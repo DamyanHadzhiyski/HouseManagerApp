@@ -42,5 +42,11 @@ namespace HouseManager.Core.Models.Manager
 		/// </summary>
 		[Display(Name = "Phone Number")]
 		public string PhoneNumber { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Termination date of the cashier
+		/// </summary>
+		[Display(Name = "Termination Date")]
+		public string TerminationDate { get; set; } = string.Empty;
 	}
 }

@@ -25,13 +25,13 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public IActionResult Add(int houseOrgId)
 		{
-			//var model = new ActiveManagementFormModel();
+			var emptyModel = new CashierFormModel();
 
-			return RedirectToAction("All", "Management");
+			return ViewComponent("ActiveManager", new { model = emptyModel, position = "Cashier" });
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(ActiveManagementFormModel model, int houseOrgId)
+		public async Task<IActionResult> Add(CashierFormModel model, int houseOrgId)
 		{
 			if (await cashierService.ActiveExistsAsync(houseOrgId))
 			{
@@ -53,19 +53,12 @@ namespace HouseManager.Controllers
 				}
 
 				TempData["Errors"] = errors;
-				return View(model);
+				return LocalRedirect($"~/Management/all/{houseOrgId}");
 			}
 
-			var model1 = new CashierFormModel
-			{
-				Name = model.Name,
-				PhoneNumber = model.PhoneNumber,
-				StartDate = model.StartDate,
-				EndDate = model.EndDate,
-				HouseOrganizationId = houseOrgId
-			};
+			model.HouseOrganizationId = houseOrgId;
 
-			await cashierService.AddAsync(model1);
+			await cashierService.AddAsync(model);
 
 			return LocalRedirect($"~/Management/all/{houseOrgId}");
 		}
@@ -110,9 +103,10 @@ namespace HouseManager.Controllers
 		//	return RedirectToAction(nameof(All));
 		//}
 		#endregion
-		[HttpGet]
+
 		#region End Term
-		public async Task<IActionResult> EndTerm(int id,int houseOrgId)
+		[HttpGet]
+		public async Task<IActionResult> EndTerm(int id)
 		{
 			if (!await cashierService.ExistsByIdAsync(id))
 			{
@@ -124,7 +118,7 @@ namespace HouseManager.Controllers
 				return BadRequest();
 			}
 
-			await cashierService.EndTermAsync(id);
+			var houseOrgId = await cashierService.EndTermAsync(id);
 
 			return LocalRedirect($"~/Management/all/{houseOrgId}");
 		}
