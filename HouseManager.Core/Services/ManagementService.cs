@@ -1,5 +1,4 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Enums;
 using HouseManager.Core.Models.Management;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
@@ -22,7 +21,7 @@ namespace HouseManager.Core.Services
 				PhoneNumber = model.PhoneNumber,
 				Position = model.Position,
 				StartDate = model.StartDate.ToDateTime(default),
-				EndDate = GetEndDate(model.StartDate.ToDateTime(default), model.TermPeriod),
+				TermPeriod = model.TermPeriod,
 				HouseOrganizationId = model.HouseOrganizationId,
 				IsActive = true
 			};
@@ -38,7 +37,7 @@ namespace HouseManager.Core.Services
 			president.Name = model.Name;
 			president.PhoneNumber = model.PhoneNumber;
 			president.StartDate = model.StartDate.ToDateTime(default);
-			president.EndDate = GetEndDate(model.StartDate.ToDateTime(default), model.TermPeriod);
+			president.TermPeriod = model.TermPeriod;
 
 			await context.SaveChangesAsync();
 		}
@@ -55,9 +54,9 @@ namespace HouseManager.Core.Services
 								Name = p.Name,
 								Position = p.Position,
 								StartDate = p.StartDate.ToString(DateFormat),
-								EndDate = p.EndDate.ToString(DateFormat),
+								EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(DateFormat),
 								PhoneNumber = p.PhoneNumber,
-								Progress = GetProgress(p.StartDate, p.EndDate)
+								Progress = GetProgress(p.StartDate, GetEndDate(p.StartDate, p.TermPeriod))
 							});
 
 			return test;
@@ -74,7 +73,7 @@ namespace HouseManager.Core.Services
 									Name = p.Name,
 									Position = p.Position,
 									StartDate = p.StartDate.ToString(DateFormat),
-									EndDate = p.EndDate.ToString(DateFormat),
+									EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(DateFormat),
 									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(DateFormat) ?? "NA"
 								});
 			return test;
@@ -120,11 +119,17 @@ namespace HouseManager.Core.Services
 		#region Private Methods
 		private static string GetProgress(DateTime startDate, DateTime endDate)
 		{
+			decimal progress = 100;
 			var range = (endDate - startDate).TotalDays;
 			var elapsed = (DateTime.Now - startDate).TotalDays;
-			var progress = (decimal)(elapsed / range) * 100m;
 
-			return progress.ToString();
+			if (elapsed < range)
+			{
+				progress = (decimal)(elapsed / range) * 100m;
+			}
+			
+
+			return progress.ToString("f2");
 		}
 
 		private static DateTime GetEndDate(DateTime startDate, TermPeriod termPeriod)

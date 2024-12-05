@@ -10,4 +10,8 @@
     <ProjectReference Include="..\HouseManagaer.Infrastructure\HouseManager.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>
