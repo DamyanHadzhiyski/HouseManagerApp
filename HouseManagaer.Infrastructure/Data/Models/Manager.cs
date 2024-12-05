@@ -43,12 +43,19 @@ namespace HouseManager.Infrastructure.Data.Models
         [Comment("Start date of assignment to the position")]
         public required DateTime StartDate { get; set; }
 
+        ///// <summary>
+        ///// Due date of assignment to the position
+        ///// </summary>
+        //[Required]
+        //[Comment("Due date of assignment to the position")]
+        //public required DateTime EndDate { get; set; }
+
         /// <summary>
         /// Due date of assignment to the position
         /// </summary>
         [Required]
         [Comment("Due date of assignment to the position")]
-        public required DateTime EndDate { get; set; }
+        public required TermPeriod TermPeriod { get; set; }
 
         /// <summary>
         /// Phone number
