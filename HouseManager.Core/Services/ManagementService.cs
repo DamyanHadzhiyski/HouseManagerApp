@@ -20,7 +20,7 @@ namespace HouseManager.Core.Services
 				Name = model.Name,
 				PhoneNumber = model.PhoneNumber,
 				Position = model.Position,
-				StartDate = model.StartDate.ToDateTime(default),
+				StartDate = model.StartDate,
 				TermPeriod = model.TermPeriod,
 				HouseOrganizationId = model.HouseOrganizationId,
 				IsActive = true
@@ -36,7 +36,7 @@ namespace HouseManager.Core.Services
 
 			president.Name = model.Name;
 			president.PhoneNumber = model.PhoneNumber;
-			president.StartDate = model.StartDate.ToDateTime(default);
+			president.StartDate = model.StartDate;
 			president.TermPeriod = model.TermPeriod;
 
 			await context.SaveChangesAsync();

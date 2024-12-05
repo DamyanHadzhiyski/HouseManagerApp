@@ -3,6 +3,7 @@
 using HouseManager.Infrastructure.Enums;
 
 using static HouseManager.Core.Constants.ErrorMessages;
+using static HouseManager.Core.Constants.DataConstants;
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Core.Models.Management
@@ -34,7 +35,7 @@ namespace HouseManager.Core.Models.Management
         /// </summary>
         [Required(ErrorMessage = FieldRequiredErrorMessage)]
         [Display(Name = "Start Date")]
-        public DateOnly StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
 		/// <summary>
 		/// Due date of assignment to the management position

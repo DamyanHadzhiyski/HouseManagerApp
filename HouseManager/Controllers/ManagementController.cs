@@ -64,7 +64,7 @@ namespace HouseManager.Controllers
 				Id = manager.Id,
 				Name = manager.Name,
 				Position = manager.Position,
-				StartDate = DateOnly.FromDateTime(manager.StartDate),
+				StartDate = manager.StartDate,
 				TermPeriod = manager.TermPeriod,
 				PhoneNumber = manager.PhoneNumber
 			};

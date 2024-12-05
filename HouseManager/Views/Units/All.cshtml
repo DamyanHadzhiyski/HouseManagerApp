@@ -18,7 +18,7 @@
 else
 {
 	<form class="col-12">
-		<div class="bg-light rounded p-4">
+		<div class="bg-light rounded">
 			<h4 class="mb-3">Units in @ViewBag.HouseOrgName</h4>
 			<button class="btn btn-sml btn-success mb-3 mx-3" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId">Add Unit</button>
 			<div class="table-responsive col-10">
@@ -42,10 +42,10 @@ else
 								<td class="bg-white">@Model[i].Floor</td>
 								<td class="bg-white">@Model[i].Type</td>
 								<td class="text-center bg-white">
-									<button type="submit" class="btn btn-outline-info rounded-bottom-circle" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info" style="width: 20px; height: 20px"></i></button>
+									<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px"asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
 								</td>
 								<td class="text-center bg-white">
-									<button class="btn btn-outline-warning rounded-bottom-circle" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil" style="width: 20px; height: 20px"></i></button>
+									<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
 								</td>
 							</tr>
 						}
