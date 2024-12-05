@@ -81,11 +81,6 @@ app.MapControllerRoute(
 	defaults: new { Controller = "Management", Action = "EndTerm" });
 
 app.MapControllerRoute(
-	name: "ManagementEndTerm",
-	pattern: "Management/Edit/{id}/{houseOrgId}",
-	defaults: new { Controller = "Management", Action = "Edit" });
-
-app.MapControllerRoute(
 	name: "AddOccupant",
 	pattern: "Occupant/Add/{unitId}",
 	defaults: new { Controller = "Occupant", Action = "Add" });

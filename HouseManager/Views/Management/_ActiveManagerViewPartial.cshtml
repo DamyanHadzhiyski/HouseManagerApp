@@ -17,8 +17,10 @@
 				<div class="text-end">@Model.EndDate</div>
 			</div>
 		</div>
-		<button class="btn btn-warning" asp-controller="Management" asp-action="Edit" asp-route-id="@Model.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">Edit</button>
-		<button class="btn btn-danger" asp-controller="Management" asp-action="EndTerm" asp-route-id="@Model.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
+		<form>
+			<button class="btn btn-warning" asp-controller="Management" asp-action="Edit" asp-route-id="@Model.Id" formmethod=get>Edit</button>
+			<button class="btn btn-danger" asp-controller="Management" asp-action="EndTerm" asp-route-id="@Model.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
+		</form>
 	</div>
 </div>
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-using static HouseManager.Core.Constants.DataConstants;
+using static HouseManager.Constants.HouseOrganizationConstants;
 
 namespace HouseManager.Controllers
 {
@@ -49,7 +49,7 @@ namespace HouseManager.Controllers
 
 		#region Edit Manager
 		[HttpGet]
-		public async Task<IActionResult> Edit(int id, int houseOrgId)
+		public async Task<IActionResult> Edit(int id)
 		{
 			var manager = await managementService
 									.GetByIdAsync(id);
@@ -65,6 +65,7 @@ namespace HouseManager.Controllers
 				Name = manager.Name,
 				Position = manager.Position,
 				StartDate = DateOnly.FromDateTime(manager.StartDate),
+				TermPeriod = manager.TermPeriod,
 				PhoneNumber = manager.PhoneNumber
 			};
 
@@ -78,6 +79,8 @@ namespace HouseManager.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(ActiveManagementFormModel model)
 		{
+			var houseOrgId = cache.Get(ManagedHouseOrgCacheId);
+
 			if (!ModelState.IsValid)
 			{
 				//TODO: exception logic
@@ -87,7 +90,7 @@ namespace HouseManager.Controllers
 
 			await managementService.EditAsync(model);
 
-			return RedirectToAction("All", "Management", new { model.HouseOrganizationId });
+			return RedirectToAction("All", "Management", new { houseOrgId });
 		}
 		#endregion
 
