@@ -3,6 +3,7 @@ using HouseManager.Core.Enums;
 using HouseManager.Core.Models.Management;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
+using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,8 +21,8 @@ namespace HouseManager.Core.Services
 				Name = model.Name,
 				PhoneNumber = model.PhoneNumber,
 				Position = model.Position,
-				StartDate = model.StartDate,
-				EndDate = GetEndDate(model.StartDate, model.TermPeriod),
+				StartDate = model.StartDate.ToDateTime(default),
+				EndDate = GetEndDate(model.StartDate.ToDateTime(default), model.TermPeriod),
 				HouseOrganizationId = model.HouseOrganizationId,
 				IsActive = true
 			};
@@ -36,8 +37,8 @@ namespace HouseManager.Core.Services
 
 			president.Name = model.Name;
 			president.PhoneNumber = model.PhoneNumber;
-			president.StartDate = model.StartDate;
-			president.EndDate = GetEndDate(model.StartDate, model.TermPeriod);
+			president.StartDate = model.StartDate.ToDateTime(default);
+			president.EndDate = GetEndDate(model.StartDate.ToDateTime(default), model.TermPeriod);
 
 			await context.SaveChangesAsync();
 		}
@@ -97,10 +98,11 @@ namespace HouseManager.Core.Services
 								.AnyAsync(p => p.Id == id);
 		}
 
-		public async Task<bool> ActiveExistsAsync(int houseOrgId)
+		public async Task<bool> ActiveExistsAsync(int houseOrgId, ManagerPosition position)
 		{
 			return await context.Managers
-								.Where(p => p.HouseOrganizationId == houseOrgId)
+								.Where(p => p.HouseOrganizationId == houseOrgId 
+												&& p.Position == position)
 								.AnyAsync(p => p.IsActive == true);
 		}
 

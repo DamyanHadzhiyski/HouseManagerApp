@@ -4,6 +4,7 @@ using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
+using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -97,12 +98,22 @@ namespace HouseManager.Core.Services
 								  Name = ho.Name,
 								  Address = ho.Address,
 								  Town = ho.Town,
-								  PresidentName = "TODO: ",
-								  CashierName = "TODO: ",
+								  PresidentName = GetManagerName(ho.Managers, ManagerPosition.President),
+								  CashierName = GetManagerName(ho.Managers, ManagerPosition.Cashier),
 								  UnitsCount = ho.Units.Count.ToString(),
 								  OccupantsCount = GetOccupantsCount(ho.Units).ToString()
 							  })
 							  .AsNoTracking();
+		}
+
+		private static string GetManagerName(ICollection<Manager> managers, ManagerPosition position)
+		{
+			var result = managers
+							.Where(m => m.Position == position)
+							.Select(m => m.Name)
+							.FirstOrDefault();
+
+			return result?.ToString() ?? "Not assigned";
 		}
 
 		private static int GetOccupantsCount(ICollection<Unit> units)

@@ -1,6 +1,24 @@
 ﻿@inject IMemoryCache cache
 
 @{
+	var editPresident = false;
+	var editCashier = false;
+	var editModel = cache.Get("EditModel") as ActiveManagementFormModel;
+
+	if (TempData["Edit"] != null && (bool)TempData["Edit"] == true)
+	{
+		//editModel = TempData["EditModel"] as ActiveManagementFormModel;
+
+		if (editModel.Position == ManagerPosition.President)
+		{
+			editPresident = true;
+		}
+		else
+		{
+			editCashier = true;
+		}
+	}
+
 	var emptyPresidentModel = new ActiveManagementFormModel() { Position = ManagerPosition.President };
 	var emptyCashierModel = new ActiveManagementFormModel() { Position = ManagerPosition.Cashier };
 }
@@ -10,22 +28,36 @@
 		<h4 class="text-center mb-4">Management</h4>
 		<hr />
 		<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
-			@if (ViewBag.ActivePresident == null)
+			@if (editPresident == true)
 			{
-				<partial name="_ActiveManagerFormPartial" model="@emptyPresidentModel" />
+				<partial name="_ActiveManagerFormPartial" model="@editModel" />
 			}
 			else
 			{
-				<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActivePresident" />
+				@if (ViewBag.ActivePresident == null)
+				{
+					<partial name="_ActiveManagerFormPartial" model="@emptyPresidentModel" />
+				}
+				else
+				{
+					<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActivePresident" />
+				}
 			}
 
-			@if (ViewBag.ActiveCashier == null)
+			@if (editCashier == true)
 			{
-				<partial name="_ActiveManagerFormPartial" model="@emptyCashierModel" />
+					<partial name="_ActiveManagerFormPartial" model="@editModel" />
 			}
 			else
 			{
-				<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActiveCashier" />
+				@if (ViewBag.ActiveCashier == null)
+				{
+					<partial name="_ActiveManagerFormPartial" model="@emptyCashierModel" />
+				}
+				else
+				{
+					<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActiveCashier" />
+				}
 			}
 		</div>
 		<div id="previous-managements" class="row row-cols-1 row-cols-md-2 justify-content-center">

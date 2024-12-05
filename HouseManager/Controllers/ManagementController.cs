@@ -4,53 +4,21 @@ using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+
+using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Controllers
 {
 	public class ManagementController(
-		IManagementService managementService) : BaseController
+		IManagementService managementService,
+		IMemoryCache cache) : BaseController
 	{
-		#region Show All Managers
-		[HttpGet]
-		public async Task<IActionResult> All(int houseOrgId)
-		{
-			ViewBag.ActivePresident = await managementService
-									.GetActiveReadOnlyAsync(houseOrgId)
-									.Where(m => m.Position == ManagerPosition.President)
-									.FirstOrDefaultAsync();
-
-			ViewBag.InactivePresidents = await managementService
-												.GetAllInactiveReadOnlyAsync(houseOrgId)
-												.Where(m => m.Position == ManagerPosition.President)
-												.ToListAsync();
-
-			ViewBag.ActiveCashier = await managementService
-									.GetActiveReadOnlyAsync(houseOrgId)
-									.Where(m => m.Position == ManagerPosition.Cashier)
-									.FirstOrDefaultAsync();
-
-			ViewBag.InactiveCashiers = await managementService
-												.GetAllInactiveReadOnlyAsync(houseOrgId)
-												.Where(m => m.Position == ManagerPosition.Cashier)
-												.ToListAsync();
-
-			return View();
-		}
-		#endregion
-
 		#region Add Manager
-		[HttpGet]
-		public IActionResult Add(int houseOrgId)
-		{
-			var emptyModel = new ActiveManagementFormModel();
-
-			return ViewComponent("ActiveManager", new { model = emptyModel, position = "President" });
-		}
-
 		[HttpPost]
 		public async Task<IActionResult> Add(ActiveManagementFormModel model, int houseOrgId)
 		{
-			if (await managementService.ActiveExistsAsync(houseOrgId))
+			if (await managementService.ActiveExistsAsync(houseOrgId, model.Position))
 			{
 				ModelState.AddModelError("ActiveExists", "There is already assigned President, you must end it's term, before assigning a new one!");
 			}
@@ -79,27 +47,32 @@ namespace HouseManager.Controllers
 		}
 		#endregion
 
-		#region Edit President
+		#region Edit Manager
 		[HttpGet]
-		public async Task<IActionResult> Edit(int id)
+		public async Task<IActionResult> Edit(int id, int houseOrgId)
 		{
-			var president = await managementService
+			var manager = await managementService
 									.GetByIdAsync(id);
 
-			if (president == null)
+			if (manager == null)
 			{
 				///TODO: Add exception logic
 			}
 
 			var model = new ActiveManagementFormModel
 			{
-				Id = president.Id,
-				Name = president.Name,
-				StartDate = president.StartDate,
-				PhoneNumber = president.PhoneNumber
+				Id = manager.Id,
+				Name = manager.Name,
+				Position = manager.Position,
+				StartDate = DateOnly.FromDateTime(manager.StartDate),
+				PhoneNumber = manager.PhoneNumber
 			};
 
-			return View(model);
+			TempData["Edit"] = true;
+
+			cache.Set("EditModel", model);
+
+			return RedirectToAction("All", "Management", new { houseOrgId = manager.HouseOrganizationId });
 		}
 
 		[HttpPost]
@@ -118,14 +91,31 @@ namespace HouseManager.Controllers
 		}
 		#endregion
 
-		#region Show President
-		public async Task<IActionResult> Show(int houseOrgId)
+		#region Show Managers
+		[HttpGet]
+		public async Task<IActionResult> All(int houseOrgId)
 		{
-			var model = managementService
-							.GetActiveReadOnlyAsync(houseOrgId)
-							.FirstOrDefaultAsync();
+			ViewBag.ActivePresident = await managementService
+									.GetActiveReadOnlyAsync(houseOrgId)
+									.Where(m => m.Position == ManagerPosition.President)
+									.FirstOrDefaultAsync();
 
-			return View(model);
+			ViewBag.InactivePresidents = await managementService
+												.GetAllInactiveReadOnlyAsync(houseOrgId)
+												.Where(m => m.Position == ManagerPosition.President)
+												.ToListAsync();
+
+			ViewBag.ActiveCashier = await managementService
+									.GetActiveReadOnlyAsync(houseOrgId)
+									.Where(m => m.Position == ManagerPosition.Cashier)
+									.FirstOrDefaultAsync();
+
+			ViewBag.InactiveCashiers = await managementService
+												.GetAllInactiveReadOnlyAsync(houseOrgId)
+												.Where(m => m.Position == ManagerPosition.Cashier)
+												.ToListAsync();
+
+			return View();
 		}
 		#endregion
 
@@ -145,7 +135,7 @@ namespace HouseManager.Controllers
 
 			var houseOrgId = await managementService.EndTermAsync(id);
 
-			return LocalRedirect($"~/Management/all/{houseOrgId}");
+			return LocalRedirect($"~/Management/all/{ houseOrgId }");
 		}
 		#endregion
 	}

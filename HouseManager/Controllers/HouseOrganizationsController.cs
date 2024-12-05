@@ -1,13 +1,13 @@
-﻿using HouseManager.Core.Contracts;
+﻿using System.Security.Claims;
+
+using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 using static HouseManager.Constants.HouseOrganizationConstants;
-using System.Security.Claims;
 
 namespace HouseManager.Controllers
 {

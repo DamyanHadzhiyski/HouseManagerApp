@@ -17,8 +17,8 @@
 				<div class="text-end">@Model.EndDate</div>
 			</div>
 		</div>
-		<button class="btn btn-warning" asp-controller="@Model.Position" asp-action="Edit" asp-route-id="@Model.Id">Edit</button>
-		<button class="btn btn-danger" asp-controller="@Model.Position" asp-action="EndTerm" asp-route-id="@Model.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
+		<button class="btn btn-warning" asp-controller="Management" asp-action="Edit" asp-route-id="@Model.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">Edit</button>
+		<button class="btn btn-danger" asp-controller="Management" asp-action="EndTerm" asp-route-id="@Model.Id" asp-route-houseOrgId="@ViewBag.HouseOrgId">End term</button>
 	</div>
 </div>
 

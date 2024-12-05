@@ -1,11 +1,12 @@
 ﻿using HouseManager.Core.Models.Management;
 using HouseManager.Infrastructure.Data.Models;
+using HouseManager.Infrastructure.Enums;
 
 namespace HouseManager.Core.Contracts
 {
 	public interface IManagementService
 	{
-		Task<bool> ActiveExistsAsync(int houseOrgId);
+		Task<bool> ActiveExistsAsync(int houseOrgId, ManagerPosition position);
 
 		Task AddAsync(ActiveManagementFormModel model);
 

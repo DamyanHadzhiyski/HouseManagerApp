@@ -16,18 +16,18 @@
 					<label asp-for="@Model.Name" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
 					<div class="col-lg-9">
 						<input asp-for="@Model.Name" class="form-control">
+						<span asp-validation-for="@Model.Name" class="text-danger"></span>
 					</div>
-					<span asp-validation-for="@Model.Name" class="text-danger"></span>
 				</div>
-				<div class="input date form-floating mb-3" id="startDate" data-provide="datepicker" data-date-format="dd-MM-yyyy"
+				<div class="input date form-floating mb-3" id="startDate" data-provide="datepicker" data-date-format="dd-mm-yyyy"
 					 data-date-autoclose="true" data-date-today-Btn="true" data-date-container="#startDate" data-date-orientation="auto">
 					<div class="input-group-addon form-floating">
 						<div class="form-group row mb-3">
 							<label asp-for="@Model.StartDate" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
 							<div class="col-lg-9">
-								<input asp-for="@Model.StartDate" type="text" class="form-control" value="">
+								<input asp-for="@Model.StartDate" type="text" class="form-control" value="@Model.StartDate.ToString(DateFormat)">
+								<span asp-validation-for="@Model.StartDate" class="text-danger"></span>
 							</div>
-							<span asp-validation-for="@Model.StartDate" class="text-danger"></span>
 						</div>
 					</div>
 				</div>
@@ -35,17 +35,22 @@
 					<label asp-for="@Model.TermPeriod" class="col-lg-3 control-label text-start text-lg-end pt-2">Term Period</label>
 					<div class="col-lg-9">
 						<select asp-for="@Model.TermPeriod" class="form-select" asp-items="@ViewBag.TermPeriods">
-							<option selected disabled value=""></option>
+							<option selected disabled value="@Model.TermPeriod"></option>
 						</select>
+						<span asp-validation-for="@Model.TermPeriod" class="text-danger"></span>
 					</div>
-					<span asp-validation-for="@Model.TermPeriod" class="text-danger"></span>
 				</div>
 				<div class="form-group row mb-3">
 					<label asp-for="@Model.PhoneNumber" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
 					<div class="col-lg-9">
 						<input asp-for="@Model.PhoneNumber" class="form-control p-2">
+						<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
 					</div>
-					<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+				</div>
+				<div class="form-group row mb-3" hidden>
+					<div class="col-lg-9">
+						<input asp-for="@Model.Position" class="form-control p-2">
+					</div>
 				</div>
 				<div class="row justify-content-center">
 					<button asp-controller="Management" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
