@@ -1,14 +1,14 @@
 ﻿@model HouseOrganizationDetailViewModel
 
 @{
-	ViewBag.Name = Model.Name;
+	var name = Model.Name;
 }
-<h4 class="mb-4 text-center">@ViewBag.Name</h4>
+<h4 class="mb-4 text-center">@name</h4>
 <hr />
-<section class="row justify-content-center">
-	<div class="card border-dark p-0 col-8 col-xl-4">
-		<h4 class="card-header p-3 text-center">@Model.Name Details</h4>
-		<div class="card-body bg-light rounded p-4 p-0">
+<div class="row justify-content-center flex-wrap">
+	<section class="card border-dark p-0 col-4 col-lg-3">
+		<h4 class="card-header p-2 text-center">Details</h4>
+		<div class="card-body bg-light p-4">
 			<div class="row align-items-center mb-3">
 				<label asp-for="@Model.Address" class="col-lg-3 text-start text-lg-end fw-bold"></label>
 				<label class="col-lg-9">@Model.Address</label>
@@ -32,12 +32,14 @@
 				<label asp-for="@Model.OccupantsCount" class="col-lg-3 text-start text-lg-end fw-bold"></label>
 				<label class="col-lg-9">@Model.OccupantsCount</label>
 			</div>
-			<form class="bg-light rounded d-flex justify-content-center p-4">
-				<button asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
-				<button asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
-				<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
-			</form>
-
 		</div>
-	</div>
-</section>
+	</section>
+	<section class="col-4 col-lg-5">
+		<partial name="_AllUnitsPartial" model="@Model.Units" />
+	</section>
+	<form class="bg-light d-flex flex-wrap justify-content-center p-4">
+		<button asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
+		<button asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+		<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
+	</form>
+</div>

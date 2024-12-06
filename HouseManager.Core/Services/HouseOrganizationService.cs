@@ -91,6 +91,8 @@ namespace HouseManager.Core.Services
 		public IQueryable<HouseOrganizationDetailViewModel> GetDetailsByIdReadOnly(int houseOrgId)
 		{
 			return context.HouseOrganizations
+							  .Include(ho => ho.Units)
+							  .ThenInclude(u => u.Occupants)
 							  .Where(ho => ho.Id == houseOrgId)
 							  .Select(ho => new HouseOrganizationDetailViewModel
 							  {
@@ -133,7 +135,7 @@ namespace HouseManager.Core.Services
 		public IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId)
 		{
 			return context.HouseOrganizations
-							.Where(ho=>ho.CreatorId == creatorId)
+							.Where(ho => ho.CreatorId == creatorId)
 							.Select(h => new HouseOrganizationViewModel
 							{
 								Id = h.Id,

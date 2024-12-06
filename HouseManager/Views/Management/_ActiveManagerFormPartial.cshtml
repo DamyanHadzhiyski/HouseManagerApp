@@ -1,15 +1,15 @@
-﻿@inject IMemoryCache cache;
+﻿@inject IHttpContextAccessor HttpContextAccessor
 
 @model ActiveManagementFormModel
 
 @{
-	ViewBag.HouseOrgId = cache.Get(ManagedHouseOrgCacheId);
-	ViewBag.TermPeriods = Html.GetEnumSelectList(typeof(TermPeriod));
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+	var termPeriods = Html.GetEnumSelectList(typeof(TermPeriod));
 }
 
 <section class="row justify-content-center mb-4">
 	<div class="card border-dark p-0 col-8 col-xl-8">
-		<div class="card-header text-white text-center bg-danger fw-bold">Add @Model.Position</div>
+		<h4 class="card-header text-white text-center bg-danger fw-bold p-2">Add @Model.Position</h4>
 		<div class="card-body bg-light rounded p-4 p-0">
 			<form method="post">
 				<div hidden>
@@ -37,7 +37,7 @@
 				<div class="form-group row mb-3">
 					<label asp-for="@Model.TermPeriod" class="col-lg-3 control-label text-start text-lg-end pt-2">Term Period</label>
 					<div class="col-lg-9">
-						<select asp-for="@Model.TermPeriod" class="form-select" asp-items="@ViewBag.TermPeriods">
+						<select asp-for="@Model.TermPeriod" class="form-select" asp-items="@termPeriods">
 							<option selected></option>
 						</select>
 						<span asp-validation-for="@Model.TermPeriod" class="text-danger"></span>
@@ -58,7 +58,7 @@
 				<div class="row justify-content-center">
 					@if (Model.Name == "")
 					{
-						<button asp-controller="Management" asp-action="Add" asp-route-houseOrgId="@ViewBag.HouseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
+						<button asp-controller="Management" asp-action="Add" asp-route-houseOrgId="@houseOrgId" formmethod="post" class="btn btn-success col-auto rounded-pill m-2" type="submit"><i class="fa-solid fa-save me-2"></i>Save</button>
 					}
 					else
 					{

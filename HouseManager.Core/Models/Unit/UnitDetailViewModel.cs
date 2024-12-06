@@ -42,6 +42,6 @@ namespace HouseManager.Core.Models.Unit
 		/// <summary>
 		/// List with information for the unit occupants
 		/// </summary>
-		public List<OccupantViewModel> Occupants { get; set; } = [];
+		public List<OccupantViewModel> ActiveOccupants { get; set; } = [];
 	}
 }

@@ -1,29 +1,38 @@
 ﻿@model List<InactiveManagementViewModel>
 
-<div class="bg-light rounded p-4">
-	<div class="table-responsive col-11">
-		<table class="table table-bordered table-hover">
-			<thead>
-				<tr>
-					<th class="text-center col-1" scope="col">#</th>
-					<th class="text-center col-4" scope="col">Name</th>
-					<th class="text-center col-2" scope="col">Start Date</th>
-					<th class="text-center col-2" scope="col">End Date</th>
-					<th class="text-center col-2" scope="col">Ended On Date</th>
-				</tr>
-			</thead>
-			<tbody class="align-middle">
-				@for (int i = 0; i < Model.Count(); i++)
-				{
-					<tr>
-						<th class="text-center" scope="row">@(i + 1)</th>
-						<td class="bg-white">@Model[i].Name</td>
-						<td class="bg-white text-center">@Model[i].StartDate</td>
-						<td class="bg-white text-center">@Model[i].EndDate</td>
-						<td class="bg-white text-center">@Model[i].TerminationDate</td>
+@{
+	string tableName = $"Previous {Model[0].Position.ToString().ToLower()}";
+}
+
+<section class="card border-dark p-0 mb-3 mx-1 col-11">
+	<h4 class="card-header p-2 text-center text-black-50">@tableName</h4>
+	<div class="card-body bg-light rounded p-4">
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr class="text-center align-middle p-1">
+						<th style="width: 5%" scope="col">#</th>
+						<th style="width: 50%" scope="col">Name</th>
+						<th style="width: 15%" scope="col">Start Date</th>
+						<th style="width: 15%" scope="col">End Date</th>
+						<th style="width: 15%" scope="col">Ended On Date</th>
 					</tr>
-				}
-			</tbody>
-		</table>
+				</thead>
+				<tbody class="align-middle">
+					@for (int i = 0; i < Model.Count(); i++)
+					{
+						<tr class="text-center bg-white p-0">
+							<th class="bg-light" scope="row">@(i + 1)</th>
+							<td>@Model[i].Name</td>
+							<td>@Model[i].StartDate</td>
+							<td>@Model[i].EndDate</td>
+							<td>@Model[i].TerminationDate</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+
+			<p class="text-center"><b>TODO: Pagination</b></p>
+		</div>
 	</div>
-</div>
+</section>

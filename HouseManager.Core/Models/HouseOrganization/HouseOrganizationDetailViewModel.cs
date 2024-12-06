@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using HouseManager.Core.Models.Unit;
+
 namespace HouseManager.Core.Models.HouseOrganization
 {
 	/// <summary>
@@ -31,5 +33,10 @@ namespace HouseManager.Core.Models.HouseOrganization
 		/// </summary>
 		[Display(Name = "Occupants Count")]
 		public string OccupantsCount { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Information for the units in the house organization
+		/// </summary>
+		public ICollection<UnitViewModel> Units { get; set; } = [];
 	}
 }

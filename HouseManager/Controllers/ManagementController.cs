@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-using static HouseManager.Constants.HouseOrganizationConstants;
+using static HouseManager.Constants.SessionConstants;
 
 namespace HouseManager.Controllers
 {
 	public class ManagementController(
-		IManagementService managementService,
-		IMemoryCache cache) : BaseController
+		IManagementService managementService) : BaseController
 	{
 		#region Add Manager
 		[HttpPost]
@@ -71,7 +70,7 @@ namespace HouseManager.Controllers
 
 			TempData["Edit"] = true;
 
-			cache.Set("EditModel", model);
+			//cache.Set("EditModel", model);
 
 			return RedirectToAction("All", "Management", new { houseOrgId = manager.HouseOrganizationId });
 		}
@@ -79,7 +78,7 @@ namespace HouseManager.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(ActiveManagementFormModel model)
 		{
-			var houseOrgId = cache.Get(ManagedHouseOrgCacheId);
+			var houseOrgId = HttpContext.Session.GetInt32(ManagedHouseOrgId);
 
 			if (!ModelState.IsValid)
 			{

@@ -5,15 +5,14 @@ using HouseManager.Core.Models.HouseOrganization;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
-using static HouseManager.Constants.HouseOrganizationConstants;
+using static HouseManager.Constants.SessionConstants;
 
 namespace HouseManager.Controllers
 {
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
-		IMemoryCache cache) : BaseController
+		IUnitService unitService) : BaseController
 	{
 		#region Add New House Organization
 		[HttpGet]
@@ -88,6 +87,8 @@ namespace HouseManager.Controllers
 								.GetDetailsByIdReadOnly(id)
 								.FirstOrDefaultAsync();
 
+			model.Units = await unitService.GetAllFromHOAsync(id);
+
 			return View(model);
 		}
 		#endregion
@@ -123,10 +124,10 @@ namespace HouseManager.Controllers
 				BadRequest();
 			}
 
-			cache.Set(ManagedHouseOrgCacheName, houseOrgName.Name);
-			cache.Set(ManagedHouseOrgCacheId, id);
+			HttpContext.Session.SetString(ManagedHouseOrgName, houseOrgName.Name);
+			HttpContext.Session.SetInt32(ManagedHouseOrgId, id);
 
-			return RedirectToAction(nameof(All), "HouseOrganizations", new { houseOrgId = id });
+			return RedirectToAction(nameof(Details), new { id });
 		}
 		#endregion
 

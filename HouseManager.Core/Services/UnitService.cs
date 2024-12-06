@@ -52,7 +52,7 @@ namespace HouseManager.Core.Services
 		{
 			return await context.Units
 							.Where(u => u.Id == id)
-							.FirstOrDefaultAsync();//u => u.Id == id);
+							.FirstOrDefaultAsync();
 		}
 
         public async Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId)

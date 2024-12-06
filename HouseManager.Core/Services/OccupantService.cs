@@ -68,6 +68,7 @@ namespace HouseManager.Core.Services
 								FullName = o.FullName,
 								IsOwner = o.IsOwner ? "Yes" : "No",
 								PhoneNumber = o.PhoneNumber,
+								UnitId = unitId
 							});
 		}
 
@@ -97,7 +98,8 @@ namespace HouseManager.Core.Services
 									BirthDate = DateOnly.FromDateTime(o.BirthDate),
 									PhoneNumber = o.PhoneNumber,
 									IsOwner = o.IsOwner,
-									OccupationDate = DateOnly.FromDateTime(o.OccupationDate)
+									OccupationDate = DateOnly.FromDateTime(o.OccupationDate),
+									UnitId = o.UnitId
 								})
 								.FirstOrDefaultAsync();
 		}

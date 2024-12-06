@@ -2,10 +2,8 @@
 using HouseManager.Core.Models.Unit;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
-using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Controllers
@@ -21,8 +19,6 @@ namespace HouseManager.Controllers
         public IActionResult Add(int houseOrgId)
         {
             var model = new UnitFormModel();
-
-            ViewBag.HouseOrgId = houseOrgId;
 
 			return View(model);
         }
@@ -49,7 +45,7 @@ namespace HouseManager.Controllers
             await context.Units.AddAsync(addUnit);
             await context.SaveChangesAsync();
 
-            return RedirectToAction("All", "Units", new {houseOrgId = houseOrgId});
+            return RedirectToAction("All", "Units", new {houseOrgId});
         }
         #endregion
 

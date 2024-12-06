@@ -14,6 +14,8 @@ namespace HouseManager.Controllers
 		{
 			var model = new OccupantFormModel();
 
+			model.UnitId = unitId;
+
 			return View(model);
 		}
 
@@ -24,8 +26,6 @@ namespace HouseManager.Controllers
 			{
 				return View(model);
 			}
-
-			model.UnitId = model.UnitId;
 
 			var id = await occupantService.AddAsync(model);
 

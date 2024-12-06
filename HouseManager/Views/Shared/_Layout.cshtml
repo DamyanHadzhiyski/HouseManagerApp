@@ -1,15 +1,14 @@
 ﻿@using System.Security.Claims
 @inject SignInManager<IdentityUser> SignInManager
 @inject IHouseOrganizationService houseOrg
-@inject IMemoryCache cache
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-	var houseOrgCacheId = cache.Get(ManagedHouseOrgCacheId);
-	var houseOrgCacheName = cache.Get(ManagedHouseOrgCacheName);
-	var houseOrgName = houseOrgCacheName ?? "none";
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName) ?? "none";
 	var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-	ViewBag.HouseOrgs = houseOrg
+	var houseOrgs = houseOrg
 							.GetAllByCreatorReadOnly(userId)
 							.Select(ho => new SelectListItem
 									{
@@ -50,18 +49,18 @@
 					<div class="row justify-content-around align-items-center mx-4">
 						<label class="text-wrap text-end fw-bold col-auto" for="houseOrgSelect">Manage House Organization</label>
 						<div class="col-auto">
-							<select class="form-select" onchange="getHouseOrg()" id="houseOrgSelect" asp-items="@ViewBag.HouseOrgs">
+							<select class="form-select" onchange="getHouseOrg()" id="houseOrgSelect" asp-items="@houseOrgs">
 								<option disabled selected>@houseOrgName</option>
 								<option disabled>.....</option>
 							</select>
 						</div>
-						@if (houseOrgCacheName != null)
+						@if (houseOrgName != "none")
 						{
 							<div class="col-auto">
-								<a asp-controller="Management" asp-action="All" asp-route-houseOrgId="@houseOrgCacheId" class="nav-item nav-link text-dark"><i class="fa fa-user-tie me-2"></i>Management</a>
+								<a asp-controller="Management" asp-action="All" asp-route-houseOrgId="@houseOrgId" class="nav-item nav-link text-dark"><i class="fa fa-user-tie me-2"></i>Management</a>
 							</div>
 							<div class="col-auto">
-								<a asp-controller="Units" asp-action="All" asp-route-houseOrgId="@houseOrgCacheId" class="nav-item nav-link text-dark"><i class="fa fa-key me-2"></i>Units</a>
+								<a asp-controller="Units" asp-action="All" asp-route-houseOrgId="@houseOrgId" class="nav-item nav-link text-dark"><i class="fa fa-key me-2"></i>Units</a>
 							</div>
 							@* <div class="col-auto">
 								<a asp-controller="Finances" asp-action="All" asp-route-houseOrgId="@houseOrgCacheId" class="nav-item nav-link text-dark"><i class="fa-solid fa-circle-dollar-to-slot me-2"></i>Finances</a>

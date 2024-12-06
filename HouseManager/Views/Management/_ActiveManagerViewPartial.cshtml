@@ -1,16 +1,21 @@
-﻿@model ActiveManagementViewModel
+﻿@inject IHttpContextAccessor HttpContextAccessor
 
-<div class="card border-dark text-center mb-5 mx-3 p-0" style="width: 18rem;">
-	<div class="card-header fw-bold">@Model.Position</div>
-	<img class="img-fluid rounded-circle mx-auto m-2"
-		 src="~/img/DefaultProfilePic.jpg" style="width: 100px; height: 100px;" />
-	<div class="card-body text-dark">
-		<h5 class="card-title">@Model.Name</h5>
+@model ActiveManagementViewModel
+
+@{
+	var houseOrgId =  HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+}
+
+<div class="card border-dark p-0 mb-3 mx-4 col-8 col-xl-4" style="width: 18rem;">
+	<h4 class="card-header p-2 text-center">@Model.Position</h4>
+	<div class="card-body bg-light rounded p-4 text-center">
+		<h5 class="text-center">@Model.Name</h5>
 		<div>
 			<div class="mb-2"><i class="fa fa-phone me-3"></i>@Model.PhoneNumber</div>
 			<p class="text-start mb-0">Mandate progress</p>
-			<div class="progress">
-				<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @Model.Progress%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			<div class="progress bg-white border">
+				<div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+					 style="width: @Model.Progress%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
 			<div class="row row-cols-2 align-content-around mb-3">
 				<div class="text-start">@Model.StartDate</div>
@@ -23,4 +28,3 @@
 		</form>
 	</div>
 </div>
-

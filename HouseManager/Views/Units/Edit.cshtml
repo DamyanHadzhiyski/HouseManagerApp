@@ -1,14 +1,15 @@
-﻿@inject IMemoryCache cache
+﻿@inject IHttpContextAccessor HttpContextAccessor
 
 @model UnitFormModel
 
 @{
-	ViewBag.UnitTypes = Html.GetEnumSelectList(typeof(UnitType));
-	var houseOrgId = cache.Get(ManagedHouseOrgCacheId);
+	var unitTypes = Html.GetEnumSelectList(typeof(UnitType));
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
 }
+
 <section class="row justify-content-center">
 	<div class="card border-dark p-0 col-8 col-xl-4">
-		<h4 class="card-header p-3 text-center">Edit Unit @Model.Number</h4>
+		<h4 class="card-header p-2 text-center">Edit Unit @Model.Number</h4>
 		<div class="card-body bg-light rounded p-4 p-0">
 			<form asp-action="Edit" asp-route-id="@Model.Id" method=post>
 				<div>
@@ -29,7 +30,7 @@
 					<div class="form-group row mb-3">
 						<label asp-for="@Model.Type" class="col-lg-3 control-label text-start text-lg-end pt-2">Select Unit Type</label>
 						<div class="col-lg-9">
-							<select asp-for="@Model.Type" class="form-select" id="floatingSelect" asp-items="@ViewBag.UnitTypes">
+							<select asp-for="@Model.Type" class="form-select" id="floatingSelect" asp-items="@unitTypes">
 								<option selected value="@Model.Type"></option>
 							</select>
 						</div>

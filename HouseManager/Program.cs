@@ -10,7 +10,13 @@ CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromSeconds(60);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
@@ -19,6 +25,8 @@ builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>(
 builder.Services.AddScoped<IManagementService, ManagementService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IOccupantService, OccupantService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -45,35 +53,27 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-	name: "AllUnits",
-	pattern: "Units/All/{houseOrgId}",
-	defaults: new { Controller = "Units", Action = "All" });
+app.UseSession();
 
-app.MapControllerRoute(
-	name: "AddUnits",
-	pattern: "Units/Add/{houseOrgId}",
-	defaults: new { Controller = "Units", Action = "Add" });
+//app.MapControllerRoute(
+//	name: "AllUnits",
+//	pattern: "Units/All/{houseOrgId}",
+//	defaults: new { Controller = "Units", Action = "All" });
 
-app.MapControllerRoute(
-	name: "AllManagers",
-	pattern: "Management/All/{houseOrgId}",
-	defaults: new { Controller = "Management", Action = "All" });
+//app.MapControllerRoute(
+//	name: "AddUnits",
+//	pattern: "Units/Add/{houseOrgId}",
+//	defaults: new { Controller = "Units", Action = "Add" });
 
-app.MapControllerRoute(
-	name: "AddPresident",
-	pattern: "President/Add/{houseOrgId}",
-	defaults: new { Controller = "President", Action = "Add" });
+//app.MapControllerRoute(
+//	name: "AllManagers",
+//	pattern: "Management/All/{houseOrgId}",
+//	defaults: new { Controller = "Management", Action = "All" });
 
-app.MapControllerRoute(
-	name: "AddCashier",
-	pattern: "Cashier/Add/{houseOrgId}",
-	defaults: new { Controller = "Cashier", Action = "Add" });
-
-app.MapControllerRoute(
-	name: "ManageHouseOrg",
-	pattern: "HouseOrganizations/Manage/{id}",
-	defaults: new { Controller = "HouseOrganizations", Action = "Manage" });
+//app.MapControllerRoute(
+//	name: "ManageHouseOrg",
+//	pattern: "HouseOrganizations/Manage/{id}",
+//	defaults: new { Controller = "HouseOrganizations", Action = "Manage" });
 
 app.MapControllerRoute(
 	name: "ManagementEndTerm",

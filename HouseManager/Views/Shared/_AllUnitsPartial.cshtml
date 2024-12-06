@@ -1,0 +1,51 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model List<UnitViewModel>
+
+@{
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+}
+
+<form class="row row-cols-12 justify-content-center">
+	<section class="card border-dark p-0 mb-5 mx-3 col-lg-10">
+		<h4 class="card-header p-2 text-center">Units</h4>
+		<div class="card-body bg-light justify-content-center">
+			<button class="btn btn-sml btn-success mb-3 mx-3" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@houseOrgId">Add Unit</button>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr class="text-center align-middle p-0">
+							<th style="width: 10%" scope="col">#</th>
+							<th style="width: 18%" scope="col">Number</th>
+							<th style="width: 18%" scope="col">Floor</th>
+							<th style="width: 18%" scope="col">Type</th>
+							<th style="width: 18%" scope="col">Details</th>
+							<th style="width: 18%" scope="col">Edit</th>
+						</tr>
+					</thead>
+					<tbody class="align-middle col-10">
+						@for (int i = 0; i < Model.Count(); i++)
+						{
+							<tr class="text-center bg-white p-0">
+								<th class="bg-light" scope="row">@(i + 1)</th>
+								<td>@Model[i].Number</td>
+								<td>@Model[i].Floor</td>
+								<td>@Model[i].Type</td>
+								<td>
+									<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
+								</td>
+								<td>
+									<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

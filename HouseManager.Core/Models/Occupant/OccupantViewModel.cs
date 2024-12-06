@@ -29,5 +29,11 @@ namespace HouseManager.Core.Models.OccupantModels
 		/// </summary>
 		[Display(Name = "Phone Number")]
 		public string? PhoneNumber { get; set; }
+
+		/// <summary>
+		/// Unit occupied
+		/// </summary>
+		[Display(Name = "Unit Id")]
+		public int UnitId { get; set; }
 	}
 }
