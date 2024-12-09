@@ -111,7 +111,7 @@ namespace HouseManager.Core.Services
 		private static string GetManagerName(ICollection<Manager> managers, ManagerPosition position)
 		{
 			var result = managers
-							.Where(m => m.Position == position)
+							.Where(m => m.Position == position && m.IsActive)
 							.Select(m => m.Name)
 							.FirstOrDefault();
 

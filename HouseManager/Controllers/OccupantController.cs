@@ -1,5 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.OccupantModels;
+using HouseManager.Core.Models.OccupantModel;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +59,9 @@ namespace HouseManager.Controllers
 
 			return View(model);
 		}
+		#endregion
+
+		#region Leave
 		#endregion
 	}
 }

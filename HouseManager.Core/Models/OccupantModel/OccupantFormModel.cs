@@ -3,7 +3,7 @@
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 using static HouseManager.Core.Constants.ErrorMessages;
 
-namespace HouseManager.Core.Models.OccupantModels
+namespace HouseManager.Core.Models.OccupantModel
 {
 	/// <summary>
 	/// Model of a occupant used in the top level layers of the app for creation and edit

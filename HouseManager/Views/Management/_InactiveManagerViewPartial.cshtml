@@ -1,32 +1,34 @@
 ﻿@model List<InactiveManagementViewModel>
 
 @{
-	string tableName = $"Previous {Model[0].Position.ToString().ToLower()}";
+	string viewbag = Enum.GetName(Model[0].Position);
+
+	string tableName = $"Previous {viewbag.ToLower()}s";
 }
 
-<section class="card border-dark p-0 mb-3 mx-1 col-11">
+<section class="card border-2 p-0 mb-3 mx-1 col-12">
 	<h4 class="card-header p-2 text-center text-black-50">@tableName</h4>
-	<div class="card-body bg-light rounded p-4">
+	<div class="card-body rounded p-4">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover">
 				<thead>
-					<tr class="text-center align-middle p-1">
+					<tr class="text-center border-2 align-middle bg-light p-1">
 						<th style="width: 5%" scope="col">#</th>
-						<th style="width: 50%" scope="col">Name</th>
+						<th style="width: 45%" scope="col">Name</th>
 						<th style="width: 15%" scope="col">Start Date</th>
 						<th style="width: 15%" scope="col">End Date</th>
-						<th style="width: 15%" scope="col">Ended On Date</th>
+						<th style="width: 20%" scope="col">Ended On Date</th>
 					</tr>
 				</thead>
 				<tbody class="align-middle">
 					@for (int i = 0; i < Model.Count(); i++)
 					{
-						<tr class="text-center bg-white p-0">
-							<th class="bg-light" scope="row">@(i + 1)</th>
-							<td>@Model[i].Name</td>
-							<td>@Model[i].StartDate</td>
-							<td>@Model[i].EndDate</td>
-							<td>@Model[i].TerminationDate</td>
+						<tr class="text-center border-2 bg-white p-1">
+							<td class="bg-light p-1" scope="row">@(i + 1)</td>
+							<td class="p-1">@Model[i].Name</td>
+							<td class="p-1">@Model[i].StartDate</td>
+							<td class="p-1">@Model[i].EndDate</td>
+							<td class="p-1">@Model[i].TerminationDate</td>
 						</tr>
 					}
 				</tbody>

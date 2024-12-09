@@ -17,10 +17,44 @@ namespace HouseManager.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary key of the expense");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Amount of the expense");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasComment("Short description of the expense");
+
+                    b.Property<int>("HouseOrganizationId")
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the House Organization");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("Date on which the payment is made");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseOrganizationId");
+
+                    b.ToTable("Expenses");
+                });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
                 {
@@ -59,6 +93,48 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("HouseOrganizations");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Income", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the Income");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Amount of the Income");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasComment("Short description of the Income");
+
+                    b.Property<int>("HouseOrganizationId")
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the House Organization");
+
+                    b.Property<DateTime>("IncomeDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("Date of the Income");
+
+                    b.Property<int>("IncomeType")
+                        .HasColumnType("int")
+                        .HasComment("Type of the Income");
+
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int")
+                        .HasComment("Unit which provided the Income");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseOrganizationId");
+
+                    b.ToTable("Incomes");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Manager", b =>
@@ -130,6 +206,10 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasComment("Occupant full name");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasComment("Occupation status");
 
                     b.Property<bool>("IsOwner")
                         .HasColumnType("bit")
@@ -239,22 +319,22 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c6288568-b9a5-44b9-b47f-b18d482cd654",
+                            Id = "895c0b5c-7e0f-463d-a516-39a1d0f02718",
                             Name = "Administrator"
                         },
                         new
                         {
-                            Id = "f4db9481-30a5-4eb5-80fe-0ec4ce95d19e",
+                            Id = "db8769e1-929d-4ea7-a6be-34b3ef1d835f",
                             Name = "President"
                         },
                         new
                         {
-                            Id = "3c9f2183-5d14-4d9f-813c-046bb2c0e8a2",
+                            Id = "bac47003-4d82-4b63-a099-18972b660b2b",
                             Name = "Cashier"
                         },
                         new
                         {
-                            Id = "2e2c67b8-eaba-4fa5-900c-fb4b6b74d8fd",
+                            Id = "44b7af10-f68c-495c-9934-d7c7fd6ce3e8",
                             Name = "User"
                         });
                 });
@@ -434,6 +514,17 @@ namespace HouseManager.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Expense", b =>
+                {
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.HouseOrganization", "HouseOrganization")
+                        .WithMany("Expenses")
+                        .HasForeignKey("HouseOrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("HouseOrganization");
+                });
+
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Creator")
@@ -443,6 +534,17 @@ namespace HouseManager.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Income", b =>
+                {
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.HouseOrganization", "HouseOrganization")
+                        .WithMany("Incomes")
+                        .HasForeignKey("HouseOrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("HouseOrganization");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Manager", b =>
@@ -531,6 +633,10 @@ namespace HouseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
                 {
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Incomes");
+
                     b.Navigation("Managers");
 
                     b.Navigation("Units");

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HouseManager.Core.Models.OccupantModels
+namespace HouseManager.Core.Models.OccupantModel
 {
 	/// <summary>
 	/// Model that extends the OccupantViewModel in order to 

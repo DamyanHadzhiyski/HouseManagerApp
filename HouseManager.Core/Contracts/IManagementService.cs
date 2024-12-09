@@ -4,6 +4,10 @@ using HouseManager.Infrastructure.Enums;
 
 namespace HouseManager.Core.Contracts
 {
+	/// <summary>
+	/// Interface that will be added into the IoC and used for 
+	/// retrieval and manipulation of data from the Managers table
+	/// </summary>
 	public interface IManagementService
 	{
 		Task<bool> ActiveExistsAsync(int houseOrgId, ManagerPosition position);

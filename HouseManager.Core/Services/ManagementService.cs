@@ -44,7 +44,7 @@ namespace HouseManager.Core.Services
 
 		public IQueryable<ActiveManagementViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
 		{
-			var test = context.Managers
+			return context.Managers
 							.AsNoTracking()
 							.Where(p => p.HouseOrganizationId == houseOrgId
 											&& p.IsActive == true)
@@ -58,8 +58,6 @@ namespace HouseManager.Core.Services
 								PhoneNumber = p.PhoneNumber,
 								Progress = GetProgress(p.StartDate, GetEndDate(p.StartDate, p.TermPeriod))
 							});
-
-			return test;
 		}
 
 		public IQueryable<InactiveManagementViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId)

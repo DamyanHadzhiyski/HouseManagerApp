@@ -1,64 +1,49 @@
-﻿@inject IMemoryCache cache
+﻿@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-	var editPresident = false;
-	var editCashier = false;
-	var editModel = cache.Get("EditModel") as ActiveManagementFormModel;
-
-	if (TempData["Edit"] != null && (bool)TempData["Edit"] == true)
-	{
-		if (editModel.Position == ManagerPosition.President)
-		{
-			editPresident = true;
-		}
-		else
-		{
-			editCashier = true;
-		}
-	}
-
-	var emptyPresidentModel = new ActiveManagementFormModel() { Position = ManagerPosition.President };
-	var emptyCashierModel = new ActiveManagementFormModel() { Position = ManagerPosition.Cashier };
+	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName);
+	var activePresident = ViewBag.ActivePresident;
+	var activeCashier = ViewBag.ActiveCashier;
 }
 
 <form class="col-12">
 	<div class="bg-light rounded">
-		<h4 class="text-center mb-4">Management</h4>
+		<h4 class="text-center mb-4">@houseOrgName - Management</h4>
 		<hr />
 		<div id="current-management" class="row row-cols-1 row-cols-md-2 justify-content-center">
-			@if (editPresident == true)
-			{
-				<partial name="_ActiveManagerFormPartial" model="@editModel" />
-			}
-			else
-			{
-				@if (ViewBag.ActivePresident == null)
+			<div class="row justify-content-center mb-5">
+				@if (activePresident == null)
 				{
-					<partial name="_ActiveManagerFormPartial" model="@emptyPresidentModel" />
+					<h4 class="text-danger text-center fw-bold">Having a President is mandatory!</h4>
+					<button asp-controller="Management" asp-action="Add" asp-route-position="@ManagerPosition.President"
+							class="btn btn-success align-self-center col-6 col-xl-3 rounded m-2"
+							type="submit">
+						<i class="fa-solid fa-user-tie me-2"></i>Add President
+					</button>
 				}
 				else
 				{
-					<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActivePresident" />
+					<partial name="_ActiveManagerViewPartial" model="@activePresident" />
 				}
-			}
+			</div>
 
-			@if (editCashier == true)
-			{
-				<partial name="_ActiveManagerFormPartial" model="@editModel" />
-			}
-			else
-			{
-				@if (ViewBag.ActiveCashier == null)
+			<div class="row justify-content-center mb-5">
+				@if (activeCashier == null)
 				{
-					<partial name="_ActiveManagerFormPartial" model="@emptyCashierModel" />
+					<h4 class="text-danger text-center fw-bold">Having a Cashier is mandatory!</h4>
+					<button asp-controller="Management" asp-action="Add" asp-route-position="@ManagerPosition.Cashier"
+							class="btn btn-success align-self-center col-6 col-xl-3 rounded m-2"
+							type="submit">
+						<i class="fa-solid fa-cash-register me-2"></i>Add Cashier
+					</button>
 				}
 				else
 				{
-					<partial name="_ActiveManagerViewPartial" model="@ViewBag.ActiveCashier" />
+					<partial name="_ActiveManagerViewPartial" model="@activeCashier" />
 				}
-			}
+			</div>
 		</div>
-		<div id="previous-managements" class="row row-cols-1 row-cols-md-2 justify-content-center">
+		<div id="previous-managements" class="row row-cols-1 row-cols-md-2 justify-content-between">
 			<div class="row justify-content-center">
 				<partial name="_InactiveManagerViewPartial" model="@ViewBag.InactivePresidents" />
 			</div>
@@ -66,6 +51,7 @@
 				<partial name="_InactiveManagerViewPartial" model="@ViewBag.InactiveCashiers" />
 			</div>
 		</div>
+
 	</div>
 </form>
 

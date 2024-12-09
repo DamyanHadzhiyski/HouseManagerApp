@@ -4,8 +4,8 @@ using HouseManager.Infrastructure.Data.Models;
 namespace HouseManager.Core.Contracts
 {
 	/// <summary>
-	/// Interface that will be added into the IoC for and 
-	/// used for retrieval and manipulation of data from the HouseOrganizations table
+	/// Interface that will be added into the IoC and used for 
+	/// retrieval and manipulation of data from the HouseOrganizations table
 	/// </summary>
 	public interface IHouseOrganizationService
     {

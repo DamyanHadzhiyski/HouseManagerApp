@@ -1,6 +1,6 @@
 ﻿
 using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.OccupantModels;
+using HouseManager.Core.Models.OccupantModel;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 
@@ -22,7 +22,8 @@ namespace HouseManager.Core.Services
 				BirthDate = model.BirthDate.ToDateTime(default),
 				PhoneNumber = model.PhoneNumber,
 				UnitId = model.UnitId,
-				OccupationDate = model.OccupationDate.ToDateTime(default)
+				OccupationDate = model.OccupationDate.ToDateTime(default),
+				IsActive = true
 			};
 
 			await context.Occupants.AddAsync(occupant);
@@ -58,17 +59,37 @@ namespace HouseManager.Core.Services
 			throw new NotImplementedException();
 		}
 
-		public IQueryable<OccupantViewModel> GetAllReadOnlyAsync(int unitId)
+		public IQueryable<Occupant?> GetAllReadOnlyAsync(int unitId)
 		{
 			return context.Occupants
-							.Where(o => o.UnitId == unitId)
+							.Where(o => o.UnitId == unitId);
+		}
+
+		public IQueryable<OccupantViewModel> GetAllActiveReadOnlyAsync(int unitId)
+		{
+			return GetAllReadOnlyAsync(unitId)
+							.Where(o => o.IsActive)
 							.Select(o => new OccupantViewModel
 							{
 								Id = o.Id,
 								FullName = o.FullName,
-								IsOwner = o.IsOwner ? "Yes" : "No",
 								PhoneNumber = o.PhoneNumber,
-								UnitId = unitId
+								IsOwner = o.IsOwner ? "Yes" : "No"
+							});
+		}
+
+		public IQueryable<InactiveOccupantViewModel> GetAllInactiveReadOnlyAsync(int unitId)
+		{
+			return GetAllReadOnlyAsync(unitId)
+							.Where(o => o.IsActive == false)
+							.OrderByDescending(o => o.LeaveDate)
+							.Select(o => new InactiveOccupantViewModel
+							{
+								Id = o.Id,
+								FullName = o.FullName,
+								PhoneNumber = o.PhoneNumber,
+								IsOwner = o.IsOwner ? "Yes" : "No",
+								LeaveDate = o.LeaveDate.ToString(DateFormat)
 							});
 		}
 
@@ -83,7 +104,7 @@ namespace HouseManager.Core.Services
 									PhoneNumber= o.PhoneNumber,
 									IsOwner	= o.IsOwner ? "Yes" : "No",
 									OccupationDate = o.OccupationDate.ToString(DateFormat),
-									LeaveDate = o.LeaveDate.ToString(DateFormat)
+									LeaveDate = o.IsActive ? "NA" : o.LeaveDate.ToString(DateFormat)
 								})
 								.FirstOrDefaultAsync();
 		}

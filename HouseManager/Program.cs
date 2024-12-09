@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromSeconds(60);
+	options.IdleTimeout = TimeSpan.FromSeconds(300);
 	options.Cookie.HttpOnly = true;
 	options.Cookie.IsEssential = true;
 });
@@ -37,7 +37,8 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
+	app.UseExceptionHandler("/Home/Error/500");
+	app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 	app.UseHsts();
 }
 else
@@ -55,30 +56,19 @@ app.UseAuthorization();
 
 app.UseSession();
 
-//app.MapControllerRoute(
-//	name: "AllUnits",
-//	pattern: "Units/All/{houseOrgId}",
-//	defaults: new { Controller = "Units", Action = "All" });
-
-//app.MapControllerRoute(
-//	name: "AddUnits",
-//	pattern: "Units/Add/{houseOrgId}",
-//	defaults: new { Controller = "Units", Action = "Add" });
-
-//app.MapControllerRoute(
-//	name: "AllManagers",
-//	pattern: "Management/All/{houseOrgId}",
-//	defaults: new { Controller = "Management", Action = "All" });
-
-//app.MapControllerRoute(
-//	name: "ManageHouseOrg",
-//	pattern: "HouseOrganizations/Manage/{id}",
-//	defaults: new { Controller = "HouseOrganizations", Action = "Manage" });
+app.MapControllerRoute(
+	  name: "areas",
+	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
 	name: "ManagementEndTerm",
-	pattern: "Management/EndTerm/{id}/{houseOrgId}",
+	pattern: "Management/EndTerm/{id}",
 	defaults: new { Controller = "Management", Action = "EndTerm" });
+
+app.MapControllerRoute(
+	name: "ManagementAll",
+	pattern: "Management/All/{houseOrgId}",
+	defaults: new { Controller = "Management", Action = "All" });
 
 app.MapControllerRoute(
 	name: "AddOccupant",

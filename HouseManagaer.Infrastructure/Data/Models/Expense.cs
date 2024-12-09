@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -39,5 +40,18 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Required]
         [Comment("Date on which the payment is made")]
         public required DateTime PaymentDate { get; set; }
-    }
+
+		/// <summary>
+		/// Primary identifier of the House Organization that made the expense
+		/// </summary>
+		[Required]
+		[Comment("Primary identifier of the House Organization")]
+		public required int HouseOrganizationId { get; set; }
+
+		/// <summary>
+		/// Navigation property to the HouseOrganizations table
+		/// </summary>
+		[ForeignKey(nameof(HouseOrganizationId))]
+		public HouseOrganization HouseOrganization { get; set; } = null!;
+	}
 }

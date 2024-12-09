@@ -74,6 +74,13 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Required]
 		[Comment("End date of the occupation")]
 		public DateTime LeaveDate { get; set; }
-	}
+
+        /// <summary>
+		/// Occupation status
+		/// </summary>
+		[Required]
+		[Comment("Occupation status")]
+        public required bool IsActive { get; set; }
+    }
 }
          

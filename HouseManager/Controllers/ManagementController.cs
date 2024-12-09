@@ -4,7 +4,6 @@ using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 using static HouseManager.Constants.SessionConstants;
 
@@ -14,15 +13,23 @@ namespace HouseManager.Controllers
 		IManagementService managementService) : BaseController
 	{
 		#region Add Manager
-		[HttpPost]
-		public async Task<IActionResult> Add(ActiveManagementFormModel model, int houseOrgId)
+		[HttpGet]
+		public IActionResult Add(ManagerPosition position)
 		{
-			if (await managementService.ActiveExistsAsync(houseOrgId, model.Position))
+			var model = new ActiveManagementFormModel();
+
+			model.Position = position;
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Add(ActiveManagementFormModel model)
+		{
+			if (await managementService.ActiveExistsAsync(model.HouseOrganizationId, model.Position))
 			{
 				ModelState.AddModelError("ActiveExists", "There is already assigned President, you must end it's term, before assigning a new one!");
 			}
-
-			model.HouseOrganizationId = houseOrgId;
 
 			if (!ModelState.IsValid)
 			{
@@ -37,12 +44,12 @@ namespace HouseManager.Controllers
 				}
 
 				TempData["Errors"] = errors;
-				return RedirectToAction(nameof(All), "Management", new { houseOrgId });
+				return RedirectToAction(nameof(All), new { houseOrgId = model.HouseOrganizationId });
 			}
 
 			await managementService.AddAsync(model);
 
-			return RedirectToAction(nameof(All), "Management", new { houseOrgId });
+			return RedirectToAction(nameof(All), new { houseOrgId = model.HouseOrganizationId });
 		}
 		#endregion
 
@@ -68,11 +75,7 @@ namespace HouseManager.Controllers
 				PhoneNumber = manager.PhoneNumber
 			};
 
-			TempData["Edit"] = true;
-
-			//cache.Set("EditModel", model);
-
-			return RedirectToAction("All", "Management", new { houseOrgId = manager.HouseOrganizationId });
+			return View(model);
 		}
 
 		[HttpPost]
@@ -137,7 +140,7 @@ namespace HouseManager.Controllers
 
 			var houseOrgId = await managementService.EndTermAsync(id);
 
-			return LocalRedirect($"~/Management/all/{ houseOrgId }");
+			return RedirectToAction(nameof(All), new { houseOrgId });
 		}
 		#endregion
 	}

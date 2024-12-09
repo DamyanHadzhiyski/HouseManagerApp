@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using HouseManager.Core.Models.OccupantModels;
+using HouseManager.Core.Models.OccupantModel;
 
 namespace HouseManager.Core.Models.Unit
 {
@@ -40,8 +40,13 @@ namespace HouseManager.Core.Models.Unit
 		public string Balance { get; set; } = string.Empty;
 
 		/// <summary>
-		/// List with information for the unit occupants
+		/// List with information for the active unit occupants
 		/// </summary>
 		public List<OccupantViewModel> ActiveOccupants { get; set; } = [];
+
+		/// <summary>
+		/// List with information for the inactive unit occupants
+		/// </summary>
+		public List<InactiveOccupantViewModel> InactiveOccupants { get; set; } = [];
 	}
 }

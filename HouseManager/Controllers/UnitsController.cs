@@ -24,7 +24,7 @@ namespace HouseManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(UnitFormModel model, int houseOrgId)
+        public async Task<IActionResult> Add(UnitFormModel model)
         {
 			if (!ModelState.IsValid)
             {
@@ -38,14 +38,14 @@ namespace HouseManager.Controllers
                 UnitType = model.Type,
                 CommonParts = model.CommonParts,
                 TotalArea = model.TotalArea,
-                HouseOrganizationId = houseOrgId
+                HouseOrganizationId = model.HouseOrganizationId
 
             };
 
             await context.Units.AddAsync(addUnit);
             await context.SaveChangesAsync();
 
-            return RedirectToAction("All", "Units", new {houseOrgId});
+            return RedirectToAction("All", "Units", new { houseOrgId = model.HouseOrganizationId });
         }
         #endregion
 
@@ -112,11 +112,16 @@ namespace HouseManager.Controllers
         {
             var model = await unitService.GetDetailsByIdAsync(id);
 
-            model.Occupants = await occupantService
-                                        .GetAllReadOnlyAsync(id)
+            model.ActiveOccupants = await occupantService
+                                        .GetAllActiveReadOnlyAsync(id)
                                         .OrderByDescending(o => o.IsOwner)
                                         .ToListAsync();
-            return View(model);
+
+			model.InactiveOccupants = await occupantService
+										.GetAllInactiveReadOnlyAsync(id)
+										.ToListAsync();
+
+			return View(model);
         }
 		#endregion
 

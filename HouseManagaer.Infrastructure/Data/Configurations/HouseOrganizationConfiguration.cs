@@ -23,6 +23,18 @@ namespace HouseManager.Infrastructure.Data.Configurations
 				.WithOne(m => m.HouseOrganization)
 				.HasForeignKey(m => m.HouseOrganizationId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			builder
+				.HasMany(h => h.Incomes)
+				.WithOne(i => i.HouseOrganization)
+				.HasForeignKey(i => i.HouseOrganizationId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder
+				.HasMany(h => h.Expenses)
+				.WithOne(e => e.HouseOrganization)
+				.HasForeignKey(e => e.HouseOrganizationId)
+				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

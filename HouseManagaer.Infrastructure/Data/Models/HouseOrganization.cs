@@ -69,5 +69,15 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// </summary>
 		public ICollection<Unit> Units { get; set; } = [];
 
-    }
+		/// <summary>
+		/// Collection of all incomes received by the house organization
+		/// </summary>
+		public ICollection<Income> Incomes { get; set; } = [];
+
+		/// <summary>
+		/// Collection of all expenses made by the house organization
+		/// </summary>
+		public ICollection<Expense> Expenses { get; set; } = [];
+
+	}
 }

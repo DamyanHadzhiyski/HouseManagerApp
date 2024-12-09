@@ -3,10 +3,13 @@
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Constants.SessionConstants;
+using static HouseManager.Infrastructure.Constants.UserRoles;
+
 
 namespace HouseManager.Controllers
 {
@@ -95,6 +98,7 @@ namespace HouseManager.Controllers
 
 		#region Show All House Organizations
 		[HttpGet]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> All()
 		{
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

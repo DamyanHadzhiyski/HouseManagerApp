@@ -2,8 +2,8 @@
 {
 	public enum IncomeType
 	{
-		EntranceTax,
-		UnitRent,
+		CommunalServices,
+		RenovationAndMaintenance,
 		Other
 	}
 }

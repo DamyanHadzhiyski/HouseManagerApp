@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using HouseManager.Infrastructure.Enums;
 
@@ -9,7 +10,7 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 namespace HouseManager.Infrastructure.Data.Models
 {
     /// <summary>
-    /// Entity that holds information for the incomes of the home orgaznizations
+    /// Entity that holds information for the incomes of the house organizations
     /// </summary>
     public class Income
 	{
@@ -52,6 +53,19 @@ namespace HouseManager.Infrastructure.Data.Models
 		/// </summary>
 		[MaxLength(DescriptionMaxLength)]
 		[Comment("Short description of the Income")]
-        public string? Description { get; set; }
-    }
+		public string Description { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Primary identifier of the House Organization that received the income
+		/// </summary>
+		[Required]
+		[Comment("Primary identifier of the House Organization")]
+		public required int HouseOrganizationId { get; set; }
+
+		/// <summary>
+		/// Navigation property to the HouseOrganizations table
+		/// </summary>
+		[ForeignKey(nameof(HouseOrganizationId))]
+		public HouseOrganization HouseOrganization { get; set; } = null!;
+	}
 }

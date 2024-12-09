@@ -42,7 +42,9 @@ namespace HouseManager.Core.Services
 									TotalArea = u.TotalArea.ToString("f2"),
 									CommonParts = u.CommonParts.ToString("f2"),
 									PetsCount = u.PetsCount,
-									OccupantsCount = u.Occupants.Count,
+									OccupantsCount = u.Occupants
+															.Where(o => o.IsActive)
+															.Count(),
 									Balance = u.Balance.ToString()
 								})
 								.FirstOrDefaultAsync();
