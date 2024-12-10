@@ -1,4 +1,6 @@
-﻿using HouseManager.Core.Models.HouseOrganization;
+﻿using HouseManager.Core.Models.Finances;
+using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Core.Models.Unit;
 using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
@@ -62,6 +64,6 @@ namespace HouseManager.Core.Contracts
 		/// </summary>
 		/// <param name="houseOrgId">House Organization Id</param>
 		/// <returns></returns>
-		Task<HouseOrganization?> GetByIdAsync(int houseOrgId);
+		IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId);
 	}
 }

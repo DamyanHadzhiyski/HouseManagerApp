@@ -6,71 +6,76 @@
 	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId);
 	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName);
 	var name = $"Unit {Model.Number}";
+	var currentBalanceString = Model.Balance;
 }
 
-<div class="bg-light rounded">
-	<h4 class="text-center mb-4">@houseOrgName - @name</h4>
-	<hr />
-	<div class="row row-cols-1 row-cols-sm-2 justify-content-center">
-		<section id="unit-details" class="card border-2 p-0 col-4 col-lg-3">
-			<h4 class="card-header p-2 text-center">Details</h4>
-			<div class="card-body p-4">
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.Type" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.Type</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.Number" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.Number</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.Floor" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.Floor</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.TotalArea" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.TotalArea</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.CommonParts" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.CommonParts</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.OccupantsCount" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.OccupantsCount</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.PetsCount" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.PetsCount</label>
-				</div>
-				<div class="row align-items-center mb-3">
-					<label asp-for="@Model.Balance" class="col-lg-5 text-start text-lg-end fw-bold"></label>
-					<label class="col-lg-5">@Model.Balance</label>
-				</div>
+
+<h4 class="text-center mb-4">@houseOrgName - @name</h4>
+<hr />
+<div class="row row-cols-2 justify-content-around align-items-center mb-5">
+	<div class="card row border-2 p-0 col-12 col-xl-4">
+		<h4 class="card-header p-2 text-center">Details</h4>
+		<div class="card-body p-4">
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.Type" class="col-lg-5 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-5">@Model.Type</label>
 			</div>
-		</section>
-		<section id="unit-occupant">
-			<div class="card border-2 p-0 mb-5 mx-3 col-lg-12">
-				<h4 class="card-header p-2 text-center">Active Occupants list</h4>
-				<form class="col rounded">
-					<div class="card-body p-4">
-						<button type="submit" class="btn btn-sml btn-success mb-3" asp-controller="Occupant" asp-action="Add" asp-route-unitId="@Model.Id"><i class="fa-solid fa-user-plus me-2"></i>Add Occupant</button>
-						<partial name="_ActiveOccupantsPartial" model="@Model.ActiveOccupants" />
-					</div>
-				</form>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.Number" class="col-lg-5 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-5">@Model.Number</label>
 			</div>
-			<div class="card border-2 p-0 mb-5 mx-3 col-lg-12">
-				<h4 class="card-header p-2 text-center">Inactive Occupants list</h4>
-				<form class="col rounded">
-					<div class="card-body p-4">
-						<partial name="_InactiveOccupantsPartial" model="@Model.InactiveOccupants" />
-					</div>
-				</form>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.Floor" class="col-lg-5 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-5">@Model.Floor</label>
 			</div>
-		</section>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.TotalArea" class="col-lg-5 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-5">@Model.TotalArea</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.CommonParts" class="col-lg-5 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-5">@Model.CommonParts</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.OccupantsCount" class="col-lg-5 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-5">@Model.OccupantsCount</label>
+			</div>
+		</div>
 	</div>
-	<form class="bg-light rounded d-flex flex-wrap justify-content-center p-4">
-		<button asp-controller="Units" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
-		<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","Units", new {houseOrgId})';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
-	</form>
+	<div class="card border-2 p-0 col-12 col-xl-4 align-self-top">
+		<h4 class="card-header p-2 text-center">Current Balance</h4>
+		<div class="card-body row align-items-center mx-0">
+			@if (currentBalanceString <= 0)
+			{
+				<h2 class="display-4 text-center text-danger align-middle mb-3">@currentBalanceString BGN</h2>
+			}
+			else
+			{
+				<h2 class="display-4 text-center align-middle mb-3">@currentBalanceString BGN</h2>
+			}
+		</div>
+	</div>
 </div>
+<div class="row row-cols-1 row-cols-md-2 justify-content-between">
+	<div class="row justify-content-center">
+		<div class="card border-2 p-0 mb-3 mx-1 col-12">
+			<h4 class="card-header p-2 text-center">Active Occupants list</h4>
+			<div class="card-body rounded p-4">
+				<button type="submit" class="btn btn-sml btn-success mb-3" asp-controller="Occupant" asp-action="Add" asp-route-unitId="@Model.Id"><i class="fa-solid fa-user-plus me-2"></i>Add Occupant</button>
+				<partial name="~/Views/Shared/Occupant/_ActiveOccupantsPartial.cshtml" model="@Model.ActiveOccupants" />
+			</div>
+		</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="card border-2 p-0 mb-3 mx-1 col-12">
+			<h4 class="card-header p-2 text-center">Inactive Occupants list</h4>
+			<div class="card-body rounded p-4">
+				<partial name="~/Views/Shared/Occupant/_InactiveOccupantsPartial.cshtml" a model="@Model.InactiveOccupants" />
+			</div>
+		</div>
+	</div>
+</div>
+<form class="bg-light rounded d-flex flex-wrap justify-content-center p-4">
+	<button asp-controller="Units" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+	<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","Units", new {houseOrgId})';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
+</form>

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using HouseManager.Infrastructure.Enums;
+
 using static HouseManager.Core.Constants.ErrorMessages;
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
@@ -21,7 +23,13 @@ namespace HouseManager.Core.Models.Finances
 		/// </summary>
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public DateTime Date { get; set; }
-		
+
+		/// <summary>
+		/// The way the expense is split
+		/// </summary>
+		[Required(ErrorMessage =FieldRequiredErrorMessage)]
+		public ExpenseSplitType SplitType { get; set; }
+
 		/// <summary>
 		/// Information about the expense
 		/// </summary>

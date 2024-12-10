@@ -2,6 +2,6 @@
 {
 	public static class DataConstants
 	{
-		public const string DateFormat = "dd-MM-yyyy";
+		public const string AppDateFormat = "dd-MM-yyyy";
 	}
 }

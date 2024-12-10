@@ -44,6 +44,7 @@ namespace HouseManager.Controllers
 
 		#region Edit House Organization
 		[HttpGet]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> Edit(int id)
 		{
 			if (!await houseOrgService.ExistById(id))
@@ -59,6 +60,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
 			if (!await houseOrgService.ExistById(model.Id))
@@ -101,10 +103,8 @@ namespace HouseManager.Controllers
 		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> All()
 		{
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
 			var model = await houseOrgService
-							.GetAllByCreatorReadOnly(userId)
+							.GetAllReadOnly()
 							.ToListAsync();
 
 			return View(model);
@@ -113,6 +113,7 @@ namespace HouseManager.Controllers
 
 		#region Manage House Organization
 		[HttpGet]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> Manage(int id)
 		{
 			var houseOrgName = await houseOrgService

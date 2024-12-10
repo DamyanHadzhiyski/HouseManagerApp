@@ -8,6 +8,7 @@
 	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName) ?? "none";
 	var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 	var userRole = User.FindFirstValue(ClaimTypes.Role);
+	var viewName = ViewBag.ViewName;
 }
 
 <!DOCTYPE html>
@@ -100,7 +101,7 @@
 			@*Main Content*@
 			<div class="container-fluid pt-4 px-4">
 				<div class="row bg-light rounded align-items-top justify-content-center mx-0">
-					<main role="main" class="main vh-100 p-4">
+					<main role="main" class="main container-fluid p-4">
 						@RenderBody()
 					</main>
 				</div>

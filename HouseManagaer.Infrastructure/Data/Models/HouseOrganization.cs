@@ -59,6 +59,13 @@ namespace HouseManager.Infrastructure.Data.Models
         public IdentityUser Creator { get; set; } = null!;
 
         /// <summary>
+        /// Total financial balance of the House Organizaton
+        /// </summary>
+        [Required]
+        [Comment("Total balance")]
+        public decimal Balance { get; set; }
+
+        /// <summary>
         /// Active/inactive managers of the house organization
         /// </summary>
         public ICollection<Manager> Managers { get; set; } = [];

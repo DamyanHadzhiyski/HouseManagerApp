@@ -29,15 +29,9 @@ namespace HouseManager.Core.Models.Unit
 		public int OccupantsCount { get; set; }
 
 		/// <summary>
-		/// Number of pats that are going out in the common areas
-		/// </summary>
-		[Display(Name = "Pets Count")]
-		public int PetsCount { get; set; }
-
-		/// <summary>
 		/// The credit/debit of the unit
 		/// </summary>
-		public string Balance { get; set; } = string.Empty;
+		public decimal Balance { get; set; }
 
 		/// <summary>
 		/// List with information for the active unit occupants

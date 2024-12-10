@@ -53,8 +53,8 @@ namespace HouseManager.Core.Services
 								Id = p.Id,
 								Name = p.Name,
 								Position = p.Position,
-								StartDate = p.StartDate.ToString(DateFormat),
-								EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(DateFormat),
+								StartDate = p.StartDate.ToString(AppDateFormat),
+								EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(AppDateFormat),
 								PhoneNumber = p.PhoneNumber,
 								Progress = GetProgress(p.StartDate, GetEndDate(p.StartDate, p.TermPeriod))
 							});
@@ -70,9 +70,9 @@ namespace HouseManager.Core.Services
 								{
 									Name = p.Name,
 									Position = p.Position,
-									StartDate = p.StartDate.ToString(DateFormat),
-									EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(DateFormat),
-									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(DateFormat) ?? "NA"
+									StartDate = p.StartDate.ToString(AppDateFormat),
+									EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(AppDateFormat),
+									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(AppDateFormat) ?? "NA"
 								});
 			return test;
 		}

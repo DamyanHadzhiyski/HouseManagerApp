@@ -27,7 +27,8 @@ namespace HouseManager.Core.Models.Finances
 		/// <summary>
 		/// Unit number, if the income is made by unit
 		/// </summary>
-		public string Unit { get; set; } = string.Empty;
+		[Display(Name = "Unit")]
+		public int UnitId { get; set; }
 
 		/// <summary>
 		/// Income date

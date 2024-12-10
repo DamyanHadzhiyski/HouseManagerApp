@@ -11,8 +11,8 @@
 
 <h4 class="mb-4 text-center">@name - Details</h4>
 <hr />
-<div class="row justify-content-center flex-wrap">
-	<section class="card border-2 p-0 col-4 col-lg-3">
+<div class="row row-cols-1 row-cols-md-2 justify-content-center">
+	<div class="card border-2 p-0 col-12 col-lg-3">
 		<h4 class="card-header p-2 text-center">Details</h4>
 		<div class="card-body p-4">
 			<div class="row align-items-center mb-3">
@@ -39,16 +39,16 @@
 				<label class="col-lg-8">@Model.OccupantsCount</label>
 			</div>
 		</div>
-	</section>
-	@if(houseOrgId == id)
+	</div>
+	@if (houseOrgId == id)
 	{
-		<section class="col-4 col-lg-6">
+		<div class="col-12 col-lg-6">
 			<partial name="_AllUnitsPartial" model="@Model.Units" />
-		</section>
+		</div>
 	}
-	<form class="bg-light d-flex flex-wrap justify-content-center p-4">
-		<button asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
-		<button asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
-		<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
-	</form>
 </div>
+<form class="d-flex flex-wrap justify-content-center p-4">
+	<button asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
+	<button asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+	<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
+</form>

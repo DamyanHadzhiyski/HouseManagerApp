@@ -1,15 +1,15 @@
-﻿@model List<InactiveOccupantViewModel>
+﻿@model List<OccupantViewModel>
 
 <div class="table-responsive">
 	<table class="table table-bordered table-hover">
 		<thead>
-			<tr class ="text-center border-2 bg-light align-middle p-1">
+			<tr class="text-center border-2 bg-light align-middle">
 				<th style="width:5%" scope="col">#</th>
 				<th style="width:45%" scope="col">Full Name</th>
 				<th style="width:20%" scope="col">Phone Number</th>
 				<th style="width:10%" scope="col">Owner</th>
-				<th style="width:10%" scope="col">Left On</th>
 				<th style="width:10%" scope="col">Details</th>
+				<th style="width:10%" scope="col">Edit</th>
 			</tr>
 		</thead>
 		<tbody class="align-middle">
@@ -20,12 +20,29 @@
 					<td class="p-1">@Model[i].FullName</td>
 					<td class="p-1">@Model[i].PhoneNumber</td>
 					<td class="p-1">@Model[i].IsOwner</td>
-					<td class="p-1">@Model[i].LeaveDate</td>
 					<td class="p-1">
 						<button type="submit" class="btn  btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Occupant" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
+					</td>
+					<td class="p-1">
+						<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Occupant" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
 					</td>
 				</tr>
 			}
 		</tbody>
 	</table>
+	<nav aria-label="...">
+		<ul class="pagination">
+			<li class="page-item disabled">
+				<a class="page-link">Previous</a>
+			</li>
+			<li class="page-item"><a class="page-link" href="#">1</a></li>
+			<li class="page-item active" aria-current="page">
+				<a class="page-link" href="#">2</a>
+			</li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item">
+				<a class="page-link" href="#">Next</a>
+			</li>
+		</ul>
+	</nav>
 </div>

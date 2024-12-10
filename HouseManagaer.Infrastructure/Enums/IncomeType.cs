@@ -2,8 +2,8 @@
 {
 	public enum IncomeType
 	{
-		CommunalServices,
-		RenovationAndMaintenance,
+		Communal,
+		Renovation,
 		Other
 	}
 }

@@ -25,6 +25,7 @@ builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>(
 builder.Services.AddScoped<IManagementService, ManagementService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IOccupantService, OccupantService>();
+builder.Services.AddScoped<IFinanceService, FinanceService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -74,6 +75,11 @@ app.MapControllerRoute(
 	name: "AddOccupant",
 	pattern: "Occupant/Add/{unitId}",
 	defaults: new { Controller = "Occupant", Action = "Add" });
+
+app.MapControllerRoute(
+	name: "NewIncome",
+	pattern: "Finances/{action}/{houseOrgId?}",
+	defaults: new { Controller = "Finances", Action = "NewIncome" });
 
 app.MapDefaultControllerRoute();
 

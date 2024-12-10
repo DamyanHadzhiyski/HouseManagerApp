@@ -4,6 +4,7 @@ using HouseManager.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(HouseManagerDbContext))]
-    partial class HouseManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241209062831_AddedBalancefieldToHouseOrganizationsTable")]
+    partial class AddedBalancefieldToHouseOrganizationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,10 +51,6 @@ namespace HouseManager.Infrastructure.Migrations
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2")
                         .HasComment("Date on which the payment is made");
-
-                    b.Property<int>("SplitType")
-                        .HasColumnType("int")
-                        .HasComment("How the expense is spread");
 
                     b.HasKey("Id");
 
@@ -327,22 +326,22 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8382b703-5091-4508-93fb-322039109c04",
+                            Id = "4cdfe428-2a1a-42b7-9e5a-34c02be71e2a",
                             Name = "Administrator"
                         },
                         new
                         {
-                            Id = "23092eb6-d76d-4fac-86d8-fdaa501179ba",
+                            Id = "9508d58c-4aaa-4c93-956b-c40cdcbd5334",
                             Name = "President"
                         },
                         new
                         {
-                            Id = "3704462e-49d4-4b56-a34f-b1564e9049e4",
+                            Id = "28278e25-0f03-4f6b-ae77-1a32da8495cd",
                             Name = "Cashier"
                         },
                         new
                         {
-                            Id = "24385294-0d30-4ef7-a46d-816b710bb12d",
+                            Id = "2af15985-90bf-4ce9-958e-7785dfe20cc2",
                             Name = "User"
                         });
                 });

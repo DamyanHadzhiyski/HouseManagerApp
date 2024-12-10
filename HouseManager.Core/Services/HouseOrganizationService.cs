@@ -1,12 +1,15 @@
 ﻿using System.Data;
 
 using HouseManager.Core.Contracts;
+using HouseManager.Core.Models.Finances;
 using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
+
+using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
@@ -46,7 +49,7 @@ namespace HouseManager.Core.Services
 
 		public async Task EditAsync(HouseOrganizationFormModel houseOrg)
 		{
-			var editHouse = await GetByIdAsync(houseOrg.Id);
+			var editHouse = await GetByIdAsync(houseOrg.Id).FirstOrDefaultAsync();
 
 			editHouse.Name = houseOrg.Name;
 			editHouse.Address = houseOrg.Address;
@@ -123,13 +126,13 @@ namespace HouseManager.Core.Services
 			return units.Sum(u => u.Occupants.Count);
 		}
 
-		public async Task<HouseOrganization?> GetByIdAsync(int houseOrgId)
+		public IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId)
 		{
-			return await context.HouseOrganizations
+			return context.HouseOrganizations
+									.Where(ho => ho.Id == houseOrgId)
 									.Include(ho => ho.Managers)
 									.Include(ho => ho.Units)
-									.ThenInclude(u => u.Occupants)
-									.FirstOrDefaultAsync(ho => ho.Id == houseOrgId);
+									.ThenInclude(u => u.Occupants);
 		}
 
 		public IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId)

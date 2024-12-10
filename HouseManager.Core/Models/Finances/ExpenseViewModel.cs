@@ -1,9 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using static HouseManager.Core.Constants.ErrorMessages;
-using static HouseManager.Infrastructure.Constants.EntityConstants;
-
-namespace HouseManager.Core.Models.Finances
+﻿namespace HouseManager.Core.Models.Finances
 {
 	/// <summary>
 	/// Model of an income used for visualization at the top level layers of the app
@@ -14,6 +9,11 @@ namespace HouseManager.Core.Models.Finances
 		/// Expense amount
 		/// </summary>
 		public string Amount { get; set; } = string.Empty;
+
+		/// <summary>
+		/// The way the expense is split
+		/// </summary>
+		public string SplitType { get; set; } = string.Empty;
 
 		/// <summary>
 		/// Expense date

@@ -89,7 +89,7 @@ namespace HouseManager.Core.Services
 								FullName = o.FullName,
 								PhoneNumber = o.PhoneNumber,
 								IsOwner = o.IsOwner ? "Yes" : "No",
-								LeaveDate = o.LeaveDate.ToString(DateFormat)
+								LeaveDate = o.LeaveDate.ToString(AppDateFormat)
 							});
 		}
 
@@ -100,11 +100,11 @@ namespace HouseManager.Core.Services
 								.Select(o=> new OccupantDetailViewModel
 								{
 									FullName = o.FullName,
-									BirthDate = o.BirthDate.ToString(DateFormat),
+									BirthDate = o.BirthDate.ToString(AppDateFormat),
 									PhoneNumber= o.PhoneNumber,
 									IsOwner	= o.IsOwner ? "Yes" : "No",
-									OccupationDate = o.OccupationDate.ToString(DateFormat),
-									LeaveDate = o.IsActive ? "NA" : o.LeaveDate.ToString(DateFormat)
+									OccupationDate = o.OccupationDate.ToString(AppDateFormat),
+									LeaveDate = o.IsActive ? "NA" : o.LeaveDate.ToString(AppDateFormat)
 								})
 								.FirstOrDefaultAsync();
 		}

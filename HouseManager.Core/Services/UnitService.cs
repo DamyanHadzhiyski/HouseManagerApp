@@ -41,11 +41,10 @@ namespace HouseManager.Core.Services
 									Type = u.UnitType.ToString(),
 									TotalArea = u.TotalArea.ToString("f2"),
 									CommonParts = u.CommonParts.ToString("f2"),
-									PetsCount = u.PetsCount,
 									OccupantsCount = u.Occupants
 															.Where(o => o.IsActive)
 															.Count(),
-									Balance = u.Balance.ToString()
+									Balance = u.Balance
 								})
 								.FirstOrDefaultAsync();
 		}
@@ -70,5 +69,26 @@ namespace HouseManager.Core.Services
                                 })
                                 .ToListAsync();
         }
-    }
+
+		public async Task<List<UnitShortViewModel>> GetUnitsShortInfoAsync(int houseOrgId)
+		{
+			return await context.Units
+								.Where(u => u.HouseOrganizationId == houseOrgId)
+								.Select(u => new UnitShortViewModel
+								{
+									Id = u.Id,
+									Number = u.UnitNumber,
+								})
+								.ToListAsync();
+		}
+
+		public async Task CalculateBalance(int id, decimal amount)
+		{
+			var unit = await GetByIdAsync(id);
+
+			unit.Balance += amount;
+
+			await context.SaveChangesAsync();
+		}
+	}
 }
