@@ -77,6 +77,16 @@ app.MapControllerRoute(
 	defaults: new { Controller = "Occupant", Action = "Add" });
 
 app.MapControllerRoute(
+	name: "OccupantPages",
+	pattern: "Units/Details/{id}/{activeCurrentPage}/{inactiveCurrentPage}",
+	defaults: new { Controller = "Units", Action = "Details" });
+
+app.MapControllerRoute(
+	name: "FinancesPages",
+	pattern: "Finances/Index/{houseOrgId}/{incomesCurrentPage}/{expensesCurrentPage}",
+	defaults: new { Controller = "Finances", Action = "Index"});
+
+app.MapControllerRoute(
 	name: "NewIncome",
 	pattern: "Finances/{action}/{houseOrgId?}",
 	defaults: new { Controller = "Finances", Action = "NewIncome" });

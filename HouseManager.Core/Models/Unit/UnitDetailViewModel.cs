@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using HouseManager.Core.Models.OccupantModel;
+using HouseManager.Core.Models.Pagination;
 
 namespace HouseManager.Core.Models.Unit
 {
@@ -36,11 +37,11 @@ namespace HouseManager.Core.Models.Unit
 		/// <summary>
 		/// List with information for the active unit occupants
 		/// </summary>
-		public List<OccupantViewModel> ActiveOccupants { get; set; } = [];
+		public ActiveOccupantsPageViewModel ActiveOccupants { get; set; } = null!;
 
 		/// <summary>
 		/// List with information for the inactive unit occupants
 		/// </summary>
-		public List<InactiveOccupantViewModel> InactiveOccupants { get; set; } = [];
+		public InactiveOccupantsPageViewModel InactiveOccupants { get; set; } = null!;
 	}
 }

@@ -31,7 +31,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Units\" />
     <Folder Include="wwwroot\css\custom\date-picker\" />
     <Folder Include="wwwroot\js\custom\date-picker\" />
   </ItemGroup>

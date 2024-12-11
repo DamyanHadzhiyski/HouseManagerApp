@@ -16,7 +16,6 @@ namespace HouseManager.Core.Services
 		HouseManagerDbContext context,
 		IHouseOrganizationService houseService) : IFinanceService
 	{
-
 		public async Task AddIncomeAsync(IncomeFormModel model)
 		{
 			var income = new Income
@@ -33,6 +32,7 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
+		//TODO: Separate split type in methods
 		public async Task AddExpenseAsync(ExpenseFormModel model)
 		{
 			var expense = new Expense
@@ -58,7 +58,7 @@ namespace HouseManager.Core.Services
 
 				foreach (var unit in units)
 				{
-					//await CalculateBalanceAsync<DbSet<Unit>>(context.Units, unit.Id, (splitExpense * -1));
+					await CalculateUnitBalanceAsync(unit.Id, (splitExpense * -1));
 				}
 
 			}
@@ -77,52 +77,46 @@ namespace HouseManager.Core.Services
 				{
 					var unitExpense = unit.Occupants.Count * splitExpense;
 
-					//await CalculateBalanceAsync<DbSet<Unit>>(context.Units, unit.Id, (unitExpense * -1));
+					await CalculateUnitBalanceAsync(unit.Id, (unitExpense * -1));
 				}
 
 			}
 		}
 
-		public async Task<FinancesViewModel?> GetHouseOrgFinancesByIdAsync(int houseOrgId)
+		public IQueryable<IncomeViewModel> GetHouseOrgIncomesByIdAsync(int houseOrgId)
+		{
+			return context.Incomes
+								.Where(i => i.HouseOrganizationId == houseOrgId)
+								.Select(i => new IncomeViewModel
+								{
+									Type = FormatTypeName<IncomeType>(i.IncomeType),
+									Amount = i.Amount.ToString("f2"),
+									Date = i.IncomeDate.ToString(AppDateFormat),
+									UnitNumber = i.UnitId == 0 ? "NA" : i.UnitId.ToString(),
+									Description = i.Description
+								});
+
+		}
+		
+		public IQueryable<ExpenseViewModel> GetHouseOrgExpensesByIdAsync(int houseOrgId)
+		{
+			return context.Expenses
+								.Where(e => e.HouseOrganizationId == houseOrgId)
+								.Select(e => new ExpenseViewModel
+								{
+									Amount = e.Amount.ToString("f2"),
+									Date = e.PaymentDate.ToString(AppDateFormat),
+									SplitType = FormatTypeName<ExpenseSplitType>(e.SplitType),
+									Description = e.Description
+								});
+		}
+
+		public async Task<decimal> GetHouseOrgBalanceByIdAsync(int houseOrgId)
 		{
 			return await context.HouseOrganizations
 								.Where(ho => ho.Id == houseOrgId)
-								.Include(ho => ho.Incomes)
-								.Include(ho => ho.Expenses)
-								.Include(ho => ho.Units)
-								.Select(ho => new FinancesViewModel
-								{
-									Incomes = ho.Incomes
-													.Select(i => new IncomeViewModel
-													{
-														Type = GetSplitName<IncomeType>(i.IncomeType),
-														Amount = i.Amount.ToString("f2"),
-														Date = i.IncomeDate.ToString(AppDateFormat),
-														UnitNumber = i.UnitId == 0 ? "NA" : i.UnitId.ToString(),
-														Description = i.Description
-													})
-													.ToList(),
-
-									Expenses = ho.Expenses
-													.Select(e => new ExpenseViewModel
-													{
-														Amount = e.Amount.ToString("f2"),
-														Date = e.PaymentDate.ToString(AppDateFormat),
-														SplitType = GetSplitName<ExpenseSplitType>(e.SplitType),
-														Description = e.Description
-													})
-													.ToList(),
-
-									CurrentBalance = ho.Balance
-								})
+								.Select(ho => ho.Balance)
 								.FirstOrDefaultAsync();
-		}
-
-		private static string GetSplitName<T>(Enum splitType) where T : Enum
-		{
-				var splited = Regex.Matches(Enum.GetName(typeof(T), splitType), "([A-Z][a-z]+)");
-
-				return string.Join(" ", splited);
 		}
 
 		public async Task CalculateUnitBalanceAsync(int id, decimal amount)
@@ -144,5 +138,14 @@ namespace HouseManager.Core.Services
 
 			await context.SaveChangesAsync();
 		}
+
+		#region Private Methods
+		private static string FormatTypeName<T>(Enum splitType) where T : Enum
+		{
+			var splited = Regex.Matches(Enum.GetName(typeof(T), splitType), "([A-Z][a-z]+)");
+
+			return string.Join(" ", splited);
+		}
+		#endregion
 	}
 }

@@ -1,4 +1,11 @@
-﻿@model List<IncomeViewModel>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model IncomesPageViewModel
+
+@{
+	var collection = Model.Collection;
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId);
+}
 
 <h4 class="card-header p-2 text-center">Incomes</h4>
 <div class="card-body row mx-0">
@@ -15,20 +22,80 @@
 				</tr>
 			</thead>
 			<tbody class="align-middle">
-				@for (int i = 0; i < Model.Count(); i++)
+				@for (int i = 0; i < collection.Count; i++)
 				{
 					<tr class="text-center border-2 bg-white p-0">
-						<td class="bg-light p-1" scope="row">@(i + 1)</td>
-						<td class="p-1">@Model[i].Description</td>
-						<td class="p-1">@Model[i].Amount</td>
-						<td class="p-1">@Model[i].Date</td>
-						<td class="p-1">@Model[i].Type</td>
-						<td class="p-1">@Model[i].UnitNumber</td>
+						<td class="bg-light p-1" scope="row">@(i + 1 + (Model.CurrentPage - 1) * Model.ElementsPerPage)</td>
+						<td class="p-1">@collection[i].Description</td>
+						<td class="p-1">@collection[i].Amount</td>
+						<td class="p-1">@collection[i].Date</td>
+						<td class="p-1">@collection[i].Type</td>
+						<td class="p-1">@collection[i].UnitNumber</td>
 					</tr>
 				}
 			</tbody>
 		</table>
-
-		<p class="text-center"><b>TODO: Pagination</b></p>
 	</div>
 </div>
+
+@{
+	var previousPage = Model.CurrentPage - 1;
+	if (previousPage < 1)
+	{
+		previousPage = 1;
+	}
+
+	var maxPage = Math.Ceiling((double)Model.TotalElements /
+	Model.ElementsPerPage);
+}
+
+@if (collection.Any())
+{
+	<form aria-label="...">
+		<ul class="pagination">
+			<li class="page-item">
+				<a class="btn btn-secondary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+				   asp-controller="Finances"
+				   asp-action="Index"
+				   asp-route-houseOrgId = "@houseOrgId"
+				   asp-route-incomesCurrentPage="@previousPage">Previous</a>
+			</li>
+
+			@for (int i = 1; i <= maxPage; i++)
+			{
+				if (Model.CurrentPage == i)
+				{
+					<li class="page-item active" aria-current="page">
+						<a class="page-link"
+						   asp-controller="Finances"
+						   asp-action="Index"
+						   asp-route-houseOrgId="@houseOrgId"
+						   asp-route-incomesCurrentPage="@i">@i</a>
+					</li>
+				}
+				else
+				{
+					<li class="page-item" aria-current="page">
+						<a class="page-link"
+						   asp-controller="Finances"
+						   asp-action="Index"
+						   asp-route-houseOrgId="@houseOrgId"
+						   asp-route-incomesCurrentPage="@i">@i</a>
+					</li>
+				}
+			}
+
+			@{
+				var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+				!Model.Collection.Any();
+			}
+			<li class="page-item">
+				<a class="btn btn-secondary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+				   asp-controller="Finances"
+				   asp-action="Index"
+				   asp-route-houseOrgId="@houseOrgId"
+				   asp-route-incomesCurrentPage="@(Model.CurrentPage + 1)">Next</a>
+			</li>
+		</ul>
+	</form>
+}

@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using HouseManager.Core.Models.Common;
-
 namespace HouseManager.Core.Models.OccupantModel
 {
 	/// <summary>
 	/// Model of a occupant used in the top level layers of the app for visualization
 	/// of occupant information
 	/// </summary>
-	public class OccupantViewModel : PaginationModel
+	public class OccupantViewModel 
 	{
 		/// <summary>
 		/// Primary identifier of the occupant

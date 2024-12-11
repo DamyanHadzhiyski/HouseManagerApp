@@ -25,13 +25,6 @@ namespace HouseManager.Core.Contracts
 		Task AddExpenseAsync(ExpenseFormModel model);
 
 		/// <summary>
-		/// Method that returns current finances information for the house organization
-		/// </summary>
-		/// <param name="houseOrgId"></param>
-		/// <returns></returns>
-		Task<FinancesViewModel?> GetHouseOrgFinancesByIdAsync(int houseOrgId);
-
-		/// <summary>
 		/// Method that calculates the current financial balance for the house organization after new income or expense
 		/// </summary>
 		/// <param name="houseOrgId"></param>
@@ -39,6 +32,13 @@ namespace HouseManager.Core.Contracts
 		/// <returns></returns>
 		//Task CalculateBalanceAsync(int houseOrgId, decimal amount);
 		Task CalculateHouseOrgBalanceAsync(int id, decimal amount);
+
 		Task CalculateUnitBalanceAsync(int id, decimal amount);
+
+		IQueryable<IncomeViewModel> GetHouseOrgIncomesByIdAsync(int houseOrgId);
+
+		IQueryable<ExpenseViewModel> GetHouseOrgExpensesByIdAsync(int houseOrgId);
+
+		Task<decimal> GetHouseOrgBalanceByIdAsync(int houseOrgId);
 	}
 }
