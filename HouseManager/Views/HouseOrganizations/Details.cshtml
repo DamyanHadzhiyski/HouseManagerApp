@@ -1,38 +1,54 @@
-﻿@model HouseOrganizationDetailViewModel
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model HouseOrganizationDetailViewModel
 
 @{
-	ViewBag.Name = Model.Name;
+
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+	var name = Model.Name;
+	var id = Model.Id;
 }
 
-<div class="bg-light rounded h-100 p-4">
-	<h4 class="mb-4 text-center">@ViewBag.Name</h4>
-	<hr />
-	<div class="form-group row align-items-center mb-2 mb-sm-0">
-		<label class="col-sm-2 fw-bold text-sm-end">Address: </label>
-		<label class="col-auto col-form-label">@Model.Address</label>
-	</div>
-	<div class="form-group row align-items-center mb-2 mb-sm-0">
-		<label class="col-sm-2 fw-bold text-sm-end">Town: </label>
-		<label class="col-auto col-form-label">@Model.Town</label>
-	</div>
-	<div class="form-group row align-items-top mb-2 mb-sm-0">
-		<label class="col-sm-2 fw-bold text-sm-end">Managers: </label>
-		<div class="col-auto d-flex flex-column">
-			<label class="col-auto col-form-label p-0"><b>President -</b> @Model.PresidentName</label>
-			<label class="col-auto col-form-label pt-0"><b>Cashier - </b> @Model.CashierName</label>
+<h4 class="mb-4 text-center">@name - Details</h4>
+<hr />
+<div class="row row-cols-1 row-cols-md-2 justify-content-center">
+	<div class="card border-2 p-0 col-12 col-lg-3">
+		<h4 class="card-header p-2 text-center">Details</h4>
+		<div class="card-body p-4">
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.Address" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.Address</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.Town" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.Town</label>
+			</div>
+			<div class="row align-items-top mb-3">
+				<label class="col-lg-4 text-start text-lg-end fw-bold">Management</label>
+				<div class="col-lg-8 d-flex flex-column">
+					<label class="p-0"><b>President - </b>@Model.PresidentName</label>
+					<label class="pt-0"><b>Cashier - </b>@Model.CashierName</label>
+				</div>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.UnitsCount" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.UnitsCount</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.OccupantsCount" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.OccupantsCount</label>
+			</div>
 		</div>
 	</div>
-	<div class="form-group row align-items-center mb-2 mb-sm-0">
-		<label class="col-sm-2 fw-bold text-sm-end">Units: </label>
-		<label class="col-auto col-form-label">@Model.UnitsCount</label>
-	</div>
-	<div class="form-group row align-items-center mb-2 mb-sm-0">
-		<label class="col-sm-2 fw-bold text-sm-end">Occupants: </label>
-		<label class="col-auto col-form-label">@Model.OccupantsCount</label>
-	</div>
-	<div class="bg-light rounded d-flex justify-content-center p-4">
-		<button type="button" class="btn btn-primary d-fluid m-1">Managers</button>
-		<button type="button" class="btn btn-info d-fluid m-1">Units</button>
-		<button type="button" class="btn btn-warning d-fluid m-1">Back</button>
-	</div>
+	@if (houseOrgId == id)
+	{
+		<div class="col-12 col-lg-6">
+			<partial name="~/Views/Units/_AllUnitsPartial" model="@Model.Units" />
+		</div>
+	}
 </div>
+<form class="d-flex flex-wrap justify-content-center p-4">
+	<button asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
+	<button asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+	<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
+</form>

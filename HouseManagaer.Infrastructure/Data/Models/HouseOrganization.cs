@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
@@ -43,20 +45,46 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Comment("Town of the House Organization")]
         public required string Town { get; set; }
 
-		/// <summary>
-		/// Presidents (active/inactive) of the house organization
-		/// </summary>
-		public ICollection<President> Presidents { get; set; } = [];
+        /// <summary>
+        /// User that created the House Organization
+        /// </summary>
+        [Required]
+        [Comment("Creator of the House Organization")]
+        public required string CreatorId { get; set; }
 
-		/// <summary>
-		/// Cashier (active/inactive) of the house organization
-		/// </summary>
-		public ICollection<Cashier> Cashiers { get; set; } = [];
+        /// <summary>
+        /// Navigation property to the users table
+        /// </summary>
+        [ForeignKey(nameof(CreatorId))]
+        public IdentityUser Creator { get; set; } = null!;
+
+        /// <summary>
+        /// Total financial balance of the House Organizaton
+        /// </summary>
+        [Required]
+        [Comment("Total balance")]
+        public decimal Balance { get; set; }
+
+        /// <summary>
+        /// Active/inactive managers of the house organization
+        /// </summary>
+        public ICollection<Manager> Managers { get; set; } = [];
+
 
 		/// <summary>
 		/// Collection of all units belonging to the house organization
 		/// </summary>
 		public ICollection<Unit> Units { get; set; } = [];
 
-    }
+		/// <summary>
+		/// Collection of all incomes received by the house organization
+		/// </summary>
+		public ICollection<Income> Incomes { get; set; } = [];
+
+		/// <summary>
+		/// Collection of all expenses made by the house organization
+		/// </summary>
+		public ICollection<Expense> Expenses { get; set; } = [];
+
+	}
 }

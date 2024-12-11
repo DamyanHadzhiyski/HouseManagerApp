@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -39,5 +42,25 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Required]
         [Comment("Date on which the payment is made")]
         public required DateTime PaymentDate { get; set; }
-    }
+
+		/// <summary>
+		/// How the expense is spread inside of the house organization
+		/// </summary>
+		[Required]
+		[Comment("How the expense is spread")]
+		public ExpenseSplitType SplitType { get; set; }
+
+		/// <summary>
+		/// Primary identifier of the House Organization that made the expense
+		/// </summary>
+		[Required]
+		[Comment("Primary identifier of the House Organization")]
+		public required int HouseOrganizationId { get; set; }
+
+		/// <summary>
+		/// Navigation property to the HouseOrganizations table
+		/// </summary>
+		[ForeignKey(nameof(HouseOrganizationId))]
+		public HouseOrganization HouseOrganization { get; set; } = null!;
+	}
 }

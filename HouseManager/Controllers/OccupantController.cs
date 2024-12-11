@@ -1,5 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.OccupantModels;
+using HouseManager.Core.Models.OccupantModel;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +14,8 @@ namespace HouseManager.Controllers
 		{
 			var model = new OccupantFormModel();
 
+			model.UnitId = unitId;
+
 			return View(model);
 		}
 
@@ -24,8 +26,6 @@ namespace HouseManager.Controllers
 			{
 				return View(model);
 			}
-
-			model.UnitId = model.UnitId;
 
 			var id = await occupantService.AddAsync(model);
 
@@ -59,6 +59,9 @@ namespace HouseManager.Controllers
 
 			return View(model);
 		}
+		#endregion
+
+		#region Leave
 		#endregion
 	}
 }

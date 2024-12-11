@@ -1,8 +1,13 @@
-﻿using HouseManager.Core.Models.OccupantModels;
+﻿using HouseManager.Core.Models.OccupantModel;
+using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
 {
-    public interface IOccupantService
+	/// <summary>
+	/// Interface that will be added into the IoC and used for 
+	/// retrieval and manipulation of data from the Occupants table
+	/// </summary>
+	public interface IOccupantService
 	{
 		Task<int> AddAsync(OccupantFormModel model);
 
@@ -10,7 +15,11 @@ namespace HouseManager.Core.Contracts
 
 		Task<bool> ExistsByIdAsync(int id);
 
-		IQueryable<OccupantViewModel> GetAllReadOnlyAsync(int unitId);
+		IQueryable<OccupantViewModel> GetAllActiveReadOnlyAsync(int unitId);
+
+		IQueryable<InactiveOccupantViewModel> GetAllInactiveReadOnlyAsync(int unitId);
+
+		IQueryable<Occupant?> GetAllReadOnlyAsync(int unitId);
 
 		Task<OccupantFormModel?> GetByIdAsync(int id);
 

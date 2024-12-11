@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
+using HouseManager.Infrastructure.Data.Models;
 
 using static HouseManager.Core.Constants.ErrorMessages;
 using static HouseManager.Infrastructure.Constants.EntityConstants;
@@ -50,12 +50,6 @@ namespace HouseManager.Core.Models.Unit
 			ErrorMessage = FieldInRangeErrorMessage)]
 		[Display(Name = "Common Parts")]
 		public decimal CommonParts { get; set; }
-
-		/// <summary>
-		/// Number of pets that are taken out in the common areas
-		/// </summary>
-		[Display(Name = "Pets Count")]
-		public int PetsCount { get; set; }
 
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public int HouseOrganizationId { get; set; }

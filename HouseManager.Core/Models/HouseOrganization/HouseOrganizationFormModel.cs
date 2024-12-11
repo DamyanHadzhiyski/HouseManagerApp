@@ -37,10 +37,17 @@ namespace HouseManager.Core.Models.HouseOrganization
         public string Address { get; set; } = string.Empty;
 
         /// <summary>
-        /// Id of the town in which the House Organization is located
+        /// Name of the town in which the House Organization is located
         /// </summary>
         [Required(ErrorMessage = FieldRequiredErrorMessage)]
         [Display(Name = "Town")]
         public string Town{ get; set; } = string.Empty;
-    }
+
+		/// <summary>
+		/// Id of the user that created the House Organization
+		/// </summary>
+		[Required(ErrorMessage = FieldRequiredErrorMessage)]
+		[Display(Name = "Created By")]
+		public string CreatorId { get; set; } = string.Empty;
+	}
 }

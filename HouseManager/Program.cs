@@ -10,16 +10,24 @@ CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromSeconds(300);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddHouseManagerDbContext(builder.Configuration);
 builder.Services.AddHouseManagerIdentity();
 
 builder.Services.AddScoped<IHouseOrganizationService, HouseOrganizationService>();
-builder.Services.AddScoped<IPresidentService, PresidentService>();
-builder.Services.AddScoped<ICashierService, CashierService>();
+builder.Services.AddScoped<IManagementService, ManagementService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IOccupantService, OccupantService>();
+builder.Services.AddScoped<IFinanceService, FinanceService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -30,7 +38,8 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
+	app.UseExceptionHandler("/Home/Error/500");
+	app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 	app.UseHsts();
 }
 else
@@ -46,45 +55,41 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-	name: "AllUnits",
-	pattern: "Units/All/{houseOrgId}",
-	defaults: new { Controller = "Units", Action = "All" });
+app.UseSession();
 
 app.MapControllerRoute(
-	name: "AddUnits",
-	pattern: "Units/Add/{houseOrgId}",
-	defaults: new { Controller = "Units", Action = "Add" });
+	  name: "areas",
+	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
-	name: "AllManagers",
+	name: "ManagementEndTerm",
+	pattern: "Management/EndTerm/{id}",
+	defaults: new { Controller = "Management", Action = "EndTerm" });
+
+app.MapControllerRoute(
+	name: "ManagementAll",
 	pattern: "Management/All/{houseOrgId}",
 	defaults: new { Controller = "Management", Action = "All" });
-
-app.MapControllerRoute(
-	name: "AddPresident",
-	pattern: "President/Add/{houseOrgId}",
-	defaults: new { Controller = "President", Action = "Add" });
-
-app.MapControllerRoute(
-	name: "AddCashier",
-	pattern: "Cashier/Add/{model}&{houseOrgId}",
-	defaults: new { Controller = "Cashier", Action = "Add" });
-
-app.MapControllerRoute(
-	name: "ManageHouseOrg",
-	pattern: "HouseOrganizations/Manage/{id}",
-	defaults: new { Controller = "HouseOrganizations", Action = "Manage" });
-
-app.MapControllerRoute(
-	name: "PresidentEndTerm",
-	pattern: "President/EndTerm/{id}/{houseOrgId}",
-	defaults: new { Controller = "President", Action = "EndTerm" });
 
 app.MapControllerRoute(
 	name: "AddOccupant",
 	pattern: "Occupant/Add/{unitId}",
 	defaults: new { Controller = "Occupant", Action = "Add" });
+
+app.MapControllerRoute(
+	name: "OccupantPages",
+	pattern: "Units/Details/{id}/{activeCurrentPage}/{inactiveCurrentPage}",
+	defaults: new { Controller = "Units", Action = "Details" });
+
+app.MapControllerRoute(
+	name: "FinancesPages",
+	pattern: "Finances/Index/{houseOrgId}/{incomesCurrentPage}/{expensesCurrentPage}",
+	defaults: new { Controller = "Finances", Action = "Index"});
+
+app.MapControllerRoute(
+	name: "NewIncome",
+	pattern: "Finances/{action}/{houseOrgId?}",
+	defaults: new { Controller = "Finances", Action = "NewIncome" });
 
 app.MapDefaultControllerRoute();
 

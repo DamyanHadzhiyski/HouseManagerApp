@@ -57,12 +57,6 @@ namespace HouseManager.Infrastructure.Data.Models
         [Comment("Common parts adjacent to the unit")]
 		public required decimal CommonParts { get; set; }
 
-        /// <summary>
-        /// Number of pats that are taken out in the common areas
-        /// </summary>
-        [Comment("Number of pets in the unit")]
-        public int PetsCount { get; set; }
-
 		/// <summary>
 		/// The credit/debit of the unit
 		/// </summary>

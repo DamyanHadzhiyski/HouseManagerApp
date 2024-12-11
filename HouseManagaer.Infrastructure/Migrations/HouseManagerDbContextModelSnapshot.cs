@@ -17,12 +17,135 @@ namespace HouseManager.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Cashier", b =>
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary key of the expense");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Amount of the expense");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasComment("Short description of the expense");
+
+                    b.Property<int>("HouseOrganizationId")
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the House Organization");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("Date on which the payment is made");
+
+                    b.Property<int>("SplitType")
+                        .HasColumnType("int")
+                        .HasComment("How the expense is spread");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseOrganizationId");
+
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the House Organization");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("Address of the House Organization");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Total balance");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Creator of the House Organization");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Name of the House Organization");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasComment("Town of the House Organization");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("HouseOrganizations");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Income", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the Income");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("Amount of the Income");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasComment("Short description of the Income");
+
+                    b.Property<int>("HouseOrganizationId")
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the House Organization");
+
+                    b.Property<DateTime>("IncomeDate")
+                        .HasColumnType("datetime2")
+                        .HasComment("Date of the Income");
+
+                    b.Property<int>("IncomeType")
+                        .HasColumnType("int")
+                        .HasComment("Type of the Income");
+
+                    b.Property<int>("UnitId")
+                        .HasColumnType("int")
+                        .HasComment("Unit which provided the Income");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseOrganizationId");
+
+                    b.ToTable("Incomes");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Manager", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,10 +153,6 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasComment("Primary identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2")
-                        .HasComment("Due date of assignment to the position");
 
                     b.Property<int>("HouseOrganizationId")
                         .HasColumnType("int")
@@ -54,9 +173,17 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Phone number");
 
+                    b.Property<int>("Position")
+                        .HasColumnType("int")
+                        .HasComment("Position");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2")
                         .HasComment("Start date of assignment to the position");
+
+                    b.Property<int>("TermPeriod")
+                        .HasColumnType("int")
+                        .HasComment("Due date of assignment to the position");
 
                     b.Property<DateTime>("TerminationDate")
                         .HasColumnType("datetime2")
@@ -66,39 +193,7 @@ namespace HouseManager.Infrastructure.Migrations
 
                     b.HasIndex("HouseOrganizationId");
 
-                    b.ToTable("Cashiers");
-                });
-
-            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Primary identifier of the House Organization");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("Address of the House Organization");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("Name of the House Organization");
-
-                    b.Property<string>("Town")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasComment("Town of the House Organization");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HouseOrganizations");
+                    b.ToTable("Managers");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Occupant", b =>
@@ -110,8 +205,8 @@ namespace HouseManager.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2")
                         .HasComment("Occupant date of birth");
 
                     b.Property<string>("FullName")
@@ -119,6 +214,10 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasComment("Occupant full name");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasComment("Occupation status");
 
                     b.Property<bool>("IsOwner")
                         .HasColumnType("bit")
@@ -145,53 +244,6 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasIndex("UnitId");
 
                     b.ToTable("Occupants");
-                });
-
-            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.President", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Primary identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2")
-                        .HasComment("Due date of assignment to the position");
-
-                    b.Property<int>("HouseOrganizationId")
-                        .HasColumnType("int")
-                        .HasComment("Assigned to house organization");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasComment("Current status");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("Full name");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Phone number");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2")
-                        .HasComment("Start date of assignment to the position");
-
-                    b.Property<DateTime>("TerminationDate")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date on which the term is ended");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HouseOrganizationId");
-
-                    b.ToTable("Presidents");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Unit", b =>
@@ -271,6 +323,28 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8382b703-5091-4508-93fb-322039109c04",
+                            Name = "Administrator"
+                        },
+                        new
+                        {
+                            Id = "23092eb6-d76d-4fac-86d8-fdaa501179ba",
+                            Name = "President"
+                        },
+                        new
+                        {
+                            Id = "3704462e-49d4-4b56-a34f-b1564e9049e4",
+                            Name = "Cashier"
+                        },
+                        new
+                        {
+                            Id = "24385294-0d30-4ef7-a46d-816b710bb12d",
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -448,10 +522,43 @@ namespace HouseManager.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Cashier", b =>
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Expense", b =>
                 {
                     b.HasOne("HouseManager.Infrastructure.Data.Models.HouseOrganization", "HouseOrganization")
-                        .WithMany("Cashiers")
+                        .WithMany("Expenses")
+                        .HasForeignKey("HouseOrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("HouseOrganization");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Income", b =>
+                {
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.HouseOrganization", "HouseOrganization")
+                        .WithMany("Incomes")
+                        .HasForeignKey("HouseOrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("HouseOrganization");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Manager", b =>
+                {
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.HouseOrganization", "HouseOrganization")
+                        .WithMany("Managers")
                         .HasForeignKey("HouseOrganizationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -468,17 +575,6 @@ namespace HouseManager.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Unit");
-                });
-
-            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.President", b =>
-                {
-                    b.HasOne("HouseManager.Infrastructure.Data.Models.HouseOrganization", "HouseOrganization")
-                        .WithMany("Presidents")
-                        .HasForeignKey("HouseOrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("HouseOrganization");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Unit", b =>
@@ -545,9 +641,11 @@ namespace HouseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.HouseOrganization", b =>
                 {
-                    b.Navigation("Cashiers");
+                    b.Navigation("Expenses");
 
-                    b.Navigation("Presidents");
+                    b.Navigation("Incomes");
+
+                    b.Navigation("Managers");
 
                     b.Navigation("Units");
                 });

@@ -1,12 +1,14 @@
-﻿using HouseManager.Core.Models.HouseOrganization;
+﻿using HouseManager.Core.Models.Finances;
+using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Core.Models.Unit;
 using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
 {
-    /// <summary>
-    /// Interface that will be added into the IoC for and 
-    /// used for retrieval and manipulation of data from the HouseOrganizations table
-    /// </summary>
+	/// <summary>
+	/// Interface that will be added into the IoC and used for 
+	/// retrieval and manipulation of data from the HouseOrganizations table
+	/// </summary>
 	public interface IHouseOrganizationService
     {
         /// <summary>
@@ -28,6 +30,13 @@ namespace HouseManager.Core.Contracts
         /// </summary>
         /// <returns></returns>
         IQueryable<HouseOrganizationViewModel> GetAllReadOnly();
+
+		/// <summary>
+		/// Method that returns readonly information for all House Organization created by a specifgic user as a view model
+		/// </summary>
+		/// <returns></returns>
+		IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId);
+
 
 		/// <summary>
 		///  Method that returns readonly detailed information for specific House Organization as a view model
@@ -55,6 +64,6 @@ namespace HouseManager.Core.Contracts
 		/// </summary>
 		/// <param name="houseOrgId">House Organization Id</param>
 		/// <returns></returns>
-		Task<HouseOrganization?> GetByIdAsync(int houseOrgId);
+		IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId);
 	}
 }

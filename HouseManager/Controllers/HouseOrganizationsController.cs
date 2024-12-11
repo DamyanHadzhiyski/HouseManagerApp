@@ -1,23 +1,29 @@
-﻿using HouseManager.Core.Contracts;
+﻿using System.Security.Claims;
+
+using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
-using static HouseManager.Constants.HouseOrganizationConstants;
+using static HouseManager.Constants.SessionConstants;
+using static HouseManager.Infrastructure.Constants.UserRoles;
+
 
 namespace HouseManager.Controllers
 {
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
-		IMemoryCache cache) : BaseController
+		IUnitService unitService) : BaseController
 	{
 		#region Add New House Organization
 		[HttpGet]
 		public IActionResult Add()
 		{
 			var model = new HouseOrganizationFormModel();
+
+			model.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			return View(model);
 		}
@@ -38,6 +44,7 @@ namespace HouseManager.Controllers
 
 		#region Edit House Organization
 		[HttpGet]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> Edit(int id)
 		{
 			if (!await houseOrgService.ExistById(id))
@@ -53,6 +60,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
 			if (!await houseOrgService.ExistById(model.Id))
@@ -67,7 +75,7 @@ namespace HouseManager.Controllers
 
 			await houseOrgService.EditAsync(model);
 
-			return RedirectToAction(nameof(Details), "HouseOrganizations", new {id = model.Id});
+			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id = model.Id });
 		}
 		#endregion
 
@@ -84,12 +92,15 @@ namespace HouseManager.Controllers
 								.GetDetailsByIdReadOnly(id)
 								.FirstOrDefaultAsync();
 
+			model.Units = await unitService.GetAllFromHOAsync(id);
+
 			return View(model);
 		}
 		#endregion
 
 		#region Show All House Organizations
 		[HttpGet]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> All()
 		{
 			var model = await houseOrgService
@@ -102,6 +113,7 @@ namespace HouseManager.Controllers
 
 		#region Manage House Organization
 		[HttpGet]
+		[Authorize(Roles = AdminRoleName)]
 		public async Task<IActionResult> Manage(int id)
 		{
 			var houseOrgName = await houseOrgService
@@ -117,10 +129,20 @@ namespace HouseManager.Controllers
 				BadRequest();
 			}
 
-			cache.Set(ManagedHouseOrgCacheName, houseOrgName.Name);
-			cache.Set(ManagedHouseOrgCacheId, id);
+			HttpContext.Session.SetString(ManagedHouseOrgName, houseOrgName.Name);
+			HttpContext.Session.SetInt32(ManagedHouseOrgId, id);
 
-			return RedirectToAction(nameof(All), "HouseOrganizations", new { houseOrgId = id });
+			return RedirectToAction(nameof(Details), new { id });
+		}
+		#endregion
+
+		#region Join House Organization
+		[HttpGet]
+		public IActionResult Join(int id)
+		{
+			var model = new HouseOrganizationJoinModel();
+
+			return View(model);
 		}
 		#endregion
 	}

@@ -1,12 +1,15 @@
 ﻿using System.Data;
 
 using HouseManager.Core.Contracts;
+using HouseManager.Core.Models.Finances;
 using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
+
+using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
@@ -24,9 +27,9 @@ namespace HouseManager.Core.Services
 				Name = houseOrg.Name,
 				Town = houseOrg.Town,
 				Address = houseOrg.Address,
+				CreatorId = houseOrg.CreatorId,
 				Units = [],
-				Presidents = [],
-				Cashiers = []
+				Managers = []
 			};
 
 			await context.HouseOrganizations.AddAsync(newHouseOrg);
@@ -46,7 +49,7 @@ namespace HouseManager.Core.Services
 
 		public async Task EditAsync(HouseOrganizationFormModel houseOrg)
 		{
-			var editHouse = await GetByIdAsync(houseOrg.Id);
+			var editHouse = await GetByIdAsync(houseOrg.Id).FirstOrDefaultAsync();
 
 			editHouse.Name = houseOrg.Name;
 			editHouse.Address = houseOrg.Address;
@@ -91,6 +94,8 @@ namespace HouseManager.Core.Services
 		public IQueryable<HouseOrganizationDetailViewModel> GetDetailsByIdReadOnly(int houseOrgId)
 		{
 			return context.HouseOrganizations
+							  .Include(ho => ho.Units)
+							  .ThenInclude(u => u.Occupants)
 							  .Where(ho => ho.Id == houseOrgId)
 							  .Select(ho => new HouseOrganizationDetailViewModel
 							  {
@@ -98,12 +103,22 @@ namespace HouseManager.Core.Services
 								  Name = ho.Name,
 								  Address = ho.Address,
 								  Town = ho.Town,
-								  PresidentName = "TODO: ",
-								  CashierName = "TODO: ",
+								  PresidentName = GetManagerName(ho.Managers, ManagerPosition.President),
+								  CashierName = GetManagerName(ho.Managers, ManagerPosition.Cashier),
 								  UnitsCount = ho.Units.Count.ToString(),
 								  OccupantsCount = GetOccupantsCount(ho.Units).ToString()
 							  })
 							  .AsNoTracking();
+		}
+
+		private static string GetManagerName(ICollection<Manager> managers, ManagerPosition position)
+		{
+			var result = managers
+							.Where(m => m.Position == position && m.IsActive)
+							.Select(m => m.Name)
+							.FirstOrDefault();
+
+			return result?.ToString() ?? "Not assigned";
 		}
 
 		private static int GetOccupantsCount(ICollection<Unit> units)
@@ -111,14 +126,27 @@ namespace HouseManager.Core.Services
 			return units.Sum(u => u.Occupants.Count);
 		}
 
-		public async Task<HouseOrganization?> GetByIdAsync(int houseOrgId)
+		public IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId)
 		{
-			return await context.HouseOrganizations
-									.Include(ho => ho.Presidents)
-									.Include(ho => ho.Cashiers)
+			return context.HouseOrganizations
+									.Where(ho => ho.Id == houseOrgId)
+									.Include(ho => ho.Managers)
 									.Include(ho => ho.Units)
-									.ThenInclude(u => u.Occupants)
-									.FirstOrDefaultAsync(ho => ho.Id == houseOrgId);
+									.ThenInclude(u => u.Occupants);
+		}
+
+		public IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId)
+		{
+			return context.HouseOrganizations
+							.Where(ho => ho.CreatorId == creatorId)
+							.Select(h => new HouseOrganizationViewModel
+							{
+								Id = h.Id,
+								Name = h.Name,
+								Address = h.Address,
+								Town = h.Town
+							})
+							.AsNoTracking();
 		}
 	}
 }
