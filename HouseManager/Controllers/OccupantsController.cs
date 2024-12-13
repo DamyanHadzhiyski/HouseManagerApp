@@ -3,6 +3,10 @@ using HouseManager.Core.Models.OccupantModel;
 
 using Microsoft.AspNetCore.Mvc;
 
+using NuGet.Protocol.Plugins;
+
+using static HouseManager.Core.Constants.DataConstants;
+
 namespace HouseManager.Controllers
 {
 	public class OccupantsController(
@@ -37,7 +41,18 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
-			var model = await occupantService.GetByIdAsync(id);
+			var occupant = await occupantService.GetByIdAsync(id);
+
+			var model = new OccupantFormModel
+			{
+				Id = occupant.Id,
+				BirthDate = DateOnly.FromDateTime(occupant.BirthDate),
+				FullName = occupant.FullName,
+				IsOwner = occupant.IsOwner,
+				OccupationDate = DateOnly.FromDateTime(occupant.OccupationDate),
+				UnitId = occupant.UnitId,
+				PhoneNumber = occupant.PhoneNumber
+			};
 
 			return View(model);
 		}
@@ -62,6 +77,23 @@ namespace HouseManager.Controllers
 		#endregion
 
 		#region Leave
+		[HttpGet]
+		public async Task<IActionResult> Leave(int id)
+		{
+			if (!await occupantService.ExistsByIdAsync(id))
+			{
+				return NotFound();
+			}
+
+			if (!await occupantService.IsActiveAsync(id))
+			{
+				return BadRequest();
+			}
+
+			var unitId = await occupantService.Leave(id);
+
+			return RedirectToAction("Details", "Unit", new { id = unitId });
+		}
 		#endregion
 	}
 }

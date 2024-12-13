@@ -65,7 +65,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
 	name: "ManagementEndTerm",
-	pattern: "Management/EndTerm/{id}",
+	pattern: "Managers/EndTerm/{id}",
 	defaults: new { Controller = "Managers", Action = "EndTerm" });
 
 app.MapControllerRoute(
@@ -95,13 +95,8 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
 	name: "RequestManagerAccess",
-	pattern: "Access/RequestManagerAccess/{position?}",
+	pattern: "Access/RequestManagerAccess/{position}",
 	defaults: new { Controller = "Access", Action = "RequestManagerAccess" });
-
-app.MapControllerRoute(
-	name: "OccupantCode",
-	pattern: "Access/GenerateOccupantCode/{occupantId}",
-	defaults: new { Controller = "Access", Action = "GenerateOccupantCode" });
 
 app.MapDefaultControllerRoute();
 

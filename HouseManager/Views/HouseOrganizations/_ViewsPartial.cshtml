@@ -1,0 +1,39 @@
+﻿<div class="card border-2 p-0 col-12 col-xl-12 mb-3">
+	<h4 class="card-header p-2 text-center">Views</h4>
+	<form class="card-body row justify-content-center justify-content-lg-around align-items-top mx-0">
+		@if (User.IsInRole(UserRole))
+		{
+			<button asp-controller="Access"
+					asp-action="RequestOccupantAccess"
+					class="btn btn-success row col-5 col-xl-3 m-2"
+					type="submit">
+				<i class="fa fa-user-plus fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">Occupant</p>
+			</button>
+		}
+
+		@if (User.IsInRole(PresidentRole))
+		{
+			<button asp-controller="Access"
+					asp-action="RequestManagerAccess"
+					asp-route-position="@ManagerPosition.President"
+					class="btn btn-success row col-5 col-xl-3 m-2"
+					type="submit">
+				<i class="fa fa-user-tie fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">President</p>
+			</button>
+		}
+
+		@if (User.IsInRole(CashierRole))
+		{
+			<button asp-controller="Access"
+					asp-action="RequestManagerAccess"
+					asp-route-position="@ManagerPosition.Cashier"
+					class="btn btn-success col-5 col-xl-3 m-2"
+					type="submit">
+				<i class="fa fa-cash-register fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">Cashier</p>
+			</button>
+		}
+	</form>
+</div>

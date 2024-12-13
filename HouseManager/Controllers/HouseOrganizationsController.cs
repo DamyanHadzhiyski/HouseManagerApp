@@ -2,6 +2,7 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Infrastructure.Data;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,8 @@ namespace HouseManager.Controllers
 {
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
-		IUnitService unitService) : BaseController
+		IUnitService unitService,
+		HouseManagerDbContext context) : BaseController
 	{
 		public IActionResult Index()
 		{
@@ -105,12 +107,40 @@ namespace HouseManager.Controllers
 
 		#region Show All House Organizations
 		[HttpGet]
-		[Authorize(Roles = AdminRole)]
+		[Authorize(Roles = AdminRole + "," + PresidentRole + "," + UserRole)]
 		public async Task<IActionResult> All()
 		{
-			var model = await houseOrgService
+			var model = new List<HouseOrganizationViewModel>();
+
+			if(User.IsInRole(AdminRole))
+			{
+				model = await houseOrgService
 							.GetAllReadOnly()
 							.ToListAsync();
+			}
+			else if(User.IsInRole(PresidentRole) 
+						|| User.IsInRole(CashierRole))
+			{
+				var ids = await context.UsersManagers
+										.Where(um => um.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+										.Select(um => um.ManagerId)
+										.ToListAsync();
+
+				model = await houseOrgService
+								.GetAllByManagerIdReadOnly(ids)
+								.ToListAsync();
+			}
+			else if (User.IsInRole(UserRole))
+			{
+				var ids = await context.UsersOccupants
+										.Where(uo => uo.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+										.Select(uo => uo.OccupantId)
+										.ToListAsync();
+
+				model = await houseOrgService
+								.GetAllByOccupantIdReadOnly(ids)
+								.ToListAsync();
+			}
 
 			return View(model);
 		}

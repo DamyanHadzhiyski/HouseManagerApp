@@ -21,8 +21,12 @@ namespace HouseManager.Core.Contracts
 
 		IQueryable<Occupant?> GetAllReadOnlyAsync(int unitId);
 
-		Task<OccupantFormModel?> GetByIdAsync(int id);
+		Task<Occupant?> GetByIdAsync(int id);
 
 		Task<OccupantDetailViewModel?> GetDetailsByIdAsync(int id);
+
+		Task<bool> IsActiveAsync(int id);
+
+		Task<int> Leave(int id);
 	}
 }

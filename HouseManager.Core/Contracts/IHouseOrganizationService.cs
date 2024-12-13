@@ -65,5 +65,9 @@ namespace HouseManager.Core.Contracts
 		/// <param name="houseOrgId">House Organization Id</param>
 		/// <returns></returns>
 		IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId);
+
+		IQueryable<HouseOrganizationViewModel> GetAllByManagerIdReadOnly(List<int> id);
+
+		IQueryable<HouseOrganizationViewModel> GetAllByOccupantIdReadOnly(List<int> id);
 	}
 }

@@ -19,6 +19,7 @@ namespace HouseManager.Core.Models.Access
         /// Code provided by the user
         /// </summary>
         [Required]
-        public string AccessCode { get; set; } = string.Empty;
+		[Display(Name = "Access Code")]
+		public string AccessCode { get; set; } = string.Empty;
     }
 }

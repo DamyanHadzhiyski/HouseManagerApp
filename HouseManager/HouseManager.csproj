@@ -37,6 +37,9 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\President\Data\" />
+    <Folder Include="Areas\President\Models\" />
+    <Folder Include="Areas\President\Views\" />
     <Folder Include="Areas\Users\Data\" />
     <Folder Include="Areas\Users\Models\" />
     <Folder Include="Views\Users\" />

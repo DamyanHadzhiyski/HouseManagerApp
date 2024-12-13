@@ -1,15 +1,12 @@
 ﻿using System.Data;
 
 using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.Finances;
 using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
-
-using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
@@ -148,6 +145,54 @@ namespace HouseManager.Core.Services
 								Town = h.Town
 							})
 							.AsNoTracking();
+		}
+
+		public IQueryable<HouseOrganizationViewModel> GetAllByManagerIdReadOnly(List<int> id)
+		{
+			var result = context.HouseOrganizations
+							.Select(h => new
+							{
+								h.Id,
+								h.Name,
+								h.Address,
+								h.Town,
+								Managers = h.Managers
+													.Select(m => new { m.Id, m.IsActive })
+													.Where(m => id.Contains(m.Id) && m.IsActive)
+													.ToList()
+							});
+
+			return result
+				.Where(r => r.Managers.Any())
+				   .Select(r => new HouseOrganizationViewModel
+				   {
+					   Id = r.Id,
+					   Name = r.Name,
+					   Address = r.Address,
+					   Town = r.Town
+				   });
+		}
+
+		public IQueryable<HouseOrganizationViewModel> GetAllByOccupantIdReadOnly(List<int> id)
+		{
+			var result = context.Units
+							.Select(u => new
+							{
+								u.HouseOrganization,
+								Occupants = u.Occupants
+												.Where(o => id.Contains(o.Id) && o.IsActive)
+												.ToList()
+							});
+
+			return result
+					.Where(u => u.Occupants.Any())
+					.Select(u => new HouseOrganizationViewModel
+					{
+						Id = u.HouseOrganization.Id,
+						Name = u.HouseOrganization.Name,
+						Address = u.HouseOrganization.Address,
+						Town = u.HouseOrganization.Town
+					});
 		}
 	}
 }

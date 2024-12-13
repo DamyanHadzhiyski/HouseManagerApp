@@ -111,21 +111,28 @@ namespace HouseManager.Core.Services
 								.FirstOrDefaultAsync();
 		}
 
-		public async Task<OccupantFormModel?> GetByIdAsync(int id)
+		public async Task<Occupant?> GetByIdAsync(int id)
 		{
 			return await context.Occupants
-								.Where(o => o.Id == id)
-								.Select(o => new OccupantFormModel
-								{
-									Id = o.Id,
-									FullName = o.FullName,
-									BirthDate = DateOnly.FromDateTime(o.BirthDate),
-									PhoneNumber = o.PhoneNumber,
-									IsOwner = o.IsOwner,
-									OccupationDate = DateOnly.FromDateTime(o.OccupationDate),
-									UnitId = o.UnitId
-								})
-								.FirstOrDefaultAsync();
+								.FindAsync(id);
+		}
+
+		public async Task<bool> IsActiveAsync(int id)
+		{
+			return await context.Occupants
+								.AnyAsync(p => p.Id == id && p.IsActive == true);
+		}
+
+		public async Task<int> Leave(int id)
+		{
+			var occupant = await GetByIdAsync(id);
+
+			occupant.IsActive = false;
+			occupant.LeaveDate = DateTime.Now;
+
+			await context.SaveChangesAsync();
+
+			return occupant.UnitId;
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace HouseManager.Infrastructure.Data.Models
 		public required int OccupantId { get; set; }
 
 		[ForeignKey(nameof(OccupantId))]
-		[Comment("Navigation property ot the occupants table")]
+		[Comment("Navigation property to the occupants table")]
 		public Occupant Occupant { get; set; } = null!;
 	}
 }
