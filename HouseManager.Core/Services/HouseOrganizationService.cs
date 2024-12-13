@@ -123,7 +123,8 @@ namespace HouseManager.Core.Services
 
 		private static int GetOccupantsCount(ICollection<Unit> units)
 		{
-			return units.Sum(u => u.Occupants.Count);
+			return units
+					.Sum(u => u.Occupants.Count(o => o.IsActive));
 		}
 
 		public IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId)

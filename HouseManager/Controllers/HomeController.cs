@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using static HouseManager.Infrastructure.Constants.UserRoles;
+
 namespace HouseManager.Controllers
 {
 	public class HomeController() : Controller
@@ -8,6 +10,11 @@ namespace HouseManager.Controllers
 		{
 			if (User.Identity != null && User.Identity.IsAuthenticated)
 			{
+				if(User.IsInRole(UserRole))
+				{
+					return RedirectToAction("Index", "HouseOrganizations", new { area = "Users" });
+				}
+
 				return RedirectToAction("All", "HouseOrganizations");
 			}
 

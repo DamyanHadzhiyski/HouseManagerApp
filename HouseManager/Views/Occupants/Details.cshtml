@@ -1,0 +1,34 @@
+﻿@model OccupantDetailViewModel
+
+
+<div class="row row-cols-2 justify-content-around align-items-center mb-5">
+	<div class="card row border-2 p-0 col-12 col-xl-4">
+		<h4 class="card-header p-2 text-center">Details</h4>
+		<div class="card-body p-4">
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.FullName" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.FullName</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.PhoneNumber" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.PhoneNumber</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.BirthDate" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.BirthDate</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.IsOwner" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.IsOwner</label>
+			</div>
+			<div class="row align-items-center mb-3">
+				<label asp-for="@Model.OccupationDate" class="col-lg-4 text-start text-lg-end fw-bold"></label>
+				<label class="col-lg-8">@Model.OccupationDate</label>
+			</div>
+			<form class="row justify-content-center p-4">
+				<button asp-controller="Occupants" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning col-3 m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+				<button type="button" class="btn btn-info col-3 m-1" onclick="location.href='@Url.Action("Details","Units", new {id = Model.UnitId})';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
+			</form>
+		</div>
+	</div>
+</div>

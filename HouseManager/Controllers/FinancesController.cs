@@ -1,6 +1,8 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Finances;
 using HouseManager.Core.Models.Pagination;
+using HouseManager.Core.Models.Unit;
+using HouseManager.Infrastructure.Migrations;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,8 +18,7 @@ namespace HouseManager.Controllers
 		#region Index
 		public async Task<IActionResult> Index(int houseOrgId, int incomesCurrentPage = 1, int expensesCurrentPage = 1)
 		{
-			var incomes = await financeService.GetHouseOrgIncomesByIdAsync(houseOrgId)
-													.ToListAsync();
+			var incomes = await financeService.GetHouseOrgIncomesByIdAsync(houseOrgId);
 
 			var expenses = await financeService.GetHouseOrgExpensesByIdAsync(houseOrgId)
 													.ToListAsync();
@@ -63,19 +64,7 @@ namespace HouseManager.Controllers
 
 			model.HouseOrganizationId = houseOrgId;
 
-			var unitsList = await unitService.GetUnitsShortInfoAsync(houseOrgId);
-
-			List<SelectListItem> unitSelectList = unitsList
-								.Select(u => new SelectListItem
-								{
-									Text = u.Number,
-									Value = u.Id.ToString()
-								})
-								.ToList();
-
-			unitSelectList.Insert(0, new SelectListItem("NA", "0"));
-
-			ViewBag.Units = unitSelectList;
+			ViewBag.Units = await GetUnitsIdAndNumber(houseOrgId);
 
 			ViewBag.ViewName = "New Income";
 
@@ -85,16 +74,23 @@ namespace HouseManager.Controllers
 		[HttpPost]
 		public async Task<IActionResult> NewIncome(IncomeFormModel model)
 		{
+			var unitsList = await GetUnitsIdAndNumber(model.HouseOrganizationId);
+
+			model.UnitNumber = unitsList
+									.Where(u => u.Value == model.UnitId.ToString())
+									.Select(u => u.Text)
+									.FirstOrDefault();
+
 			await financeService.AddIncomeAsync(model);
 
-			if(model.UnitId != 0)
+			if (model.UnitId != 0)
 			{
 				await financeService.CalculateUnitBalanceAsync(model.UnitId, (model.Amount * -1));
 			}
 
 			await financeService.CalculateHouseOrgBalanceAsync(model.HouseOrganizationId, model.Amount);
 
-			return RedirectToAction("Index", "Finances", new {houseOrgId = model.HouseOrganizationId });
+			return RedirectToAction("Index", "Finances", new { houseOrgId = model.HouseOrganizationId });
 		}
 		#endregion
 
@@ -119,6 +115,25 @@ namespace HouseManager.Controllers
 			await financeService.CalculateHouseOrgBalanceAsync(model.HouseOrganizationId, (model.Amount * -1));
 
 			return RedirectToAction("Index", "Finances", new { houseOrgId = model.HouseOrganizationId });
+		}
+		#endregion
+
+		#region Private Methods
+		private async Task<List<SelectListItem>> GetUnitsIdAndNumber(int houseOrgId)
+		{
+			var unitsListDb = await unitService.GetUnitsShortInfoAsync(houseOrgId);
+
+			List<SelectListItem> unitSelectList = unitsListDb
+								.Select(u => new SelectListItem
+								{
+									Text = u.Number,
+									Value = u.Id.ToString()
+								})
+								.ToList();
+
+			unitSelectList.Insert(0, new SelectListItem("NA", "0"));
+
+			return unitSelectList;
 		}
 		#endregion
 	}

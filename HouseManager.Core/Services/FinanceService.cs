@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
+using Azure;
+
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Finances;
 using HouseManager.Infrastructure.Data;
@@ -7,14 +9,15 @@ using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
 	public class FinanceService(
-		HouseManagerDbContext context,
-		IHouseOrganizationService houseService) : IFinanceService
+		HouseManagerDbContext context) : IFinanceService
 	{
 		public async Task AddIncomeAsync(IncomeFormModel model)
 		{
@@ -25,6 +28,7 @@ namespace HouseManager.Core.Services
 				Amount = model.Amount,
 				IncomeDate = model.Date,
 				UnitId = model.UnitId,
+				UnitNumber = model.UnitNumber,
 				HouseOrganizationId = model.HouseOrganizationId
 			};
 
@@ -49,10 +53,7 @@ namespace HouseManager.Core.Services
 
 			if (model.SplitType == ExpenseSplitType.EachUnit)
 			{
-				var units = await houseService
-									.GetByIdAsync(model.HouseOrganizationId)
-									.Select(ho => ho.Units)
-									.FirstOrDefaultAsync();
+				var units = await GetUnits(model.HouseOrganizationId);
 
 				var splitExpense = (decimal)(model.Amount / units.Count);
 
@@ -64,10 +65,7 @@ namespace HouseManager.Core.Services
 			}
 			else if (model.SplitType == ExpenseSplitType.EachOccupant)
 			{
-				var units = await houseService
-									.GetByIdAsync(model.HouseOrganizationId)
-									.Select(ho => ho.Units)
-									.FirstOrDefaultAsync();
+				var units = await GetUnits(model.HouseOrganizationId);
 
 				var occupants = units.Sum(u => u.Occupants.Count);
 
@@ -83,21 +81,21 @@ namespace HouseManager.Core.Services
 			}
 		}
 
-		public IQueryable<IncomeViewModel> GetHouseOrgIncomesByIdAsync(int houseOrgId)
+		public async Task<List<IncomeViewModel>> GetHouseOrgIncomesByIdAsync(int houseOrgId)
 		{
-			return context.Incomes
+			return await context.Incomes
 								.Where(i => i.HouseOrganizationId == houseOrgId)
 								.Select(i => new IncomeViewModel
 								{
 									Type = FormatTypeName<IncomeType>(i.IncomeType),
 									Amount = i.Amount.ToString("f2"),
 									Date = i.IncomeDate.ToString(AppDateFormat),
-									UnitNumber = i.UnitId == 0 ? "NA" : i.UnitId.ToString(),
+									UnitNumber = i.UnitNumber,
 									Description = i.Description
-								});
-
+								})
+								.ToListAsync();
 		}
-		
+
 		public IQueryable<ExpenseViewModel> GetHouseOrgExpensesByIdAsync(int houseOrgId)
 		{
 			return context.Expenses
@@ -145,6 +143,13 @@ namespace HouseManager.Core.Services
 			var splited = Regex.Matches(Enum.GetName(typeof(T), splitType), "([A-Z][a-z]+)");
 
 			return string.Join(" ", splited);
+		}
+
+		private async Task<List<Unit>> GetUnits(int houseOrgId)
+		{
+			return await context.Units
+								.Where(ho => ho.Id == houseOrgId)
+								.ToListAsync();
 		}
 		#endregion
 	}

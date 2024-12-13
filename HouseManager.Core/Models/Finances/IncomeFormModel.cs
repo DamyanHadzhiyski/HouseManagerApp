@@ -25,15 +25,16 @@ namespace HouseManager.Core.Models.Finances
 		public decimal Amount { get; set; }
 
 		/// <summary>
-		/// Unit number, if the income is made by unit
+		/// UnitId, if the income is made by unit
 		/// </summary>
-		[Display(Name = "Unit")]
 		public int UnitId { get; set; }
 
-		/// <summary>
-		/// Income date
-		/// </summary>
-		[Required(ErrorMessage = FieldRequiredErrorMessage)]
+		public string UnitNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Income date
+        /// </summary>
+        [Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public DateTime Date { get; set; }
 
 		/// <summary>

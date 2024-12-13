@@ -1,0 +1,44 @@
+﻿<h2 class="text-center">You don't have or you are not joined to any house organizations!</h2>
+<h3 class="text-center">What do you want to do?</h3>
+<hr />
+<div class="row row-cols-2 justify-content-center justify-content-xl-around align-items-top mb-5">
+	<div class="card row border-2 p-0 col-12 col-xl-2 mb-3">
+		<h4 class="card-header p-2 text-center">Create New</h4>
+		<form class="card-body row justify-content-center align-items-top mx-0">
+			<button asp-controller="HouseOrganizations" asp-action="Add"
+					class="btn btn-success col-5 col-xl-9 m-2"
+					type="submit">
+				<i class="fa-solid fa-house-medical fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">House Organization</p>
+			</button>
+		</form>
+	</div>
+	<div class="card row border-2 p-0 col-12 col-md-5 mb-3">
+		<h4 class="card-header p-2 text-center">Join As</h4>
+		<form class="card-body row justify-content-around align-items-top mx-0">
+			<button asp-controller="Access" 
+					asp-action="RequestOccupantAccess"
+					class="btn btn-success col-5 col-xl-3 m-2"
+					type="submit">
+				<i class="fa fa-user-plus fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">Occupant/Owner</p>
+			</button>
+			<button asp-controller="Access" 
+					asp-action="RequestManagerAccess"
+					asp-route-position="@ManagerPosition.President"
+					class="btn btn-success col-5 col-xl-3 m-2"
+					type="submit">
+				<i class="fa fa-user-tie fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">President</p>
+			</button>
+			<button asp-controller="Managers" 
+					asp-action="RequestManagerAccess"
+					asp-route-position="@ManagerPosition.Cashier"
+					class="btn btn-success col-5 col-xl-3 m-2"
+					type="submit">
+				<i class="fa fa-cash-register fa-3x mt-2 mb-3"></i>
+				<p class="fw-bold">Cashier</p>
+			</button>
+		</form>
+	</div>
+</div>

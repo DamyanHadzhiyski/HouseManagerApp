@@ -84,5 +84,11 @@ namespace HouseManager.Infrastructure.Data.Models
         /// </summary>
         [Comment("Date on which the term is ended")]
         public DateTime TerminationDate { get; set; }
-    }
+
+		/// <summary>
+		/// Managers access code used for verification, when user is joining as manager
+		/// </summary>
+		[Comment("Managers access code")]
+		public string AccessCode { get; set; } = string.Empty;
+	}
 }

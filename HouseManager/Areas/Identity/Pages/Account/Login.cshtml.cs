@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace HouseManager.Areas.Identity.Pages.Account
 {
     public class LoginModel(
-        SignInManager<IdentityUser> signInManager, 
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
         ILogger<LoginModel> logger) : PageModel
     {
         /// <summary>

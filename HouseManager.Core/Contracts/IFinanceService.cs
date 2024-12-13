@@ -35,7 +35,7 @@ namespace HouseManager.Core.Contracts
 
 		Task CalculateUnitBalanceAsync(int id, decimal amount);
 
-		IQueryable<IncomeViewModel> GetHouseOrgIncomesByIdAsync(int houseOrgId);
+		Task<List<IncomeViewModel>> GetHouseOrgIncomesByIdAsync(int houseOrgId);
 
 		IQueryable<ExpenseViewModel> GetHouseOrgExpensesByIdAsync(int houseOrgId);
 

@@ -2,6 +2,7 @@
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 using static HouseManager.Core.Constants.ErrorMessages;
+using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Core.Models.OccupantModel
 {

@@ -1,4 +1,4 @@
-﻿using HouseManager.Core.Models.Management;
+﻿using HouseManager.Core.Models.Managers;
 using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
@@ -12,9 +12,9 @@ namespace HouseManager.Core.Contracts
 	{
 		Task<bool> ActiveExistsAsync(int houseOrgId, ManagerPosition position);
 
-		Task AddAsync(ActiveManagementFormModel model);
+		Task AddAsync(ActiveManagerFormModel model);
 
-		Task EditAsync(ActiveManagementFormModel model);
+		Task EditAsync(ActiveManagerFormModel model);
 
 		Task<int> EndTermAsync(int id);
 
@@ -22,9 +22,9 @@ namespace HouseManager.Core.Contracts
 
 		Task<Manager?> GetByIdAsync(int id);
 
-		IQueryable<ActiveManagementViewModel?> GetActiveReadOnlyAsync(int houseOrgId);
+		IQueryable<ActiveManagerViewModel?> GetActiveReadOnlyAsync(int houseOrgId);
 
-		IQueryable<InactiveManagementViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId);
+		IQueryable<InactiveManagerViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId);
 
 		Task<bool> IsActiveAsync(int id);
 	}

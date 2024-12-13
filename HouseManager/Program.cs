@@ -26,6 +26,8 @@ builder.Services.AddScoped<IManagementService, ManagementService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IOccupantService, OccupantService>();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IAccessService, AccessService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -64,12 +66,12 @@ app.MapControllerRoute(
 app.MapControllerRoute(
 	name: "ManagementEndTerm",
 	pattern: "Management/EndTerm/{id}",
-	defaults: new { Controller = "Management", Action = "EndTerm" });
+	defaults: new { Controller = "Managers", Action = "EndTerm" });
 
 app.MapControllerRoute(
 	name: "ManagementAll",
-	pattern: "Management/All/{houseOrgId}",
-	defaults: new { Controller = "Management", Action = "All" });
+	pattern: "Management/All/{houseOrgId}/{presidentsCurrentPage}/{cashiersCurrentPage}",
+	defaults: new { Controller = "Managers", Action = "All" });
 
 app.MapControllerRoute(
 	name: "AddOccupant",
@@ -90,6 +92,16 @@ app.MapControllerRoute(
 	name: "NewIncome",
 	pattern: "Finances/{action}/{houseOrgId?}",
 	defaults: new { Controller = "Finances", Action = "NewIncome" });
+
+app.MapControllerRoute(
+	name: "RequestManagerAccess",
+	pattern: "Access/RequestManagerAccess/{position?}",
+	defaults: new { Controller = "Access", Action = "RequestManagerAccess" });
+
+app.MapControllerRoute(
+	name: "OccupantCode",
+	pattern: "Access/GenerateOccupantCode/{occupantId}",
+	defaults: new { Controller = "Access", Action = "GenerateOccupantCode" });
 
 app.MapDefaultControllerRoute();
 

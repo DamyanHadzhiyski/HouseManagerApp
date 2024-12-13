@@ -1,0 +1,16 @@
+﻿@model ActiveManagerViewModel
+
+<div class="card border-2 p-0 col-12 col-xl-2 mb-3">
+	<h4 class="card-header p-2 text-center">Add</h4>
+	<form class="card-body row justify-content-center align-items-center mx-0">
+		<button asp-controller="Managers" asp-action="Add" asp-route-position="@ManagerPosition.President"
+				class="btn btn-success align-self-center col-8 m-2"
+				type="submit">
+			<i class="fa-solid fa-user-tie fa-3x mt-2 mb-3"></i>
+			<p class="fw-bold">President</p>
+		</button>
+	</form>
+</div>
+<div>
+	<partial name="_ActiveManagerViewPartial" model="@Model" />
+</div>

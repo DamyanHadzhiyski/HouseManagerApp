@@ -1,0 +1,103 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model InactiveCashiersPageViewModel
+
+@{
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId);
+
+	string tableName = $"Previous cashiers";
+
+	var collection = Model.Collection;
+}
+
+<div class="card border-2 p-0 mb-3 col-12 col-lg-11">
+	<h4 class="card-header p-2 text-center">@tableName</h4>
+	<div class="card-body p-4">
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr class="text-center border-2 align-middle bg-light p-1">
+						<th style="width: 5%" scope="col">#</th>
+						<th style="width: 45%" scope="col">Name</th>
+						<th style="width: 15%" scope="col">Start Date</th>
+						<th style="width: 15%" scope="col">End Date</th>
+						<th style="width: 20%" scope="col">Ended On Date</th>
+					</tr>
+				</thead>
+				<tbody class="align-middle">
+					@for (int i = 0; i < collection.Count; i++)
+					{
+						<tr class="text-center border-2 bg-white p-1">
+							<td class="bg-light p-1" scope="row">@(i + 1 + (Model.CurrentPage - 1) * Model.ElementsPerPage)</td>
+							<td class="p-1">@collection[i].Name</td>
+							<td class="p-1">@collection[i].StartDate</td>
+							<td class="p-1">@collection[i].EndDate</td>
+							<td class="p-1">@collection[i].TerminationDate</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	@{
+		var previousPage = Model.CurrentPage - 1;
+		if (previousPage < 1)
+		{
+			previousPage = 1;
+		}
+
+		var maxPage = Math.Ceiling((double)Model.TotalElements /
+		Model.ElementsPerPage);
+	}
+
+	@if (collection.Any())
+	{
+		<form aria-label="...">
+			<ul class="pagination justify-content-center">
+				<li class="page-item">
+					<a class="btn btn-secondary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+					   asp-controller="Managers"
+					   asp-action="All"
+					   asp-route-houseOrgId="@houseOrgId"
+					   asp-route-cashiersCurrentPage="@previousPage">Previous</a>
+				</li>
+
+				@for (int i = 1; i <= maxPage; i++)
+				{
+					if (Model.CurrentPage == i)
+					{
+						<li class="page-item active" aria-current="page">
+							<a class="page-link"
+							   asp-controller="Managers"
+							   asp-action="All"
+							   asp-route-houseOrgId="@houseOrgId"
+							   asp-route-cashiersCurrentPage="@i">@i</a>
+						</li>
+					}
+					else
+					{
+						<li class="page-item" aria-current="page">
+							<a class="page-link"
+							   asp-controller="Managers"
+							   asp-action="All"
+							   asp-route-houseOrgId="@houseOrgId"
+							   asp-route-cashiersCurrentPage="@i">@i</a>
+						</li>
+					}
+				}
+
+				@{
+					var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+					!Model.Collection.Any();
+				}
+				<li class="page-item">
+					<a class="btn btn-secondary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+					   asp-controller="Managers"
+					   asp-action="All"
+					   asp-route-houseOrgId="@houseOrgId"
+					   asp-route-cashiersCurrentPage="@(Model.CurrentPage + 1)">Next</a>
+				</li>
+			</ul>
+		</form>
+	}
+</div>

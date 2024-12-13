@@ -138,9 +138,15 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasComment("Unit which provided the Income");
 
+                    b.Property<string>("UnitNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HouseOrganizationId");
+
+                    b.HasIndex("UnitId");
 
                     b.ToTable("Incomes");
                 });
@@ -153,6 +159,11 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasComment("Primary identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccessCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Managers access code");
 
                     b.Property<int>("HouseOrganizationId")
                         .HasColumnType("int")
@@ -204,6 +215,11 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasComment("Primary identifier of the occupant");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccessCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Occupant access code");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2")
@@ -271,10 +287,6 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasComment("Identifier of the unit type");
 
-                    b.Property<int>("PetsCount")
-                        .HasColumnType("int")
-                        .HasComment("Number of pets in the unit");
-
                     b.Property<decimal>("TotalArea")
                         .HasColumnType("decimal(18,2)")
                         .HasComment("Total area of the unit");
@@ -296,6 +308,40 @@ namespace HouseManager.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Units");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.UserManager", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Primary identifier of the user");
+
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the manager");
+
+                    b.HasKey("UserId", "ManagerId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("UsersManagers");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.UserOccupant", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Primary identifier of the user");
+
+                    b.Property<int>("OccupantId")
+                        .HasColumnType("int")
+                        .HasComment("Primary identifier of the occupant");
+
+                    b.HasKey("UserId", "OccupantId");
+
+                    b.HasIndex("OccupantId");
+
+                    b.ToTable("UsersOccupants");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -327,22 +373,27 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8382b703-5091-4508-93fb-322039109c04",
+                            Id = "4f8c80e4-e48d-4682-ada8-cfa0d9c86597",
                             Name = "Administrator"
                         },
                         new
                         {
-                            Id = "23092eb6-d76d-4fac-86d8-fdaa501179ba",
+                            Id = "4b64d2a8-8648-4730-86aa-0689dde68240",
+                            Name = "Creator"
+                        },
+                        new
+                        {
+                            Id = "98635cee-82bb-4227-9306-bdd2eb914843",
                             Name = "President"
                         },
                         new
                         {
-                            Id = "3704462e-49d4-4b56-a34f-b1564e9049e4",
+                            Id = "88270e49-9be5-4ad7-ad1b-1b802e263eca",
                             Name = "Cashier"
                         },
                         new
                         {
-                            Id = "24385294-0d30-4ef7-a46d-816b710bb12d",
+                            Id = "15fd604d-63fc-4078-a15b-15f724d2363e",
                             Name = "User"
                         });
                 });
@@ -552,7 +603,15 @@ namespace HouseManager.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("HouseOrganization");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.Manager", b =>
@@ -586,6 +645,44 @@ namespace HouseManager.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("HouseOrganization");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.UserManager", b =>
+                {
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.Manager", "Manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manager");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HouseManager.Infrastructure.Data.Models.UserOccupant", b =>
+                {
+                    b.HasOne("HouseManager.Infrastructure.Data.Models.Occupant", "Occupant")
+                        .WithMany()
+                        .HasForeignKey("OccupantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Occupant");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

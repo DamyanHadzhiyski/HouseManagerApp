@@ -99,12 +99,14 @@ namespace HouseManager.Core.Services
 								.Where(o => o.Id == id)
 								.Select(o=> new OccupantDetailViewModel
 								{
+									Id=o.Id,
 									FullName = o.FullName,
 									BirthDate = o.BirthDate.ToString(AppDateFormat),
 									PhoneNumber= o.PhoneNumber,
 									IsOwner	= o.IsOwner ? "Yes" : "No",
 									OccupationDate = o.OccupationDate.ToString(AppDateFormat),
-									LeaveDate = o.IsActive ? "NA" : o.LeaveDate.ToString(AppDateFormat)
+									LeaveDate = o.IsActive ? "NA" : o.LeaveDate.ToString(AppDateFormat),
+									UnitId = o.UnitId
 								})
 								.FirstOrDefaultAsync();
 		}
@@ -115,6 +117,7 @@ namespace HouseManager.Core.Services
 								.Where(o => o.Id == id)
 								.Select(o => new OccupantFormModel
 								{
+									Id = o.Id,
 									FullName = o.FullName,
 									BirthDate = DateOnly.FromDateTime(o.BirthDate),
 									PhoneNumber = o.PhoneNumber,

@@ -81,6 +81,12 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Required]
 		[Comment("Occupation status")]
         public required bool IsActive { get; set; }
-    }
+
+		/// <summary>
+		/// Occupants access code used for verification, when user is joining as occupant/owner
+		/// </summary>
+		[Comment("Occupant access code")]
+		public string AccessCode { get; set; } = string.Empty;
+	}
 }
          

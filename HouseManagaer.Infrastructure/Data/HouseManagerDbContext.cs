@@ -19,8 +19,11 @@ namespace HouseManager.Infrastructure.Data
 		{
 			base.OnModelCreating(builder);
 
-			//builder
-			//	.ApplyConfiguration(new RegisteredOccupantConfiguration());
+			builder
+				.ApplyConfiguration(new UserManagerConfiguration());
+
+			builder
+				.ApplyConfiguration(new UserOccupantConfiguration());
 
 			builder
 				.ApplyConfiguration(new HouseOrganizationConfiguration());
@@ -44,7 +47,9 @@ namespace HouseManager.Infrastructure.Data
 		
 		public DbSet<Expense> Expenses { get; set; }
 
-		//public DbSet<RegisteredOccupant> RegisteredOccupants { get; set; }
+		public DbSet<UserManager> UsersManagers { get; set; }
+
+		public DbSet<UserOccupant> UsersOccupants { get; set; }
 
 	}
 }

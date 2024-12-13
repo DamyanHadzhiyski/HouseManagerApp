@@ -17,6 +17,11 @@ namespace HouseManager.Controllers
 		IHouseOrganizationService houseOrgService,
 		IUnitService unitService) : BaseController
 	{
+		public IActionResult Index()
+		{
+			return View();
+		}
+
 		#region Add New House Organization
 		[HttpGet]
 		public IActionResult Add()
@@ -44,7 +49,7 @@ namespace HouseManager.Controllers
 
 		#region Edit House Organization
 		[HttpGet]
-		[Authorize(Roles = AdminRoleName)]
+		[Authorize(Roles = AdminRole)]
 		public async Task<IActionResult> Edit(int id)
 		{
 			if (!await houseOrgService.ExistById(id))
@@ -60,7 +65,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = AdminRoleName)]
+		[Authorize(Roles = AdminRole)]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
 			if (!await houseOrgService.ExistById(model.Id))
@@ -100,7 +105,7 @@ namespace HouseManager.Controllers
 
 		#region Show All House Organizations
 		[HttpGet]
-		[Authorize(Roles = AdminRoleName)]
+		[Authorize(Roles = AdminRole)]
 		public async Task<IActionResult> All()
 		{
 			var model = await houseOrgService
@@ -113,7 +118,7 @@ namespace HouseManager.Controllers
 
 		#region Manage House Organization
 		[HttpGet]
-		[Authorize(Roles = AdminRoleName)]
+		[Authorize(Roles = AdminRole)]
 		public async Task<IActionResult> Manage(int id)
 		{
 			var houseOrgName = await houseOrgService
@@ -133,16 +138,6 @@ namespace HouseManager.Controllers
 			HttpContext.Session.SetInt32(ManagedHouseOrgId, id);
 
 			return RedirectToAction(nameof(Details), new { id });
-		}
-		#endregion
-
-		#region Join House Organization
-		[HttpGet]
-		public IActionResult Join(int id)
-		{
-			var model = new HouseOrganizationJoinModel();
-
-			return View(model);
 		}
 		#endregion
 	}

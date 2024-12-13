@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using static HouseManager.Infrastructure.Constants.UserRoles;
+
 namespace HouseManager.Areas.Identity.Pages.Account
 {
     public class RegisterModel(
@@ -86,7 +88,9 @@ namespace HouseManager.Areas.Identity.Pages.Account
                 {
                     logger.LogInformation($"User is registered.");
 
-                    await signInManager.SignInAsync(user, isPersistent: false);
+                    //await userManager.AddToRoleAsync(user, UserRole);
+
+					await signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
 

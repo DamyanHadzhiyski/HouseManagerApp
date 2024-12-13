@@ -2,9 +2,10 @@
 {
 	public static class UserRoles
 	{
-		public const string AdminRoleName = "Administrator";
-		public const string PresidentRoleName = "President";
-		public const string CashierRoleName = "Cashier";
-		public const string UserRoleName = "User";
+		public const string AdminRole = "Administrator";
+		public const string PresidentRole = "President";
+		public const string CashierRole = "Cashier";
+		public const string CreatorRole = "Creator";
+		public const string UserRole = "User";
 	}
 }

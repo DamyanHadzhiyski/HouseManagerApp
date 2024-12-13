@@ -51,6 +51,7 @@ namespace HouseManager.Core.Models.Unit
 		[Display(Name = "Common Parts")]
 		public decimal CommonParts { get; set; }
 
+
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public int HouseOrganizationId { get; set; }
 

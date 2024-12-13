@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 using HouseManager.Infrastructure.Enums;
+using HouseManager.Infrastructure.Migrations;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -49,9 +50,17 @@ namespace HouseManager.Infrastructure.Data.Models
         public int UnitId { get; set; }
 
 		/// <summary>
-		/// Short description of the Income
+		/// Navigation Property to Units Table
 		/// </summary>
-		[MaxLength(DescriptionMaxLength)]
+		[ForeignKey(nameof(UnitId))]
+		public Unit Unit { get; set; } = null!;
+
+		public string UnitNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Short description of the Income
+        /// </summary>
+        [MaxLength(DescriptionMaxLength)]
 		[Comment("Short description of the Income")]
 		public string Description { get; set; } = string.Empty;
 

@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
@@ -30,7 +37,9 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Users\Data\" />
+    <Folder Include="Areas\Users\Models\" />
+    <Folder Include="Views\Users\" />
     <Folder Include="wwwroot\css\custom\date-picker\" />
     <Folder Include="wwwroot\js\custom\date-picker\" />
   </ItemGroup>
@@ -40,11 +49,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Management\Edit.cshtml">
+    <Content Update="Views\Managers\Edit.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Views\Management\_ActiveManagerViewPartial.cshtml">
+    <Content Update="Views\Managers\_ActiveManagerViewPartial.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

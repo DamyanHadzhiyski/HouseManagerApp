@@ -12,10 +12,11 @@ namespace HouseManager.Infrastructure.Data.Configurations
 		{
 			builder
 				.HasData(
-					new IdentityRole(AdminRoleName),
-					new IdentityRole(PresidentRoleName),
-					new IdentityRole(CashierRoleName),
-					new IdentityRole(UserRoleName)
+					new IdentityRole(AdminRole),
+					new IdentityRole(CreatorRole),
+					new IdentityRole(PresidentRole),
+					new IdentityRole(CashierRole),
+					new IdentityRole(UserRole)
 				);
 		}
 	}

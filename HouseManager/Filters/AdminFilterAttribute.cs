@@ -24,7 +24,7 @@ namespace HouseManager.Filters
 
 		private bool IsAdmin(ClaimsPrincipal user) 
 		{
-			if (user.IsInRole(AdminRoleName))
+			if (user.IsInRole(AdminRole))
 			{ 
 				return true;
 			}

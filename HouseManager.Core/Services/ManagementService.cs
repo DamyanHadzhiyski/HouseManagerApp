@@ -1,5 +1,5 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.Management;
+using HouseManager.Core.Models.Managers;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
@@ -13,7 +13,7 @@ namespace HouseManager.Core.Services
 	public class ManagementService(
 		HouseManagerDbContext context) : IManagementService
 	{
-		public async Task AddAsync(ActiveManagementFormModel model)
+		public async Task AddAsync(ActiveManagerFormModel model)
 		{
 			var newPresident = new Manager
 			{
@@ -30,7 +30,7 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public async Task EditAsync(ActiveManagementFormModel model)
+		public async Task EditAsync(ActiveManagerFormModel model)
 		{
 			var president = await GetByIdAsync(model.Id);
 
@@ -42,13 +42,13 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public IQueryable<ActiveManagementViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
+		public IQueryable<ActiveManagerViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
 		{
 			return context.Managers
 							.AsNoTracking()
 							.Where(p => p.HouseOrganizationId == houseOrgId
 											&& p.IsActive == true)
-							.Select(p => new ActiveManagementViewModel
+							.Select(p => new ActiveManagerViewModel
 							{
 								Id = p.Id,
 								Name = p.Name,
@@ -60,13 +60,13 @@ namespace HouseManager.Core.Services
 							});
 		}
 
-		public IQueryable<InactiveManagementViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId)
+		public IQueryable<InactiveManagerViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId)
 		{
 			var test = context.Managers
 								.AsNoTracking()
 								.Where(p => p.HouseOrganizationId == houseOrgId && p.IsActive == false)
 								.OrderByDescending(p => p.TerminationDate)
-								.Select(p => new InactiveManagementViewModel
+								.Select(p => new InactiveManagerViewModel
 								{
 									Name = p.Name,
 									Position = p.Position,

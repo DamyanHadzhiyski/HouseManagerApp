@@ -1,0 +1,41 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName);
+	var activePresident = ViewBag.ActivePresident;
+	var activeCashier = ViewBag.ActiveCashier;
+}
+
+<h4 class="text-center mb-4">@houseOrgName - Management</h4>
+<hr />
+<div class="row row-cols-1 row-cols-md-3 justify-content-center">
+	@if (activePresident == null && activeCashier == null)
+	{
+		<partial name="_AddBothManagersPartial" />
+	}
+	else if (activePresident == null)
+	{
+		<partial name="_AddPresidentPartial" model="@activeCashier" />
+	}
+	else if (activeCashier == null)
+	{
+		<partial name="_AddCashierPartial" model="@activePresident" />
+	}
+	else
+	{
+		<partial name="_ActiveManagerViewPartial" model="@activePresident" />
+		<partial name="_ActiveManagerViewPartial" model="@activeCashier" />
+	}
+</div>
+<div class="row row-cols-1 row-cols-md-2 justify-content-center">
+	<div class="row justify-content-center">
+		<partial name="_InactivePresidentsViewPartial" model="@ViewBag.InactivePresidents" />
+	</div>
+	<div class="row justify-content-center">
+		<partial name="_InactiveCashiersViewPartial" model="@ViewBag.InactiveCashiers" />
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

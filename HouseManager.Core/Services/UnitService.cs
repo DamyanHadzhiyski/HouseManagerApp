@@ -81,14 +81,5 @@ namespace HouseManager.Core.Services
 								})
 								.ToListAsync();
 		}
-
-		public async Task CalculateBalance(int id, decimal amount)
-		{
-			var unit = await GetByIdAsync(id);
-
-			unit.Balance += amount;
-
-			await context.SaveChangesAsync();
-		}
 	}
 }
