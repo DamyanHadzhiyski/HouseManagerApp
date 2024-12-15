@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-using Azure;
-
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Finances;
 using HouseManager.Infrastructure.Data;
@@ -9,8 +7,7 @@ using HouseManager.Infrastructure.Data.Models;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.VisualBasic;
 
 using static HouseManager.Core.Constants.DataConstants;
 
@@ -36,7 +33,6 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		//TODO: Separate split type in methods
 		public async Task AddExpenseAsync(ExpenseFormModel model)
 		{
 			var expense = new Expense
@@ -53,31 +49,12 @@ namespace HouseManager.Core.Services
 
 			if (model.SplitType == ExpenseSplitType.EachUnit)
 			{
-				var units = await GetUnits(model.HouseOrganizationId);
-
-				var splitExpense = (decimal)(model.Amount / units.Count);
-
-				foreach (var unit in units)
-				{
-					await CalculateUnitBalanceAsync(unit.Id, (splitExpense * -1));
-				}
+				await SplitExpenseToEachUnit(model.HouseOrganizationId, model.Amount);
 
 			}
 			else if (model.SplitType == ExpenseSplitType.EachOccupant)
 			{
-				var units = await GetUnits(model.HouseOrganizationId);
-
-				var occupants = units.Sum(u => u.Occupants.Count);
-
-				var splitExpense = (decimal)(model.Amount / occupants);
-
-				foreach (var unit in units)
-				{
-					var unitExpense = unit.Occupants.Count * splitExpense;
-
-					await CalculateUnitBalanceAsync(unit.Id, (unitExpense * -1));
-				}
-
+				await SplitExpenseToEachOccupant(model.HouseOrganizationId, model.Amount);
 			}
 		}
 
@@ -150,6 +127,34 @@ namespace HouseManager.Core.Services
 			return await context.Units
 								.Where(ho => ho.Id == houseOrgId)
 								.ToListAsync();
+		}
+
+		private async Task SplitExpenseToEachOccupant(int houseOrgId, decimal amount)
+		{
+			var units = await GetUnits(houseOrgId);
+
+			var occupants = units.Sum(u => u.Occupants.Count(o => o.IsActive && DateAndTime.DateDiff("Year", DateTime.Now,o.BirthDate) > 18));
+
+			var amountEach = (decimal)(amount / occupants);
+
+			foreach (var unit in units)
+			{
+				var unitExpense = unit.Occupants.Count * amountEach;
+
+				await CalculateUnitBalanceAsync(unit.Id, (unitExpense * -1));
+			}
+		}
+
+		private async Task SplitExpenseToEachUnit(int houseOrgId, decimal amount)
+		{
+			var units = await GetUnits(houseOrgId);
+
+			var amountEach = (decimal)(amount / units.Count);
+
+			foreach (var unit in units)
+			{
+				await CalculateUnitBalanceAsync(unit.Id, (amountEach * -1));
+			}
 		}
 		#endregion
 	}
