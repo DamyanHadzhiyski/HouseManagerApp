@@ -1,0 +1,42 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model List<UnitViewModel>
+
+@{
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
+}
+
+<form class="row row-cols-12 justify-content-center">
+	<section class="card border-2 p-0 mb-5 mx-3 col-lg-10">
+		<h4 class="card-header p-2 text-center">Units</h4>
+		<div class="card-body justify-content-center">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr class="text-center border-2 align-middle bg-light p-1">
+							<th style="width: 5%" scope="col">#</th>
+							<th style="width: 5%" scope="col">Number</th>
+							<th style="width: 5%" scope="col">Floor</th>
+							<th style="width: 5%" scope="col">Type</th>
+							<th style="width: 5%" scope="col">Details</th>
+						</tr>
+					</thead>
+					<tbody class="align-middle col-10">
+						@for (int i = 0; i < Model.Count(); i++)
+						{
+							<tr class="text-center border-2 bg-white p-1">
+								<td class="bg-light p-1" scope="row">@(i + 1)</td>
+								<td class="p-1">@Model[i].Number</td>
+								<td class="p-1">@Model[i].Floor</td>
+								<td class="p-1">@Model[i].Type</td>
+								<td class="p-1">
+									<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</form>

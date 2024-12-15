@@ -3,20 +3,19 @@
 	<form class="card-body row justify-content-center justify-content-lg-around align-items-top mx-0">
 		@if (User.IsInRole(UserRole))
 		{
-			<button asp-controller="Access"
-					asp-action="RequestOccupantAccess"
+			<button asp-area="User" asp-controller="HouseOrganizations"
+					asp-action="All"
 					class="btn btn-success row col-5 col-xl-3 m-2"
 					type="submit">
-				<i class="fa fa-user-plus fa-3x mt-2 mb-3"></i>
+				<i class="fa fa-user fa-3x mt-2 mb-3"></i>
 				<p class="fw-bold">Occupant</p>
 			</button>
 		}
 
 		@if (User.IsInRole(PresidentRole))
 		{
-			<button asp-controller="Access"
-					asp-action="RequestManagerAccess"
-					asp-route-position="@ManagerPosition.President"
+			<button asp-area="President" asp-controller="HouseOrganizations"
+					asp-action="All"
 					class="btn btn-success row col-5 col-xl-3 m-2"
 					type="submit">
 				<i class="fa fa-user-tie fa-3x mt-2 mb-3"></i>
@@ -26,9 +25,8 @@
 
 		@if (User.IsInRole(CashierRole))
 		{
-			<button asp-controller="Access"
-					asp-action="RequestManagerAccess"
-					asp-route-position="@ManagerPosition.Cashier"
+			<button asp-area="Cashier" asp-controller="HouseOrganizations"
+					asp-action="All"
 					class="btn btn-success col-5 col-xl-3 m-2"
 					type="submit">
 				<i class="fa fa-cash-register fa-3x mt-2 mb-3"></i>

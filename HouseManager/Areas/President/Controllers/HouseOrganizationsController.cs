@@ -1,133 +1,121 @@
-﻿//using System.Security.Claims;
+﻿using System.Security.Claims;
 
-//using HouseManager.Controllers;
-//using HouseManager.Core.Contracts;
-//using HouseManager.Core.Models.HouseOrganization;
-//using HouseManager.Infrastructure.Data;
+using HouseManager.Core.Contracts;
+using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Infrastructure.Data;
 
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-//using static HouseManager.Infrastructure.Constants.UserRoles;
-//using static HouseManager.Constants.SessionConstants;
+using static HouseManager.Constants.SessionConstants;
+using static HouseManager.Infrastructure.Constants.UserRoles;
 
-//namespace HouseManager.Areas.President.Controllers
-//{
-//	[Authorize(Roles = PresidentRole)]
-//	public class HouseOrganizationsController(
-//		IHouseOrganizationService houseOrgService,
-//		IUnitService unitService,
-//		HouseManagerDbContext context) : BaseController
-//	{
-//		#region Edit House Organization
-//		[HttpGet]
-//		[Authorize(Roles = AdminRole)]
-//		public async Task<IActionResult> Edit(int id)
-//		{
-//			if (!await houseOrgService.ExistById(id))
-//			{
-//				return BadRequest();
-//			}
+namespace HouseManager.Areas.President.Controllers
+{
+	public class HouseOrganizationsController(
+		IHouseOrganizationService houseOrgService,
+		IUnitService unitService,
+		HouseManagerDbContext context) : PresidentController
+	{
+		#region Edit House Organization
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			if (!await houseOrgService.ExistById(id))
+			{
+				return BadRequest();
+			}
 
-//			var model = await houseOrgService
-//								.GetByIdReadOnly(id)
-//								.FirstOrDefaultAsync();
+			var model = await houseOrgService
+								.GetByIdReadOnly(id)
+								.FirstOrDefaultAsync();
 
-//			return View(model);
-//		}
+			return View(model);
+		}
 
-//		[HttpPost]
-//		[Authorize(Roles = AdminRole)]
-//		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
-//		{
-//			if (!await houseOrgService.ExistById(model.Id))
-//			{
-//				return BadRequest();
-//			}
+		[HttpPost]
+		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
+		{
+			if (!await houseOrgService.ExistById(model.Id))
+			{
+				return BadRequest();
+			}
 
-//			if (!ModelState.IsValid)
-//			{
-//				return View(model);
-//			}
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
 
-//			await houseOrgService.EditAsync(model);
+			await houseOrgService.EditAsync(model);
 
-//			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id = model.Id });
-//		}
-//		#endregion
+			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id = model.Id, area="President"});
+		}
+		#endregion
 
-//		#region Show House Organization Details
-//		[HttpGet]
-//		public async Task<IActionResult> Details(int id)
-//		{
-//			if (!await houseOrgService.ExistById(id))
-//			{
-//				return BadRequest();
-//			}
+		#region Show House Organization Details
+		[HttpGet]
+		public async Task<IActionResult> Details(int id)
+		{
+			if (!await houseOrgService.ExistById(id))
+			{
+				return BadRequest();
+			}
 
-//			var model = await houseOrgService
-//								.GetDetailsByIdReadOnly(id)
-//								.FirstOrDefaultAsync();
+			var model = await houseOrgService
+								.GetDetailsByIdReadOnly(id)
+								.FirstOrDefaultAsync();
 
-//			model.Units = await unitService.GetAllFromHOAsync(id);
+			model.Units = await unitService.GetAllFromHOAsync(id);
 
-//			return View(model);
-//		}
-//		#endregion
+			return View(model);
+		}
+		#endregion
 
-//		#region Show All House Organizations
-//		[HttpGet]
-//		[Authorize(Roles = AdminRole + "," + PresidentRole)]
-//		public async Task<IActionResult> All()
-//		{
-//			var model = new List<HouseOrganizationViewModel>();
+		#region Show All House Organizations
+		[HttpGet]
+		public async Task<IActionResult> All()
+		{
+			var model = new List<HouseOrganizationViewModel>();
 
-//			if(User.IsInRole(AdminRole))
-//			{
-//				model = await houseOrgService
-//							.GetAllReadOnly()
-//							.ToListAsync();
-//			}
-//			else if(User.IsInRole(PresidentRole))
-//			{
-//				var ids = await context.UsersManagers
-//										.Where(um => um.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-//										.Select(um => um.ManagerId)
-//										.ToListAsync();
+			var ids = await context.UsersManagers
+									.Where(um => um.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+									.Select(um => um.ManagerId)
+									.ToListAsync();
 
-//				model = await houseOrgService
-//									.GetAllByManagerIdReadOnly(ids)
-//								.ToListAsync();
-//			}
+			model = await houseOrgService
+								.GetAllByManagerIdReadOnly(ids)
+							.ToListAsync();
 
-//			return View(model);
-//		}
-//		#endregion
+			HttpContext.Session.SetInt32(SideBarOpen, 1);
 
-//		#region Manage House Organization
-//		[HttpGet]
-//		[Authorize(Roles = AdminRole)]
-//		public async Task<IActionResult> Manage(int id)
-//		{
-//			var houseOrgName = await houseOrgService
-//								.GetByIdReadOnly(id)
-//								.Select(ho => new
-//								{
-//									ho.Name
-//								})
-//								.FirstOrDefaultAsync();
+			return View("~/Views/HouseOrganizations/All.cshtml", model);
+		}
+		#endregion
 
-//			if (houseOrgName == null)
-//			{
-//				BadRequest();
-//			}
+		#region Manage House Organization
+		[HttpGet]
+		[Authorize(Roles = AdminRole)]
+		public async Task<IActionResult> Manage(int id)
+		{
+			var houseOrgName = await houseOrgService
+								.GetByIdReadOnly(id)
+								.Select(ho => new
+								{
+									ho.Name
+								})
+								.FirstOrDefaultAsync();
 
-//			HttpContext.Session.SetString(ManagedHouseOrgName, houseOrgName.Name);
-//			HttpContext.Session.SetInt32(ManagedHouseOrgId, id);
+			if (houseOrgName == null)
+			{
+				BadRequest();
+			}
 
-//			return RedirectToAction(nameof(Details), new { id });
-//		}
-//		#endregion
-//	}
-//}
+			HttpContext.Session.SetString(HouseOrgName, houseOrgName.Name);
+			HttpContext.Session.SetInt32(HouseOrgId, id);
+
+			return RedirectToAction(nameof(Details), new { id });
+		}
+		#endregion
+	}
+}

@@ -1,7 +1,69 @@
-﻿<div class="row justify-content-center">
-	<h1 class="display-4 text-center mb-3">Welcome to House Manager App</h1>
-	<h3 class="text-center w-50 mb-5">This is a simple app, that aims to facilitate the management of houses with multiple units/apartments.</h3>
-	<div class="text-center align-middle">
-		<img class="m-4 rounded-circle" src="~/img/HomePageImg.png" />
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var loggedIn = SignInManager.IsSignedIn(User);
+	var userRole = User.FindFirstValue(ClaimTypes.Role);
+}
+
+@if (!loggedIn)
+{
+	<div class="row justify-content-center">
+		<h1 class="display-4 text-center mb-3">Welcome to House Manager App</h1>
+		<h3 class="text-center w-50 mb-5">This is a simple app, that aims to facilitate the management of houses with multiple units/apartments.</h3>
+		<div class="text-center align-middle">
+			<img class="m-4 rounded-circle" src="~/img/HomePageImg.png" />
+		</div>
 	</div>
-</div>
+}
+else
+{
+	<h2 class="text-center">Welcome to House Manager App</h2>
+	<h3 class="text-center">Please, select action @(userRole != null ? "or view " : string.Empty)to continue.</h3>
+	<hr />
+	<div class="row row-cols-1 row-cols-lg-2 justify-content-xl-around justify-content-center align-items-top mb-5">
+		<div class="card col-1 border-2 p-0 col-12 col-xl-5 mb-3">
+			<h4 class="card-header p-2 text-center">Actions</h4>
+			<form class="card-body row justify-content-center align-items-top mx-0">
+				<button asp-area="" asp-controller="HouseOrganizations" asp-action="Add"
+						class="btn btn-success col-5 col-xl-4 m-2"
+						type="submit">
+					<i class="fa-solid fa-house-medical fa-3x mt-2 mb-3"></i>
+					<p class="fw-bold">Add House Organization</p>
+				</button>
+				<button asp-area="" asp-controller="Access"
+						asp-action="RequestOccupantAccess"
+						class="btn btn-success col-5 col-xl-4 m-2"
+						type="submit">
+					<i class="fa fa-user fa-3x mt-2 mb-3"></i>
+					<p class="fw-bold">Request Occupant Access</p>
+				</button>
+				<button asp-area="" asp-controller="Access"
+						asp-action="RequestManagerAccess"
+						asp-route-position="@ManagerPosition.President"
+						class="btn btn-success col-5 col-xl-4 m-2"
+						type="submit">
+					<i class="fa fa-user-tie fa-3x mt-2 mb-3"></i>
+					<p class="fw-bold">Request President Access</p>
+				</button>
+				<button asp-area="" asp-controller="Access"
+						asp-action="RequestManagerAccess"
+						asp-route-position="@ManagerPosition.Cashier"
+						class="btn btn-success col-5 col-xl-4 m-2"
+						type="submit">
+					<i class="fa fa-cash-register fa-3x mt-2 mb-3"></i>
+					<p class="fw-bold">Request Cashier Access</p>
+				</button>
+			</form>
+		</div>
+		@if (userRole != null)
+		{
+			<div class="col-1">
+
+				<partial name="_ViewsPartial" />
+
+			</div>
+		}
+	</div>
+}
+

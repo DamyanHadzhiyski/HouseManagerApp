@@ -3,7 +3,7 @@
 @model ActiveManagerFormModel
 
 @{
-	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 	var termPeriods = Html.GetEnumSelectList(typeof(TermPeriod));
 }
 

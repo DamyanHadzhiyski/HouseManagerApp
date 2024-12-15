@@ -20,4 +20,9 @@
     <Folder Include="Models\Users\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="4.3.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+
 </Project>
