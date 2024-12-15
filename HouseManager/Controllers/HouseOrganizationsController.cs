@@ -132,15 +132,9 @@ namespace HouseManager.Controllers
 			}
 			else if (User.IsInRole(UserRole))
 			{
-				var ids = await context.UsersOccupants
-										.Where(uo => uo.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-										.Select(uo => uo.OccupantId)
-										.ToListAsync();
-
-				model = await houseOrgService
-								.GetAllByOccupantIdReadOnly(ids)
-								.ToListAsync();
 			}
+
+			HttpContext.Session.SetInt32(SideBarOpen, 1);
 
 			return View(model);
 		}
@@ -164,8 +158,8 @@ namespace HouseManager.Controllers
 				BadRequest();
 			}
 
-			HttpContext.Session.SetString(ManagedHouseOrgName, houseOrgName.Name);
-			HttpContext.Session.SetInt32(ManagedHouseOrgId, id);
+			HttpContext.Session.SetString(HouseOrgName, houseOrgName.Name);
+			HttpContext.Session.SetInt32(HouseOrgId, id);
 
 			return RedirectToAction(nameof(Details), new { id });
 		}

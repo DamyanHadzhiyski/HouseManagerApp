@@ -26,7 +26,7 @@
 					<td class="p-1">@collection[i].IsOwner</td>
 					<td class="p-1">@collection[i].LeaveDate</td>
 					<td class="p-1">
-						<button type="submit" class="btn  btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Occupants" asp-action="Details" asp-route-id="@collection[i].Id"><i class="fa-solid fa-info"></i></button>
+						<button type="submit" class="btn  btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Occupants" asp-action="Details" asp-route-id="@collection[i].Id"><i class="fa-solid fa-info"></i></button>
 					</td>
 				</tr>
 			}

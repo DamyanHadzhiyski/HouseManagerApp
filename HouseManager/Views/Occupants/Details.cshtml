@@ -26,7 +26,7 @@
 				<label class="col-lg-8">@Model.OccupationDate</label>
 			</div>
 			<form class="row justify-content-center p-4">
-				<button asp-controller="Occupants" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning col-3 m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+				<button asp-area="" asp-controller="Occupants" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning col-3 m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
 				<button type="button" class="btn btn-info col-3 m-1" onclick="location.href='@Url.Action("Details","Units", new {id = Model.UnitId})';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
 			</form>
 		</div>

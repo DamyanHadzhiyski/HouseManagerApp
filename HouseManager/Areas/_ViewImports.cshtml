@@ -1,11 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Caching.Memory
 
 @using HouseManager
-@using HouseManager.Areas.Identity
-@using HouseManager.Areas.Identity.Pages
-@using HouseManager.Areas.Identity.Pages.Account
-@using HouseManager.Areas.Users.Controllers
+@using HouseManager.Core.Contracts
+@using HouseManager.Core.Models
+@using HouseManager.Core.Models.Access
+@using HouseManager.Core.Models.Finances
 @using HouseManager.Core.Models.HouseOrganization
+@using HouseManager.Core.Models.Managers
+@using HouseManager.Core.Models.Unit
+@using HouseManager.Core.Models.OccupantModel
+@using HouseManager.Core.Models.Pagination
+@using HouseManager.Infrastructure.Enums
 
+@using static HouseManager.Constants.SessionConstants
+@using static HouseManager.Core.Constants.DataConstants
+@using static HouseManager.Infrastructure.Constants.UserRoles
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

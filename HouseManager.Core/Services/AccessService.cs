@@ -2,7 +2,6 @@
 using HouseManager.Core.Models.Access;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
-using HouseManager.Infrastructure.Enums;
 
 using Microsoft.EntityFrameworkCore;
 

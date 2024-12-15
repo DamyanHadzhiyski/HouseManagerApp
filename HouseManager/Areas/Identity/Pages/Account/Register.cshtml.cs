@@ -3,12 +3,14 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using static HouseManager.Infrastructure.Constants.UserRoles;
+using static HouseManager.Infrastructure.Constants.UserClaims;
 
 namespace HouseManager.Areas.Identity.Pages.Account
 {
@@ -89,6 +91,7 @@ namespace HouseManager.Areas.Identity.Pages.Account
                     logger.LogInformation($"User is registered.");
 
                     //await userManager.AddToRoleAsync(user, UserRole);
+                    await userManager.AddClaimAsync(user, new Claim(CurrentRole, UserRole));
 
 					await signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);

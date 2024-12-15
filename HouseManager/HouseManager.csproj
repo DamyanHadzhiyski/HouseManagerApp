@@ -37,11 +37,13 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Cashier\Data\" />
+    <Folder Include="Areas\Cashier\Models\" />
     <Folder Include="Areas\President\Data\" />
     <Folder Include="Areas\President\Models\" />
     <Folder Include="Areas\President\Views\" />
-    <Folder Include="Areas\Users\Data\" />
-    <Folder Include="Areas\Users\Models\" />
+    <Folder Include="Areas\User\Data\" />
+    <Folder Include="Areas\User\Models\" />
     <Folder Include="Views\Users\" />
     <Folder Include="wwwroot\css\custom\date-picker\" />
     <Folder Include="wwwroot\js\custom\date-picker\" />
@@ -52,6 +54,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\User\Views\HouseOrganizations\All.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\User\Views\Shared\_ActiveOccupantsPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Views\Managers\Edit.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

@@ -3,8 +3,8 @@
 @model List<UnitViewModel>
 
 @{
-	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName) ?? "none";
-	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(HouseOrgName) ?? "none";
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 }
 
 @if (!Model.Any())
@@ -12,7 +12,7 @@
 	<form class="row justify-content-center">
 		<h2 class="text-center">You don't have any units added in @houseOrgName, yet!</h2>
 		<h3 class="text-center">Do you want to add one?</h3>
-		<button class="btn btn-lg btn-success col-6 col-md-2 text-center mt-4" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@houseOrgId"><i class="fa-solid fa-circle-plus me-2"></i>Add Unit</button>
+		<button class="btn btn-lg btn-success col-6 col-md-2 text-center mt-4" asp-area="" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@houseOrgId"><i class="fa-solid fa-circle-plus me-2"></i>Add Unit</button>
 	</form>
 }
 else
@@ -22,7 +22,7 @@ else
 		<hr />
 		<section class="card border-2 p-0 mb-5 mx-3 col-lg-10">
 			<div class="card-body justify-content-center">
-				<button class="btn btn-sml btn-success mb-3 mx-3" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@houseOrgId">Add Unit</button>
+				<button class="btn btn-sml btn-success mb-3 mx-3" asp-area="" asp-controller="Units" asp-action="Add" asp-route-houseOrgId="@houseOrgId">Add Unit</button>
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover">
 						<thead>
@@ -44,10 +44,10 @@ else
 									<td class="p-1">@Model[i].Floor</td>
 									<td class="p-1">@Model[i].Type</td>
 									<td class="p-1">
-										<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
+										<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
 									</td>
 									<td class="p-1">
-										<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
+										<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
 									</td>
 								</tr>
 							}

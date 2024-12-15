@@ -1,7 +1,7 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(ManagedHouseOrgName);
+	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(HouseOrgName);
 	var activePresident = ViewBag.ActivePresident;
 	var activeCashier = ViewBag.ActiveCashier;
 }

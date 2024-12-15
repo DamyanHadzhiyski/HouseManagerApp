@@ -4,7 +4,7 @@
 
 @{
 
-	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(ManagedHouseOrgId) ?? 0;
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 	var name = Model.Name;
 	var id = Model.Id;
 }
@@ -48,7 +48,7 @@
 	}
 </div>
 <form class="d-flex flex-wrap justify-content-center p-4">
-	<button asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
-	<button asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+	<button asp-area="" asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
+	<button asp-area="" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
 	<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
 </form>

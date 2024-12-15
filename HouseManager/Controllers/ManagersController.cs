@@ -83,7 +83,7 @@ namespace HouseManager.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(ActiveManagerFormModel model)
 		{
-			var houseOrgId = HttpContext.Session.GetInt32(ManagedHouseOrgId);
+			var houseOrgId = HttpContext.Session.GetInt32(HouseOrgId);
 
 			if (!ModelState.IsValid)
 			{

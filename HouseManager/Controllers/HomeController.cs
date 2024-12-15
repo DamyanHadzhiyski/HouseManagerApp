@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
+using static HouseManager.Constants.SessionConstants;
 using static HouseManager.Infrastructure.Constants.UserRoles;
+
 
 namespace HouseManager.Controllers
 {
@@ -8,14 +10,14 @@ namespace HouseManager.Controllers
 	{
 		public IActionResult Index()
 		{
+			HttpContext.Session.SetInt32(SideBarOpen, 0);
+
 			if (User.Identity != null && User.Identity.IsAuthenticated)
 			{
-				if(User.IsInRole(UserRole))
+				if (User.IsInRole(AdminRole))
 				{
-					return RedirectToAction("Index", "HouseOrganizations", new { area = "Users" });
+					return RedirectToAction("All", "HouseOrganizations");
 				}
-
-				return RedirectToAction("All", "HouseOrganizations");
 			}
 
 			return View();
