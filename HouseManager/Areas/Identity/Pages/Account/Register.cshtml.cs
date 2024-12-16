@@ -90,8 +90,7 @@ namespace HouseManager.Areas.Identity.Pages.Account
                 {
                     logger.LogInformation($"User is registered.");
 
-                    //await userManager.AddToRoleAsync(user, UserRole);
-                    await userManager.AddClaimAsync(user, new Claim(CurrentRole, UserRole));
+                    await userManager.AddClaimAsync(user, new Claim(CurrentRole, ""));
 
 					await signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
