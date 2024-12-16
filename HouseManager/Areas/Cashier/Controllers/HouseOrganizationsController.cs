@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Constants.SessionConstants;
+using static HouseManager.Infrastructure.Constants.UserRoles;
 
 namespace HouseManager.Areas.Cashier.Controllers
 {
 	public class HouseOrganizationsController(
         IHouseOrganizationService houseOrgService,
         IUnitService unitService,
+        IUserService userService,
         HouseManagerDbContext context) : CashierController
     {
         #region Show House Organization Details
@@ -41,14 +43,18 @@ namespace HouseManager.Areas.Cashier.Controllers
         {
             var model = new List<HouseOrganizationViewModel>();
 
-            var ids = await context.UsersManagers
-                                    .Where(um => um.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			var ids = await context.UsersManagers
+                                    .Where(um => um.UserId == userId)
                                     .Select(um => um.ManagerId)
                                     .ToListAsync();
 
             model = await houseOrgService
                                 .GetAllByManagerIdReadOnly(ids)
                                 .ToListAsync();
+
+            await userService.SetCurrentRoleAsync(userId, CashierRole);
 
             HttpContext.Session.SetInt32(SideBarOpen, 1);
 

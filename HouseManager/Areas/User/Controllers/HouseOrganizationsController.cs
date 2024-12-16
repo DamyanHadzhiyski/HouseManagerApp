@@ -7,23 +7,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Constants.SessionConstants;
+using static HouseManager.Infrastructure.Constants.UserRoles;
 
 namespace HouseManager.Areas.User.Controllers
 {
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
+		IUserService userService,
 		HouseManagerDbContext context) : UserController
 	{
 		public async Task<IActionResult> All()
 		{
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
 			var ids = await context.UsersOccupants
-											.Where(uo => uo.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+											.Where(uo => uo.UserId == userId)
 											.Select(uo => uo.OccupantId)
 											.ToListAsync();
 
 			var model = await houseOrgService
 							.GetAllByOccupantIdReadOnly(ids)
 									.ToListAsync();
+
+			await userService.SetCurrentRoleAsync(userId, UserRole);
 
 			HttpContext.Session.SetInt32(SideBarOpen, 1);
 

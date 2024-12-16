@@ -1,11 +1,12 @@
 ﻿@using System.Security.Claims
 @inject SignInManager<IdentityUser> SignInManager
 @inject IHttpContextAccessor HttpContextAccessor
+@inject IUserService userService
 
 @{
 	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(HouseOrgName) ?? "none";
-	var userRole = User.FindFirstValue(ClaimTypes.Role);
+	var userCurrentRole = await userService.GetCurrentRoleAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 	var loggedIn = SignInManager.IsSignedIn(User);
 }
 
@@ -44,7 +45,7 @@
 						</div>
 						<div class="ms-3">
 							<h6 class="mb-0">@User.Identity?.Name</h6>
-							<span>@userRole</span>
+							<span>@userCurrentRole</span>
 						</div>
 					</div>
 					<div class="navbar-nav w-100">

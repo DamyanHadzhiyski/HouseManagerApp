@@ -11,13 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using static HouseManager.Constants.SessionConstants;
 using static HouseManager.Infrastructure.Constants.UserRoles;
 
-namespace HouseManager.Areas.President.Controllers
+namespace HouseManager.Areas.Creator.Controllers
 {
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
 		IUnitService unitService,
 		IUserService userService,
-		HouseManagerDbContext context) : PresidentController
+		HouseManagerDbContext context) : CreatorController
 	{
 		#region Edit House Organization
 		[HttpGet]
