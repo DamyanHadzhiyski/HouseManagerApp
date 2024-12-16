@@ -17,15 +17,12 @@ namespace HouseManager.Controllers
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
 		IUnitService unitService,
-		HouseManagerDbContext context) : BaseController
+		IUserService userService,
+		HouseManagerDbContext context) : Controller
 	{
-		public IActionResult Index()
-		{
-			return View();
-		}
-
 		#region Add New House Organization
 		[HttpGet]
+		[Authorize]
 		public IActionResult Add()
 		{
 			var model = new HouseOrganizationFormModel();
@@ -44,6 +41,8 @@ namespace HouseManager.Controllers
 			}
 
 			var id = await houseOrgService.AddAsync(model);
+
+			await userService.AddToRoleAsync(model.CreatorId, CreatorRole);
 
 			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id });
 		}
@@ -107,32 +106,13 @@ namespace HouseManager.Controllers
 
 		#region Show All House Organizations
 		[HttpGet]
-		[Authorize(Roles = AdminRole + "," + PresidentRole + "," + UserRole)]
 		public async Task<IActionResult> All()
 		{
 			var model = new List<HouseOrganizationViewModel>();
 
-			if(User.IsInRole(AdminRole))
-			{
-				model = await houseOrgService
-							.GetAllReadOnly()
-							.ToListAsync();
-			}
-			else if(User.IsInRole(PresidentRole) 
-						|| User.IsInRole(CashierRole))
-			{
-				var ids = await context.UsersManagers
-										.Where(um => um.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-										.Select(um => um.ManagerId)
-										.ToListAsync();
-
-				model = await houseOrgService
-								.GetAllByManagerIdReadOnly(ids)
-								.ToListAsync();
-			}
-			else if (User.IsInRole(UserRole))
-			{
-			}
+			model = await houseOrgService
+						.GetAllReadOnly()
+						.ToListAsync();
 
 			HttpContext.Session.SetInt32(SideBarOpen, 1);
 

@@ -1,3 +1,7 @@
+using System.Security.Claims;
+
+using HouseManager.Core.Contracts;
+
 using Microsoft.AspNetCore.Mvc;
 
 using static HouseManager.Constants.SessionConstants;
@@ -6,9 +10,10 @@ using static HouseManager.Infrastructure.Constants.UserRoles;
 
 namespace HouseManager.Controllers
 {
-	public class HomeController() : Controller
+	public class HomeController(
+		IUserService userService) : Controller
 	{
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
 			HttpContext.Session.SetInt32(SideBarOpen, 0);
 
@@ -18,6 +23,10 @@ namespace HouseManager.Controllers
 				{
 					return RedirectToAction("All", "HouseOrganizations");
 				}
+
+				var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+				await userService.SetCurrentRoleAsync(userId, "");
 			}
 
 			return View();

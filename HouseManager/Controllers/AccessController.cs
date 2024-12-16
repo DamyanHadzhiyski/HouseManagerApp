@@ -2,43 +2,39 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Access;
-using HouseManager.Infrastructure.Data;
+using HouseManager.Filters;
 using HouseManager.Infrastructure.Enums;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
+using static HouseManager.Infrastructure.Constants.UserRoles;
 
 namespace HouseManager.Controllers
 {
 
 	public class AccessController(
 		IAccessService accessService,
-		IUsersService userService,
-		HouseManagerDbContext context) : BaseController
+		IUserService userService) : Controller
 	{
 		#region Generate Access Codes
 		[HttpGet]
+		[Authorize(Roles = $"{AdminRole},{PresidentRole}")]
+		[TypeFilter(typeof(ActiveOccupantExistsFilterAttribute))]
 		public async Task<IActionResult> GenerateOccupantCode(int id)
 		{
-			//does exists
-			var accessCode = accessService.GenerateAccessCode();
-
-			await accessService.AddAccessCodeToOccupant(id, accessCode);
-
-			TempData["AccessCode"] = accessCode;
+			TempData["AccessCode"] = await accessService.AddAccessCodeToOccupant(id);
 
 			return RedirectToAction("Edit", "Occupants", new { id });
 		}
 
 		[HttpGet]
+		[Authorize(Roles = $"{AdminRole},{PresidentRole}")]
+		[TypeFilter(typeof(ActiveManagerExistsFilterAttribute))]
 		public async Task<IActionResult> GenerateManagerCode(int id)
 		{
-			//does exists
-			var accessCode = accessService.GenerateAccessCode();
-
-			await accessService.AddAccessCodeToManager(id, accessCode);
-
-			TempData["AccessCode"] = accessCode;
+			TempData["AccessCode"] = await accessService.AddAccessCodeToManager(id);
 
 			return RedirectToAction("Edit", "Managers", new { id });
 		}
@@ -46,55 +42,65 @@ namespace HouseManager.Controllers
 
 		#region Getting Manager Access
 		[HttpGet]
+		[Authorize]
 		public IActionResult RequestManagerAccess(ManagerPosition position)
 		{
+			if(!Enum.IsDefined(typeof(ManagerPosition), position))
+			{
+				return BadRequest();
+			}
+
 			var model = new AccessManagerFormModel();
 
+			model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			model.Position = position;
 
 			return View(model);
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> RequestManagerAccess(AccessManagerFormModel model)
 		{
-			model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
-
-			IdentityUser user = await context.Users.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
 			if (!ModelState.IsValid)
 			{
+				return BadRequest();
 			}
 
-			int houseOrgId = await accessService.ProvideManagerAccess(model);
+			await accessService.ProvideManagerAccess(model);
 
-			await userService.AddToRole(user, Enum.GetName(typeof(ManagerPosition),model.Position));
+			await userService.AddToRoleAsync(model.UserId, Enum.GetName(typeof(ManagerPosition), model.Position));
 
-			return RedirectToAction("Details", "HouseOrganization", new {id = houseOrgId});
+			return RedirectToAction("Index", "Home");
 		}
 		#endregion
 
 		#region Getting Occupant Access
 		[HttpGet]
+		[Authorize]
 		public IActionResult RequestOccupantAccess()
 		{
 			var model = new AccessOccupantFormModel();
+
+			model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			return View(model);
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> RequestOccupantAccess(AccessOccupantFormModel model)
 		{
-			model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
-
 			if (!ModelState.IsValid)
 			{
+				return BadRequest();
 			}
 
-			int unitId = await accessService.ProvideOccupantAccess(model);
+			await accessService.ProvideOccupantAccess(model);
 
-			return RedirectToAction("Details", "Units", new { id = unitId });
+			await userService.AddToRoleAsync(model.UserId, UserRole);
+
+			return RedirectToAction("Index", "Home");
 		}
 		#endregion
 	}
