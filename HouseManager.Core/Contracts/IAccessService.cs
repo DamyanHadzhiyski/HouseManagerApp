@@ -1,18 +1,15 @@
 ﻿using HouseManager.Core.Models.Access;
-using HouseManager.Infrastructure.Enums;
 
 namespace HouseManager.Core.Contracts
 {
-    public interface IAccessService
+	public interface IAccessService
     {
-		Task AddAccessCodeToManager(int managerId, string accessCode);
+		Task<string> AddAccessCodeToManager(int managerId);
 
-		Task AddAccessCodeToOccupant(int occupantId, string accessCode);
+		Task<string> AddAccessCodeToOccupant(int occupantId);
 
-		string GenerateAccessCode();
+        Task ProvideManagerAccess(AccessManagerFormModel model);
 
-        Task<int> ProvideManagerAccess(AccessManagerFormModel model);
-
-        Task<int> ProvideOccupantAccess(AccessOccupantFormModel model);
+        Task ProvideOccupantAccess(AccessOccupantFormModel model);
     }
 }

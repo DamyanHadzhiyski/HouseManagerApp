@@ -10,14 +10,7 @@ namespace HouseManager.Core.Services
 	public class AccessService(
 		HouseManagerDbContext context) : IAccessService
 	{
-		public string GenerateAccessCode()
-		{
-			string accessCode = Guid.NewGuid().ToString("N").Substring(0, 10);
-
-			return accessCode;
-		}
-
-		public async Task<int> ProvideManagerAccess(AccessManagerFormModel model)
+		public async Task ProvideManagerAccess(AccessManagerFormModel model)
 		{
 			var manager = await context.Managers
 										.Where(m => m.Position == model.Position
@@ -25,7 +18,7 @@ namespace HouseManager.Core.Services
 															&& m.AccessCode == model.AccessCode)
 										.Select(m => new
 										{
-											m.Id
+											m.Id,
 										})
 										.FirstOrDefaultAsync();
 
@@ -39,14 +32,10 @@ namespace HouseManager.Core.Services
 
 				await context.UsersManagers.AddAsync(userManager);
 				await context.SaveChangesAsync();
-
-				return 1;
 			}
-
-			return 0;
 		}
 
-		public async Task<int> ProvideOccupantAccess(AccessOccupantFormModel model)
+		public async Task ProvideOccupantAccess(AccessOccupantFormModel model)
 		{
 			var occupant = await context.Occupants
 										.Where(o => o.IsActive
@@ -67,31 +56,40 @@ namespace HouseManager.Core.Services
 
 				await context.UsersOccupants.AddAsync(userOccupant);
 				await context.SaveChangesAsync();
-
-				return 1;
 			}
-
-			return 0;
 		}
 
-		public async Task AddAccessCodeToOccupant(int occupantId, string accessCode)
+		public async Task<string> AddAccessCodeToOccupant(int occupantId)
 		{
 			var occupant = await context.Occupants
 											.FirstOrDefaultAsync(o => o.Id == occupantId);
 
-			occupant.AccessCode = accessCode;
+			occupant.AccessCode = GenerateAccessCode();
 
 			await context.SaveChangesAsync();
+
+			return occupant.AccessCode;
 		}
 
-		public async Task AddAccessCodeToManager(int managerId, string accessCode)
+		public async Task<string> AddAccessCodeToManager(int managerId)
 		{
 			var manager = await context.Managers
 											.FirstOrDefaultAsync(m => m.Id == managerId);
 
-			manager.AccessCode = accessCode;
+			manager.AccessCode = GenerateAccessCode();
 
 			await context.SaveChangesAsync();
+
+			return manager.AccessCode;
 		}
+
+		#region Private Methods
+		private string GenerateAccessCode()
+		{
+			string accessCode = Guid.NewGuid().ToString("N").Substring(0, 10);
+
+			return accessCode;
+		}
+		#endregion
 	}
 }
