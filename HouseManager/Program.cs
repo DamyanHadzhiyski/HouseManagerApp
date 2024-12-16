@@ -2,6 +2,7 @@ using System.Globalization;
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Services;
+using HouseManager.Filters;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ builder.Services.AddScoped<IManagementService, ManagementService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IOccupantService, OccupantService>();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccessService, AccessService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
