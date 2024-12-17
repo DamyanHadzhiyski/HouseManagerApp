@@ -130,10 +130,6 @@ namespace HouseManager.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Date of the Income");
 
-                    b.Property<int>("IncomeType")
-                        .HasColumnType("int")
-                        .HasComment("Type of the Income");
-
                     b.Property<int>("UnitId")
                         .HasColumnType("int")
                         .HasComment("Unit which provided the Income");
@@ -373,27 +369,27 @@ namespace HouseManager.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4f8c80e4-e48d-4682-ada8-cfa0d9c86597",
+                            Id = "0fd05792-e30a-4cbf-bf4a-ec0eef9c1591",
                             Name = "Administrator"
                         },
                         new
                         {
-                            Id = "4b64d2a8-8648-4730-86aa-0689dde68240",
+                            Id = "c0d5de52-3e3a-4fed-9990-3b4ae0f6f6dd",
                             Name = "Creator"
                         },
                         new
                         {
-                            Id = "98635cee-82bb-4227-9306-bdd2eb914843",
+                            Id = "0ad507ec-6919-428f-ae12-f7e3c4efaf8a",
                             Name = "President"
                         },
                         new
                         {
-                            Id = "88270e49-9be5-4ad7-ad1b-1b802e263eca",
+                            Id = "5c924373-cd84-4102-bf68-546fa2eef555",
                             Name = "Cashier"
                         },
                         new
                         {
-                            Id = "15fd604d-63fc-4078-a15b-15f724d2363e",
+                            Id = "a5c2ceb4-b5b4-4f51-b040-101046522f48",
                             Name = "User"
                         });
                 });

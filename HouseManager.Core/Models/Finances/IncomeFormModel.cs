@@ -8,16 +8,10 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 namespace HouseManager.Core.Models.Finances
 {
 	/// <summary>
-	/// Model of an income used for visualization at the top level layers of the app
+	/// Model of an income used for add/edit functionalities at the top level layers of the app
 	/// </summary>
 	public class IncomeFormModel
 	{
-		/// <summary>
-		/// Type of the income
-		/// </summary>
-		[Required(ErrorMessage = FieldRequiredErrorMessage)]
-		public IncomeType Type { get; set; }
-
 		/// <summary>
 		/// Income amount
 		/// </summary>

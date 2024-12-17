@@ -7,31 +7,32 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace HouseManager.Filters
 {
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-	public class ActiveManagerExistsFilterAttribute : Attribute, IAsyncActionFilter
+	public class ActiveManagerExists : TypeFilterAttribute
 	{
-		private readonly IManagementService managementService;
-		private int managerId;
-
-        public ActiveManagerExistsFilterAttribute(IManagementService _managementService)
+        public ActiveManagerExists() : base(typeof(ActiveManagerExistsImpl))
         {
-			managementService = _managementService;
         }
 
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+		private class ActiveManagerExistsImpl(IManagementService managementService) : IAsyncActionFilter
 		{
-			if (int.TryParse(context.RouteData.Values["id"]?.ToString(), out managerId) == false)
-			{
-				context.Result = new BadRequestResult();
-				return;
-			}
+			private int managerId;
 
-			if (!await managementService.IsActiveAsync(managerId))
+			public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next) 
 			{
-				context.Result = new NotFoundResult();
-				return;
-			}
+				if (int.TryParse(context.RouteData.Values["id"]?.ToString(), out managerId) == false)
+				{
+					context.Result = new BadRequestResult();
+					return;
+				}
 
-			await next();
+				if (!await managementService.IsActiveAsync(managerId))
+				{
+					context.Result = new NotFoundResult();
+					return;
+				}
+
+				await next();
+			}
 		}
 	}
 }

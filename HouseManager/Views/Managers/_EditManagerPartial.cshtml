@@ -1,0 +1,51 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model ActiveManagerFormModel
+
+@{
+	var termPeriods = Html.GetEnumSelectList(typeof(TermPeriod));
+}
+
+
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Name" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.Name" class="form-control">
+		<span asp-validation-for="@Model.Name" class="text-danger"></span>
+	</div>
+</div>
+<div class="input date form-floating mb-3" id="startDate" data-provide="datepicker" data-date-format="dd-MM-yyyy"
+	 data-date-autoclose="true" data-date-today-Btn="true" data-date-container="#startDate" data-date-orientation="auto"
+	 data-date-startDate="1,century">
+	<div class="input-group-addon form-floating">
+		<div class="form-group row mb-3">
+			<label asp-for="@Model.StartDate" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+			<div class="col-lg-9">
+				<input asp-for="@Model.StartDate" type="text" class="form-control" asp-format="@Model.StartDate.ToString("dd-MMMM-yyyy")">
+				<span asp-validation-for="@Model.StartDate" class="text-danger"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.TermPeriod" class="col-lg-3 control-label text-start text-lg-end pt-2">Term Period</label>
+	<div class="col-lg-9">
+		<select asp-for="@Model.TermPeriod" class="form-select" asp-items="@termPeriods">
+			<option selected></option>
+		</select>
+		<span asp-validation-for="@Model.TermPeriod" class="text-danger"></span>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.PhoneNumber" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.PhoneNumber" class="form-control">
+		<span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+	</div>
+</div>
+<div hidden>
+	<input asp-for="@Model.Id" />
+</div>
+<div hidden>
+	<input asp-for="@Model.Position">
+</div>

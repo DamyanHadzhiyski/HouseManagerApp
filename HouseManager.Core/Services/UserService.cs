@@ -8,6 +8,11 @@ using static HouseManager.Infrastructure.Constants.UserClaims;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IUserService
+	/// </summary>
+	/// <param name="context"></param>
+
 	public class UserService(
 		HouseManagerDbContext context,
 		UserManager<IdentityUser> userManager) : IUserService

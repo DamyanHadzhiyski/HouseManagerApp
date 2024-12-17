@@ -1,8 +1,7 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Finances;
 using HouseManager.Core.Models.Pagination;
-using HouseManager.Core.Models.Unit;
-using HouseManager.Infrastructure.Migrations;
+using HouseManager.Filters;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,6 +15,7 @@ namespace HouseManager.Controllers
 		IFinanceService financeService) : BaseController
 	{
 		#region Index
+		[HouseOrganizationExists("houseOrgId")]
 		public async Task<IActionResult> Index(int houseOrgId, int incomesCurrentPage = 1, int expensesCurrentPage = 1)
 		{
 			var incomes = await financeService.GetHouseOrgIncomesByIdAsync(houseOrgId);
@@ -25,29 +25,30 @@ namespace HouseManager.Controllers
 
 			var balance = await financeService.GetHouseOrgBalanceByIdAsync(houseOrgId);
 
-			var model = new FinancesViewModel();
-
-			model.CurrentBalance = balance;
-			model.Incomes = new IncomesPageViewModel
+			var model = new FinancesViewModel
 			{
-				CurrentPage = incomesCurrentPage,
-				ElementsPerPage = ElementsOnPage,
-				TotalElements = incomes.Count,
-				Collection = incomes
+				CurrentBalance = balance,
+				Incomes = new IncomesPageViewModel
+				{
+					CurrentPage = incomesCurrentPage,
+					ElementsPerPage = ElementsOnPage,
+					TotalElements = incomes.Count,
+					Collection = incomes
 								.Skip((incomesCurrentPage - 1) * ElementsOnPage)
 								.Take(ElementsOnPage)
 								.ToList()
-			};
+				},
 
-			model.Expenses = new ExpensesPageViewModel
-			{
-				CurrentPage = expensesCurrentPage,
-				ElementsPerPage = ElementsOnPage,
-				TotalElements = expenses.Count,
-				Collection = expenses
+				Expenses = new ExpensesPageViewModel
+				{
+					CurrentPage = expensesCurrentPage,
+					ElementsPerPage = ElementsOnPage,
+					TotalElements = expenses.Count,
+					Collection = expenses
 								.Skip((expensesCurrentPage - 1) * ElementsOnPage)
 								.Take(ElementsOnPage)
 								.ToList()
+				}
 			};
 
 			ViewBag.ViewName = "Finances";
@@ -60,9 +61,10 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public async Task<IActionResult> NewIncome(int houseOrgId)
 		{
-			var model = new IncomeFormModel();
-
-			model.HouseOrganizationId = houseOrgId;
+			var model = new IncomeFormModel
+			{
+				HouseOrganizationId = houseOrgId
+			};
 
 			ViewBag.Units = await GetUnitsIdAndNumber(houseOrgId);
 
@@ -79,7 +81,7 @@ namespace HouseManager.Controllers
 			model.UnitNumber = unitsList
 									.Where(u => u.Value == model.UnitId.ToString())
 									.Select(u => u.Text)
-									.FirstOrDefault();
+									.FirstOrDefault() ?? string.Empty;
 
 			await financeService.AddIncomeAsync(model);
 
@@ -98,9 +100,10 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public IActionResult NewExpense(int houseOrgId)
 		{
-			var model = new ExpenseFormModel();
-
-			model.HouseOrganizationId = houseOrgId;
+			var model = new ExpenseFormModel
+			{
+				HouseOrganizationId = houseOrgId
+			};
 
 			ViewBag.ViewName = "New Expense";
 

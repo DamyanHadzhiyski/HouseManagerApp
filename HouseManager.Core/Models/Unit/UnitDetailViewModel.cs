@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using HouseManager.Core.Models.OccupantModel;
 using HouseManager.Core.Models.Pagination;
 
 namespace HouseManager.Core.Models.Unit
 {
-    /// <summary>
-    /// Model that extends the UnitModel in order to 
-    /// show additional details for the unit
-    /// </summary>
-    public class UnitDetailViewModel : UnitViewModel
+	/// <summary>
+	/// Model that extends the UnitViewModel in order to show additional details for the unit
+	/// </summary>
+	public class UnitDetailViewModel : UnitViewModel
 	{
         /// <summary>
         /// Total area of the unit in m2

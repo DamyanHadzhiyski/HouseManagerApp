@@ -1,7 +1,7 @@
 ﻿namespace HouseManager.Core.Models.Finances
 {
 	/// <summary>
-	/// Model of an income used for visualization at the top level layers of the app
+	/// Model of an expense used for visualization at the top level layers of the app
 	/// </summary>
 	public class ExpenseViewModel
 	{

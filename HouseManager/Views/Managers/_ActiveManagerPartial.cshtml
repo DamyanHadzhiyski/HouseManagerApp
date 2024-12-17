@@ -1,9 +1,11 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
+@inject IUserService userService
 
 @model ActiveManagerViewModel
 
 @{
 	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
+	var userCurrentRole = await userService.GetCurrentRoleAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 }
 
 <div class="card border-2 p-0 col-12 mb-3">
@@ -25,8 +27,8 @@
 				<div class="text-end">@Model.EndDate</div>
 			</div>
 		</div>
-		<form class="row row-cols-2 justify-content-around">
-			<button class="btn btn-warning col-auto" asp-area="" asp-controller="Managers" asp-action="Edit" asp-route-id="@Model.Id" formmethod=get><i class="fa-solid fa-pencil me-2"></i>Edit</button>
-		</form>
+			<form class="row row-cols-2 justify-content-around">
+				<button class="btn btn-warning col-auto" asp-area="" asp-controller="Managers" asp-action="Edit" asp-route-id="@Model.Id" formmethod=get><i class="fa-solid fa-pencil me-2"></i>Edit</button>
+			</form>
 	</div>
 </div>

@@ -14,16 +14,33 @@
 <div class="row row-cols-1 row-cols-lg-2 mb-5 justify-content-lg-around justify-content-center">
 	<div class="col-12 col-lg-4 justify-content-center mb-3">
 		<partial name="_DetailsHouseOrganizationPartial" model="@Model" />
+		<form class="d-flex flex-wrap justify-content-center p-4">
+			@if (Model.Id != houseOrgId)
+			{
+				<button asp-area="" asp-controller="HouseOrganizations"
+						asp-action="Manage"
+						asp-route-id="@Model.Id"
+						class="btn btn-success d-fluid m-1">
+					<i class="fa-solid fa-check me-2"></i>Manage
+				</button>
+			}
+			<button asp-area="" asp-controller="HouseOrganizations"
+					asp-action="Edit"
+					asp-route-id="@Model.Id"
+					class="btn btn-warning d-fluid m-1">
+				<i class="fa-solid fa-pencil me-2"></i>Edit
+			</button>
+			<button type="button"
+					class="btn btn-info d-fluid m-1"
+					onclick="location.href='@Url.Action("All","HouseOrganizations")';">
+				<i class="fa-regular fa-circle-left me-2"></i>Back
+			</button>
+		</form>
 	</div>
 	@if (houseOrgId == id)
 	{
-		<div class="row col-12 col-lg-6 justify-content-center mb-3">
-			<partial name="~/Views/Units/_AllUnitsPartial.cshtml" model="@Model.Units" />
+		<div class="row col-12 col-lg-7 justify-content-center mb-3">
+			<partial name="~/Views/Units/_AllUnitsPartial.cshtml" model="@Model.Units" /> 
 		</div>
 	}
 </div>
-<form class="d-flex flex-wrap justify-content-center p-4">
-	<button asp-area="" asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model.Id" class="btn btn-success d-fluid m-1"><i class="fa-solid fa-check me-2"></i>Manage</button>
-	<button asp-area="" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning d-fluid m-1"><i class="fa-solid fa-pencil me-2"></i>Edit</button>
-	<button type="button" class="btn btn-info d-fluid m-1" onclick="location.href='@Url.Action("All","HouseOrganizations")';"><i class="fa-regular fa-circle-left me-2"></i>Back</button>
-</form>

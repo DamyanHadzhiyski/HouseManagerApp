@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IAccessService
+	/// </summary>
+	/// <param name="context"></param>
 	public class AccessService(
 		HouseManagerDbContext context) : IAccessService
 	{
@@ -84,7 +88,7 @@ namespace HouseManager.Core.Services
 		}
 
 		#region Private Methods
-		private string GenerateAccessCode()
+		private static string GenerateAccessCode()
 		{
 			string accessCode = Guid.NewGuid().ToString("N").Substring(0, 10);
 

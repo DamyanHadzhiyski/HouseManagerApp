@@ -1,19 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using HouseManager.Infrastructure.Enums;
-using HouseManager.Infrastructure.Migrations;
-
 using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-    /// <summary>
-    /// Entity that holds information for the incomes of the house organizations
-    /// </summary>
-    public class Income
+	/// <summary>
+	/// Entity that holds information for the incomes of the house organizations
+	/// </summary>
+	public class Income
 	{
 		/// <summary>
 		/// Primary identifier of the Income
@@ -21,13 +18,6 @@ namespace HouseManager.Infrastructure.Data.Models
 		[Key]
         [Comment("Primary identifier of the Income")]
 		public int Id { get; set; }
-
-		/// <summary>
-		/// Type of the Income
-		/// </summary>
-		[Required]
-        [Comment("Type of the Income")]
-        public required IncomeType IncomeType { get; set; }
 
 		/// <summary>
 		/// Amount of the Income

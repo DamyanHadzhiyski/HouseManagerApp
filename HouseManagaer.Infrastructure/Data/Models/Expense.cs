@@ -9,10 +9,10 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Infrastructure.Data.Models
 {
-    /// <summary>
-    /// Entity that holds information for made expenses
-    /// </summary>
-    public class Expense
+	/// <summary>
+	/// Entity that holds information for made expenses
+	/// </summary>
+	public class Expense
 	{
 		/// <summary>
 		/// Primary key of the expense

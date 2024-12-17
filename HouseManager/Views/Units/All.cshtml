@@ -12,7 +12,12 @@
 	<form class="row justify-content-center">
 		<h2 class="text-center">You don't have any units added in @houseOrgName, yet!</h2>
 		<h3 class="text-center">Do you want to add one?</h3>
-		<button class="btn btn-lg btn-success col-6 col-md-2 text-center mt-4" asp-area="" asp-controller="Units" asp-action="Add" asp-route-id="@houseOrgId"><i class="fa-solid fa-circle-plus me-2"></i>Add Unit</button>
+		<button asp-area="" asp-controller="Units" 
+				asp-action="Add" 
+				asp-route-houseOrgId="@houseOrgId"
+				class="btn btn-lg btn-success col-6 col-md-2 text-center mt-4">
+			<i class="fa-solid fa-circle-plus me-2"></i>Add Unit
+		</button>
 	</form>
 }
 else
@@ -20,10 +25,10 @@ else
 	<h4 class="text-center mb-4">@houseOrgName - Units</h4>
 	<hr />
 	<div class="row mb-5 justify-content-lg-around justify-content-center">
-		<form class="row justify-content-start">
+		<form class="row justify-content-start p-0">
 			<button asp-area="" asp-controller="Units"
 					asp-action="Add"
-					asp-route-id="@houseOrgId"
+					asp-route-houseOrgId="@houseOrgId"
 					class="btn btn-sml btn-success align-items-center col-2 mb-3 mx-3">
 				<i class="fa-solid fa-house-medical me-2"></i>Add Unit
 			</button>
@@ -32,8 +37,4 @@ else
 			<partial name="_AllUnitsPartial" model="@Model" />
 		</form>
 	</div>
-}
-
-@section Scripts {
-	<partial name="_ValidationScriptsPartial" />
 }

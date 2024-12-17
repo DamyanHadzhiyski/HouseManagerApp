@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Microsoft.AspNetCore.Identity;
-
 namespace HouseManager.Core.Models.Access
 {
-    /// <summary>
-    /// Model that is used to confirm the user access rights
-    /// </summary>
+	/// <summary>
+	/// Model that is used to confirm the user access rights as occupant
+	/// </summary>
 	public class AccessOccupantFormModel
     {
         /// <summary>

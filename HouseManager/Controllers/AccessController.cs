@@ -6,7 +6,6 @@ using HouseManager.Filters;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using static HouseManager.Infrastructure.Constants.UserRoles;
@@ -21,7 +20,7 @@ namespace HouseManager.Controllers
 		#region Generate Access Codes
 		[HttpGet]
 		[Authorize(Roles = $"{AdminRole},{PresidentRole}")]
-		[TypeFilter<ActiveOccupantExistsFilterAttribute>]
+		[ActiveOccupantExists]
 		public async Task<IActionResult> GenerateOccupantCode(int id)
 		{
 			TempData["AccessCode"] = await accessService.AddAccessCodeToOccupant(id);
@@ -31,7 +30,7 @@ namespace HouseManager.Controllers
 
 		[HttpGet]
 		[Authorize(Roles = $"{AdminRole},{PresidentRole}")]
-		[TypeFilter<ActiveOccupantExistsFilterAttribute>]
+		[ActiveManagerExists]
 		public async Task<IActionResult> GenerateManagerCode(int id)
 		{
 			TempData["AccessCode"] = await accessService.AddAccessCodeToManager(id);
@@ -50,10 +49,11 @@ namespace HouseManager.Controllers
 				return BadRequest();
 			}
 
-			var model = new AccessManagerFormModel();
-
-			model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			model.Position = position;
+			var model = new AccessManagerFormModel
+			{
+				UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty,
+				Position = position
+			};
 
 			return View(model);
 		}
@@ -80,9 +80,10 @@ namespace HouseManager.Controllers
 		[Authorize]
 		public IActionResult RequestOccupantAccess()
 		{
-			var model = new AccessOccupantFormModel();
-
-			model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var model = new AccessOccupantFormModel
+			{
+				UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty
+			};
 
 			return View(model);
 		}

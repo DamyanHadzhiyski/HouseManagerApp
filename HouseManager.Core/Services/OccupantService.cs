@@ -10,6 +10,10 @@ using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IOccupantService
+	/// </summary>
+	/// <param name="context"></param>
 	public class OccupantService(
 		HouseManagerDbContext context) : IOccupantService
 	{
@@ -30,15 +34,6 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 
 			return await GetLastSavedId(model.UnitId);
-		}
-
-		private async Task<int> GetLastSavedId(int unitId)
-		{
-			return await context.Occupants
-								.Where(o => o.UnitId == unitId)
-								.OrderByDescending(o => o.Id)
-								.Select(o => o.Id)
-								.FirstOrDefaultAsync();
 		}
 
 		public async Task EditAsync(OccupantFormModel model)
@@ -134,5 +129,16 @@ namespace HouseManager.Core.Services
 
 			return occupant.UnitId;
 		}
+
+		#region Private Methods
+		private async Task<int> GetLastSavedId(int unitId)
+		{
+			return await context.Occupants
+								.Where(o => o.UnitId == unitId)
+								.OrderByDescending(o => o.Id)
+								.Select(o => o.Id)
+								.FirstOrDefaultAsync();
+		}
+		#endregion
 	}
 }

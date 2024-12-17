@@ -3,8 +3,7 @@
 namespace HouseManager.Core.Models.OccupantModel
 {
 	/// <summary>
-	/// Model of a occupant used in the top level layers of the app for visualization
-	/// of occupant information
+	/// Model of a inactive occupant used in the top level layers of the app for visualization
 	/// </summary>
 	public class InactiveOccupantViewModel : OccupantViewModel
 	{

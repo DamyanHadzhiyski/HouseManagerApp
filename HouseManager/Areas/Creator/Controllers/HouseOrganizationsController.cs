@@ -22,7 +22,7 @@ namespace HouseManager.Areas.Creator.Controllers
 	{
 		#region Edit House Organization
 		[HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var model = await houseOrgService
@@ -33,7 +33,7 @@ namespace HouseManager.Areas.Creator.Controllers
 		}
 
 		[HttpPost]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
 			if (!ModelState.IsValid)
@@ -49,7 +49,7 @@ namespace HouseManager.Areas.Creator.Controllers
 
 		#region Show House Organization Details
 		[HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Details(int id)
 		{
 			var model = await houseOrgService

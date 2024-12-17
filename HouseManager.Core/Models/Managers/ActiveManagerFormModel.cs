@@ -26,6 +26,9 @@ namespace HouseManager.Core.Models.Managers
             ErrorMessage = FieldLengthErrorMessage)]
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Manage positon
+        /// </summary>
         [Display(Name="Manager Position")]
         public ManagerPosition Position { get; set; }
 

@@ -114,7 +114,7 @@ namespace HouseManager.Core.Services
 				return await context.HouseOrganizations
 									.Where(ho => ho.Id == houseOrgId)
 									.Select(ho => ho.Name)
-									.FirstOrDefaultAsync();
+									.FirstOrDefaultAsync() ?? string.Empty;
 		}
 
 		public IQueryable<HouseOrganizationViewModel> GetAllByCreatorIdAsync(string creatorId)
@@ -147,7 +147,7 @@ namespace HouseManager.Core.Services
 							});
 
 			return result
-				.Where(r => r.Managers.Any())
+				.Where(r => r.Managers.Count != 0)
 				   .Select(r => new HouseOrganizationViewModel
 				   {
 					   Id = r.Id,
@@ -169,7 +169,7 @@ namespace HouseManager.Core.Services
 							});
 
 			return result
-					.Where(u => u.Occupants.Any())
+					.Where(u => u.Occupants.Count != 0)
 					.Select(u => new HouseOrganizationViewModel
 					{
 						Id = u.HouseOrganization.Id,

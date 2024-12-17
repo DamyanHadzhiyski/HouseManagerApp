@@ -1,6 +1,4 @@
-﻿using HouseManager.Core.Models.Finances;
-using HouseManager.Core.Models.HouseOrganization;
-using HouseManager.Core.Models.Unit;
+﻿using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Infrastructure.Data.Models;
 
 namespace HouseManager.Core.Contracts
@@ -59,12 +57,32 @@ namespace HouseManager.Core.Contracts
 		/// <returns></returns>
 		IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId);
 
+		/// <summary>
+		/// Method that returns all house organizations managed by specified manager
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		IQueryable<HouseOrganizationViewModel> GetAllManagedByAsync(List<int> id);
 
+		/// <summary>
+		/// Method that returns all house organization to which the user is joined
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		IQueryable<HouseOrganizationViewModel> GetAllOccupiedByAsync(List<int> id);
 
+		/// <summary>
+		/// Method that returns all created by specific user house organization
+		/// </summary>
+		/// <param name="creatorId"></param>
+		/// <returns></returns>
 		IQueryable<HouseOrganizationViewModel> GetAllByCreatorIdAsync(string creatorId);
 
+		/// <summary>
+		/// Method that returns the name of a specified house organization
+		/// </summary>
+		/// <param name="houseOrgId"></param>
+		/// <returns></returns>
 		Task<string> GetNameByIdAsync(int houseOrgId);
 	}
 }

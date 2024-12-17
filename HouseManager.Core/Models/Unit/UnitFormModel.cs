@@ -8,6 +8,9 @@ using static HouseManager.Infrastructure.Constants.EntityConstants;
 
 namespace HouseManager.Core.Models.Unit
 {
+	/// <summary>
+	/// Model used for add/edit functionalities at top level layers of the app
+	/// </summary>
 	public class UnitFormModel
 	{
 		/// <summary>
@@ -51,7 +54,9 @@ namespace HouseManager.Core.Models.Unit
 		[Display(Name = "Common Parts")]
 		public decimal CommonParts { get; set; }
 
-
+		/// <summary>
+		/// Primary identifier of the house organization to which the unit belongs
+		/// </summary>
 		[Required(ErrorMessage = FieldRequiredErrorMessage)]
 		public int HouseOrganizationId { get; set; }
 

@@ -21,7 +21,7 @@ namespace HouseManager.Areas.Cashier.Controllers
     {
         #region Show House Organization Details
         [HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Details(int id)
         {
             var model = await houseOrgService

@@ -1,0 +1,11 @@
+﻿@model ActiveManagerViewModel
+
+<div class="card border-2 p-0 mb-3 mx-4 col-12 justify-content-center">
+	<h4 class="card-header p-2 text-center">@Model.Position</h4>
+	<div class="card-body p-4 text-center">
+		@if (Model.Name == "")
+		{
+			<h4 class="text-center">There is no @Model.Position assigned</h4>
+		}
+	</div>
+</div>

@@ -48,7 +48,7 @@ namespace HouseManager.Areas.User.Controllers
 
 		#region Show All Units
 		[HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> All(int id)
 		{
 			var ids = await context.UsersOccupants

@@ -16,9 +16,10 @@ namespace HouseManager.Controllers
 		[HttpGet]
 		public IActionResult Add(int unitId)
 		{
-			var model = new OccupantFormModel();
-
-			model.UnitId = unitId;
+			var model = new OccupantFormModel
+			{
+				UnitId = unitId
+			};
 
 			return View(model);
 		}

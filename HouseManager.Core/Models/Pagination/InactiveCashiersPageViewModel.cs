@@ -7,6 +7,6 @@ namespace HouseManager.Core.Models.Pagination
 	{
         public ManagerPosition Position { get; set; } = ManagerPosition.Cashier;
 
-		public List<InactiveManagerViewModel> Collection { get; set; } = [];
+		public List<InactiveManagerViewModel>? Collection { get; set; } = [];
     }
 }

@@ -8,24 +8,37 @@
 
 <h4 class="text-center mb-4">@houseOrgName - Management</h4>
 <hr />
-<div class="row row-cols-1 row-cols-md-2 justify-content-center">
-	@if (activePresident == null)
-	{
-		activePresident = new ActiveManagerViewModel()
+<div class="row row-cols-2 justify-content-center">
+	<div class="col-12 col-lg-3 justify-content-center mb-5">
+		@if (activePresident == null)
+		{
+			var notAssignedPresident = new ActiveManagerViewModel()
 				{
 					Name = string.Empty,
 					Position = ManagerPosition.President
 				};
-	}
-	<partial name="_ActiveManagerViewPartial" model="@activePresident" />
 
-	@if (activeCashier == null)
-	{
-		activeCashier = new ActiveManagerViewModel()
+			<partial name="_ManagerNotAssignedPartial" model="@notAssignedPresident" />
+		}
+		else
+		{
+			<partial name="~/Views/Managers/_ActiveManagerPartial.cshtml" model="@activePresident" />
+		}
+	</div>
+	<div class="col-12 col-lg-3 justify-content-center mb-5">
+		@if (activeCashier == null)
+		{
+			var notAssignedCashier = new ActiveManagerViewModel()
 				{
 					Name = string.Empty,
 					Position = ManagerPosition.Cashier
 				};
-	}
-	<partial name="_ActiveManagerViewPartial" model="@activeCashier" />
+
+			<partial name="_ManagerNotAssignedPartial" model="@notAssignedCashier" />
+		}
+		else
+		{
+			<partial name="~/Views/Managers/_ActiveManagerPartial.cshtml" model="@activeCashier" />
+		}
+	</div>
 </div>

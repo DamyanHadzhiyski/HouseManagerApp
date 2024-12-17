@@ -4,6 +4,6 @@ namespace HouseManager.Core.Models.Pagination
 {
 	public class ActiveOccupantsPageViewModel : PageViewModel
 	{
-        public List<OccupantViewModel> Collection { get; set; } = [];
+        public List<OccupantViewModel>? Collection { get; set; } = [];
 	} 
 }

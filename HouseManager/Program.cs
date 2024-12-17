@@ -65,13 +65,13 @@ app.MapControllerRoute(
 	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
-	name: "ManagementEndTerm",
-	pattern: "Managers/EndTerm/{id}",
-	defaults: new { Controller = "Managers", Action = "EndTerm" });
+	name: "AddManager",
+	pattern: "Managers/Add/{position}",
+	defaults: new { Controller = "Managers", Action = "Add" });
 
 app.MapControllerRoute(
-	name: "ManagementAll",
-	pattern: "Management/All/{houseOrgId}/{presidentsCurrentPage}/{cashiersCurrentPage}",
+	name: "ManagersAll",
+	pattern: "Managers/All/{houseOrgId}/{presidentCurrentPage?}/{cashierCurrentPage?}",
 	defaults: new { Controller = "Managers", Action = "All" });
 
 app.MapControllerRoute(
@@ -81,13 +81,18 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
 	name: "OccupantPages",
-	pattern: "Units/Details/{id}/{activeCurrentPage}/{inactiveCurrentPage}",
+	pattern: "Units/Details/{id}/{activeCurrentPage?}/{inactiveCurrentPage?}",
 	defaults: new { Controller = "Units", Action = "Details" });
 
 app.MapControllerRoute(
-	name: "FinancesPages",
-	pattern: "Finances/Index/{houseOrgId}/{incomesCurrentPage}/{expensesCurrentPage}",
-	defaults: new { Controller = "Finances", Action = "Index"});
+	name: "AddUnit",
+	pattern: "Units/Add/{houseOrgId}",
+	defaults: new { Controller = "Units", Action = "Add" });
+
+app.MapControllerRoute(
+	name: "AllUnits",
+	pattern: "Units/All/{houseOrgId}",
+	defaults: new { Controller = "Units", Action = "All" });
 
 app.MapControllerRoute(
 	name: "NewIncome",

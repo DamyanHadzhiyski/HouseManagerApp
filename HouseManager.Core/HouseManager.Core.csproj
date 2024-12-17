@@ -8,16 +8,15 @@
 
   <ItemGroup>
     <Compile Remove="Enums\**" />
+    <Compile Remove="Models\Users\**" />
     <EmbeddedResource Remove="Enums\**" />
+    <EmbeddedResource Remove="Models\Users\**" />
     <None Remove="Enums\**" />
+    <None Remove="Models\Users\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HouseManagaer.Infrastructure\HouseManager.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Users\" />
   </ItemGroup>
 
 </Project>

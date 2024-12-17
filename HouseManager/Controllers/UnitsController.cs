@@ -16,12 +16,13 @@ namespace HouseManager.Controllers
 	{
 		#region Add New Unit
 		[HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
-		public IActionResult Add(int id)
+		[HouseOrganizationExists("houseOrgId")]
+		public IActionResult Add(int houseOrgId)
 		{
-			var model = new UnitFormModel();
-
-			model.HouseOrganizationId = id;
+			var model = new UnitFormModel
+			{
+				HouseOrganizationId = houseOrgId
+			};
 
 			return View(model);
 		}
@@ -42,7 +43,7 @@ namespace HouseManager.Controllers
 
 		#region Edit Unit
 		[HttpGet]
-		[TypeFilter<UnitExistsFilterAttribute>]
+		[UnitExists]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var model = await unitService.GetByIdReadOnly(id)
@@ -67,7 +68,7 @@ namespace HouseManager.Controllers
 
 		#region Show Unit Details
 		[HttpGet]
-		[TypeFilter<UnitExistsFilterAttribute>]
+		[UnitExists]
 		public async Task<IActionResult> Details(int id, int activeCurrentPage = 1, int inactiveCurrentPage = 1)
 		{
 			var model = await unitService.GetDetailsByIdAsync(id);
@@ -111,12 +112,12 @@ namespace HouseManager.Controllers
 
 		#region Show All Units
 		[HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
-		public async Task<IActionResult> All(int id)
+		[HouseOrganizationExists("houseOrgId")]
+		public async Task<IActionResult> All(int houseOrgId)
 		{
-			var model = await unitService.GetAllFromHOAsync(id);
+			var model = await unitService.GetAllFromHOAsync(houseOrgId);
 
-			ViewBag.HouseOrgId = id;
+			ViewBag.HouseOrgId = houseOrgId;
 
 			return View(model);
 		}

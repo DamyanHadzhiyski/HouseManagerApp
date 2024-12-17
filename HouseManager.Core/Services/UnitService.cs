@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IUnitService
+	/// </summary>
+	/// <param name="context"></param>
 	public class UnitService(
 		HouseManagerDbContext context) : IUnitService
 	{
@@ -118,6 +122,8 @@ namespace HouseManager.Core.Services
 									Floor = u.Floor.ToString(),
 									Type = u.UnitType.ToString(),
 								})
+								.OrderBy(u => u.Floor)
+								.ThenBy(u => u.Number)
 								.ToListAsync();
 		}
 

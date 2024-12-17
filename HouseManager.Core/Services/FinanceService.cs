@@ -13,6 +13,10 @@ using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IFinanceService
+	/// </summary>
+	/// <param name="context"></param>
 	public class FinanceService(
 		HouseManagerDbContext context) : IFinanceService
 	{
@@ -20,7 +24,6 @@ namespace HouseManager.Core.Services
 		{
 			var income = new Income
 			{
-				IncomeType = model.Type,
 				Description = model.Description,
 				Amount = model.Amount,
 				IncomeDate = model.Date,
@@ -64,7 +67,6 @@ namespace HouseManager.Core.Services
 								.Where(i => i.HouseOrganizationId == houseOrgId)
 								.Select(i => new IncomeViewModel
 								{
-									Type = FormatTypeName<IncomeType>(i.IncomeType),
 									Amount = i.Amount.ToString("f2"),
 									Date = i.IncomeDate.ToString(AppDateFormat),
 									UnitNumber = i.UnitNumber,

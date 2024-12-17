@@ -24,9 +24,10 @@ namespace HouseManager.Controllers
 		[Authorize]
 		public IActionResult Add()
 		{
-			var model = new HouseOrganizationFormModel();
-
-			model.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var model = new HouseOrganizationFormModel
+			{
+				CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty
+			};
 
 			return View(model);
 		}
@@ -50,8 +51,8 @@ namespace HouseManager.Controllers
 
 		#region Edit House Organization
 		[HttpGet]
-		[Authorize(Roles = $"{AdminRole}")]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[Authorize(Roles = AdminRole)]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var model = await houseOrgService
@@ -62,7 +63,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = $"{AdminRole}")]
+		[Authorize(Roles = AdminRole)]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
 			if (!ModelState.IsValid)
@@ -79,7 +80,7 @@ namespace HouseManager.Controllers
 		#region Show House Organization Details
 		[HttpGet]
 		[Authorize]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Details(int id)
 		{
 			var model = await houseOrgService
@@ -94,11 +95,10 @@ namespace HouseManager.Controllers
 
 		#region Show All House Organizations
 		[HttpGet]
+		[Authorize(Roles = AdminRole)]
 		public async Task<IActionResult> All()
 		{
-			var model = new List<HouseOrganizationViewModel>();
-
-			model = await houseOrgService
+			var model = await houseOrgService
 						.GetAllReadOnly()
 						.ToListAsync();
 
@@ -111,7 +111,7 @@ namespace HouseManager.Controllers
 		#region Manage House Organization
 		[HttpGet]
 		[Authorize(Roles = AdminRole)]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> Manage(int id)
 		{
 			var houseOrgName = await houseOrgService

@@ -63,7 +63,7 @@ namespace HouseManager.Areas.Cashier.Controllers
 
 		#region Show All Units
 		[HttpGet]
-		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		[HouseOrganizationExists("id")]
 		public async Task<IActionResult> All(int houseOrgId)
 		{
 			var model = await unitService.GetAllFromHOAsync(houseOrgId);

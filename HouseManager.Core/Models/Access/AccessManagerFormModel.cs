@@ -5,7 +5,7 @@ using HouseManager.Infrastructure.Enums;
 namespace HouseManager.Core.Models.Access
 {
 	/// <summary>
-	/// Model that is used to confirm the user access rights
+	/// Model that is used to confirm the user access rights as manager
 	/// </summary>
 	public class AccessManagerFormModel
 	{

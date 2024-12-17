@@ -24,29 +24,30 @@ namespace HouseManager.Areas.Cashier.Controllers
 
 			var balance = await financeService.GetHouseOrgBalanceByIdAsync(houseOrgId);
 
-			var model = new FinancesViewModel();
-
-			model.CurrentBalance = balance;
-			model.Incomes = new IncomesPageViewModel
+			var model = new FinancesViewModel
 			{
-				CurrentPage = incomesCurrentPage,
-				ElementsPerPage = ElementsOnPage,
-				TotalElements = incomes.Count,
-				Collection = incomes
+				CurrentBalance = balance,
+				Incomes = new IncomesPageViewModel
+				{
+					CurrentPage = incomesCurrentPage,
+					ElementsPerPage = ElementsOnPage,
+					TotalElements = incomes.Count,
+					Collection = incomes
 								.Skip((incomesCurrentPage - 1) * ElementsOnPage)
 								.Take(ElementsOnPage)
 								.ToList()
-			};
+				},
 
-			model.Expenses = new ExpensesPageViewModel
-			{
-				CurrentPage = expensesCurrentPage,
-				ElementsPerPage = ElementsOnPage,
-				TotalElements = expenses.Count,
-				Collection = expenses
+				Expenses = new ExpensesPageViewModel
+				{
+					CurrentPage = expensesCurrentPage,
+					ElementsPerPage = ElementsOnPage,
+					TotalElements = expenses.Count,
+					Collection = expenses
 								.Skip((expensesCurrentPage - 1) * ElementsOnPage)
 								.Take(ElementsOnPage)
 								.ToList()
+				}
 			};
 
 			ViewBag.ViewName = "Finances";
@@ -59,9 +60,10 @@ namespace HouseManager.Areas.Cashier.Controllers
 		[HttpGet]
 		public async Task<IActionResult> NewIncome(int houseOrgId)
 		{
-			var model = new IncomeFormModel();
-
-			model.HouseOrganizationId = houseOrgId;
+			var model = new IncomeFormModel
+			{
+				HouseOrganizationId = houseOrgId
+			};
 
 			ViewBag.Units = await GetUnitsIdAndNumber(houseOrgId);
 
@@ -78,7 +80,7 @@ namespace HouseManager.Areas.Cashier.Controllers
 			model.UnitNumber = unitsList
 									.Where(u => u.Value == model.UnitId.ToString())
 									.Select(u => u.Text)
-									.FirstOrDefault();
+									.FirstOrDefault() ?? string.Empty;
 
 			await financeService.AddIncomeAsync(model);
 
@@ -97,9 +99,10 @@ namespace HouseManager.Areas.Cashier.Controllers
 		[HttpGet]
 		public IActionResult NewExpense(int houseOrgId)
 		{
-			var model = new ExpenseFormModel();
-
-			model.HouseOrganizationId = houseOrgId;
+			var model = new ExpenseFormModel
+			{
+				HouseOrganizationId = houseOrgId
+			};
 
 			ViewBag.ViewName = "New Expense";
 

@@ -8,13 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseManager.Infrastructure.Data
 {
-    public class HouseManagerDbContext : IdentityDbContext<IdentityUser>
+    public class HouseManagerDbContext(
+		DbContextOptions<HouseManagerDbContext> options) : IdentityDbContext<IdentityUser>(options)
 	{
-		public HouseManagerDbContext(DbContextOptions<HouseManagerDbContext> options) 
-			: base(options)
-		{
-		}
-
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);

@@ -10,6 +10,10 @@ using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Core.Services
 {
+	/// <summary>
+	/// Implementation of the IManagementService
+	/// </summary>
+	/// <param name="context"></param>
 	public class ManagementService(
 		HouseManagerDbContext context) : IManagementService
 	{
@@ -32,7 +36,7 @@ namespace HouseManager.Core.Services
 
 		public async Task EditAsync(ActiveManagerFormModel model)
 		{
-			var president = await GetByIdAsync(model.Id);
+			var president = await context.Managers.FindAsync(model.Id);
 
 			president.Name = model.Name;
 			president.PhoneNumber = model.PhoneNumber;
@@ -42,7 +46,23 @@ namespace HouseManager.Core.Services
 			await context.SaveChangesAsync();
 		}
 
-		public IQueryable<ActiveManagerViewModel?> GetActiveReadOnlyAsync(int houseOrgId)
+		public async Task<ActiveManagerFormModel?> GetByIdAsync(int id)
+		{
+			return await context.Managers
+							.Where(m => m.Id == id)
+							.Select(m => new ActiveManagerFormModel
+							{
+								Id = m.Id,
+								Name = m.Name,
+								Position = m.Position,
+								StartDate = m.StartDate,
+								TermPeriod = m.TermPeriod,
+								PhoneNumber = m.PhoneNumber
+							})
+							.FirstOrDefaultAsync();
+		}
+
+		public IQueryable<ActiveManagerViewModel> GetAllActiveReadOnlyAsync(int houseOrgId)
 		{
 			return context.Managers
 							.AsNoTracking()
@@ -54,15 +74,15 @@ namespace HouseManager.Core.Services
 								Name = p.Name,
 								Position = p.Position,
 								StartDate = p.StartDate.ToString(AppDateFormat),
-								EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(AppDateFormat),
+								EndDate = CalculateEndDate(p.StartDate, p.TermPeriod).ToString(AppDateFormat),
 								PhoneNumber = p.PhoneNumber,
-								Progress = GetProgress(p.StartDate, GetEndDate(p.StartDate, p.TermPeriod))
+								Progress = GetProgress(p.StartDate, CalculateEndDate(p.StartDate, p.TermPeriod))
 							});
 		}
 
-		public IQueryable<InactiveManagerViewModel?> GetAllInactiveReadOnlyAsync(int houseOrgId)
+		public IQueryable<InactiveManagerViewModel> GetAllInactiveReadOnlyAsync(int houseOrgId)
 		{
-			var test = context.Managers
+			return context.Managers
 								.AsNoTracking()
 								.Where(p => p.HouseOrganizationId == houseOrgId && p.IsActive == false)
 								.OrderByDescending(p => p.TerminationDate)
@@ -71,47 +91,27 @@ namespace HouseManager.Core.Services
 									Name = p.Name,
 									Position = p.Position,
 									StartDate = p.StartDate.ToString(AppDateFormat),
-									EndDate = GetEndDate(p.StartDate, p.TermPeriod).ToString(AppDateFormat),
+									EndDate = CalculateEndDate(p.StartDate, p.TermPeriod).ToString(AppDateFormat),
 									TerminationDate = DateOnly.FromDateTime(p.TerminationDate).ToString(AppDateFormat) ?? "NA"
 								});
-			return test;
 		}
 
 		public async Task<int> EndTermAsync(int id)
 		{
-			var president = await GetByIdAsync(id);
+			var manager = await context.Managers.FindAsync(id);
 
-			president.IsActive = false;
-			president.TerminationDate = DateTime.Now;
+			manager.IsActive = false;
+			manager.TerminationDate = DateTime.Now;
 
 			await context.SaveChangesAsync();
 
-			return president.HouseOrganizationId;
-		}
-
-		public async Task<bool> ExistsByIdAsync(int id)
-		{
-			return await context.Managers
-								.AnyAsync(p => p.Id == id);
-		}
-
-		public async Task<bool> ActiveExistsAsync(int houseOrgId, ManagerPosition position)
-		{
-			return await context.Managers
-								.Where(p => p.HouseOrganizationId == houseOrgId 
-												&& p.Position == position)
-								.AnyAsync(p => p.IsActive == true);
+			return manager.HouseOrganizationId;
 		}
 
 		public async Task<bool> IsActiveAsync(int id)
 		{
 			return await context.Managers
 								.AnyAsync(p => p.Id == id && p.IsActive == true);
-		}
-
-		public async Task<Manager?> GetByIdAsync(int id)
-		{
-			return await context.Managers.FindAsync(id);
 		}
 
 		#region Private Methods
@@ -130,7 +130,7 @@ namespace HouseManager.Core.Services
 			return progress.ToString("f2");
 		}
 
-		private static DateTime GetEndDate(DateTime startDate, TermPeriod termPeriod)
+		private static DateTime CalculateEndDate(DateTime startDate, TermPeriod termPeriod)
 		{
 			return startDate.AddMonths((int)termPeriod);
 		}
