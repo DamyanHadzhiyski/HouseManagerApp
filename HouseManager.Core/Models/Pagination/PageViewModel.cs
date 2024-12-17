@@ -4,7 +4,7 @@ namespace HouseManager.Core.Models.Pagination
 {
 	public class PageViewModel
 	{
-        public int ElementsPerPage { get; set; } = ElementsOnPage;
+        public int ElementsPerPage { get; set; } = DefaultElementsOnPage;
 
         public int CurrentPage { get; set; } = 1;
 

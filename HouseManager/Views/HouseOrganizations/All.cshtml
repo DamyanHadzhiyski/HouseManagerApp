@@ -1,6 +1,6 @@
-﻿@model List<HouseOrganizationViewModel>
+﻿@model HouseOrganizationsPageViewModel
 
-@if (!Model.Any())
+@if (!Model.Collection.Any())
 {
 	<form class="row justify-content-center">
 		<h2 class="text-center">There are no house organizations added, yet!</h2>

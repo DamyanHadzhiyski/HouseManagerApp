@@ -82,27 +82,27 @@ namespace HouseManager.Controllers
 										.GetAllInactiveReadOnlyAsync(id)
 										.ToListAsync();
 
-			int elementsPerPage = ElementsOnPage;
-
 			model.ActiveOccupants = new ActiveOccupantsPageViewModel
 			{
+				InactiveOccupantCurrentPage = inactiveCurrentPage,
 				CurrentPage = activeCurrentPage,
 				TotalElements = activeOccupants.Count,
-				ElementsPerPage = elementsPerPage,
+				ElementsPerPage = DefaultElementsOnPage,
 				Collection = activeOccupants
-								   .Skip((activeCurrentPage - 1) * elementsPerPage)
-								   .Take(elementsPerPage)
+								   .Skip((activeCurrentPage - 1) * DefaultElementsOnPage)
+								   .Take(DefaultElementsOnPage)
 								   .ToList()
 			};
 
 			model.InactiveOccupants = new InactiveOccupantsPageViewModel
 			{
+				ActiveOccupantCurrentPage = activeCurrentPage,
 				CurrentPage = inactiveCurrentPage,
 				TotalElements = inactiveOccupants.Count,
-				ElementsPerPage = elementsPerPage,
+				ElementsPerPage = DefaultElementsOnPage,
 				Collection = inactiveOccupants
-								   .Skip((inactiveCurrentPage - 1) * elementsPerPage)
-								   .Take(elementsPerPage)
+								   .Skip((inactiveCurrentPage - 1) * DefaultElementsOnPage)
+								   .Take(DefaultElementsOnPage)
 								   .ToList()
 			};
 
@@ -113,11 +113,24 @@ namespace HouseManager.Controllers
 		#region Show All Units
 		[HttpGet]
 		[HouseOrganizationExists("houseOrgId")]
-		public async Task<IActionResult> All(int houseOrgId)
+		public async Task<IActionResult> All(int houseOrgId, int currentPage = 1)
 		{
-			var model = await unitService.GetAllFromHOAsync(houseOrgId);
+			var units = unitService.GetAllFromHOAsync(houseOrgId);
 
-			ViewBag.HouseOrgId = houseOrgId;
+			var model = new UnitsPageViewModel
+			{
+				CurrentPage = currentPage,
+				ElementsPerPage = DefaultElementsOnPage,
+				TotalElements = units.Count(),
+				Collection = await units
+										.Skip((currentPage - 1) * DefaultElementsOnPage)
+										.Take(DefaultElementsOnPage)
+										.ToListAsync()
+			};
+
+			ViewBag.Controller = "Units";
+			ViewBag.Action = "All";
+			ViewBag.Id = houseOrgId;
 
 			return View(model);
 		}

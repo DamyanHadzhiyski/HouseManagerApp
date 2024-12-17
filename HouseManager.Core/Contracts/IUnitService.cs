@@ -55,7 +55,7 @@ namespace HouseManager.Core.Contracts
 		/// </summary>
 		/// <param name="houseOrgId"></param>
 		/// <returns></returns>
-		Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId);
+		IQueryable<UnitViewModel> GetAllFromHOAsync(int houseOrgId);
 
 		/// <summary>
 		/// Method that returns the unit Id and unit Number

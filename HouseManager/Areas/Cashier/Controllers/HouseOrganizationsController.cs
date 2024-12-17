@@ -2,6 +2,7 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Core.Models.Pagination;
 using HouseManager.Filters;
 using HouseManager.Infrastructure.Data;
 
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 using static HouseManager.Constants.SessionConstants;
 using static HouseManager.Infrastructure.Constants.UserRoles;
+using static HouseManager.Core.Constants.DataConstants;
 
 namespace HouseManager.Areas.Cashier.Controllers
 {
@@ -22,15 +24,26 @@ namespace HouseManager.Areas.Cashier.Controllers
         #region Show House Organization Details
         [HttpGet]
 		[HouseOrganizationExists("id")]
-		public async Task<IActionResult> Details(int id)
+		public async Task<IActionResult> Details(int id, int currentPage = 1)
         {
             var model = await houseOrgService
                                 .GetDetailsByIdReadOnly(id)
                                 .FirstOrDefaultAsync();
 
-            model.Units = await unitService.GetAllFromHOAsync(id);
+			var units = unitService.GetAllFromHOAsync(id);
 
-            return View(model);
+			model.Units = new UnitsPageViewModel
+			{
+				CurrentPage = currentPage,
+				ElementsPerPage = DefaultElementsOnPage,
+				TotalElements = units.Count(),
+				Collection = await units
+										.Skip((currentPage - 1) * DefaultElementsOnPage)
+										.Take(DefaultElementsOnPage)
+										.ToListAsync()
+			};
+
+			return View(model);
         }
         #endregion
 

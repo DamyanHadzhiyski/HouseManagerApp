@@ -29,16 +29,14 @@ namespace HouseManager.Areas.User.Controllers
 										.OrderByDescending(o => o.IsOwner)
 										.ToListAsync();
 
-			int elementsPerPage = ElementsOnPage;
-
 			model.ActiveOccupants = new ActiveOccupantsPageViewModel
 			{
 				CurrentPage = activeCurrentPage,
 				TotalElements = activeOccupants.Count,
-				ElementsPerPage = elementsPerPage,
+				ElementsPerPage = DefaultElementsOnPage,
 				Collection = activeOccupants
-								   .Skip((activeCurrentPage - 1) * elementsPerPage)
-								   .Take(elementsPerPage)
+								   .Skip((activeCurrentPage - 1) * DefaultElementsOnPage)
+								   .Take(DefaultElementsOnPage)
 								   .ToList()
 			};
 

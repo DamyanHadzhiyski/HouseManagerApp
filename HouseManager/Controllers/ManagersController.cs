@@ -92,25 +92,23 @@ namespace HouseManager.Controllers
 
 			ViewBag.InactivePresidents = new InactivePresidentsPageViewModel
 			{
-				Position = ManagerPosition.President,
+				CashierCurrentPage = cashiersCurrentPage,
 				CurrentPage = presidentsCurrentPage,
-				ElementsPerPage = ElementsOnPage,
 				TotalElements = inactivePresidents.Count(),
 				Collection = await inactivePresidents
-										.Skip((presidentsCurrentPage - 1) * ElementsOnPage)
-										.Take(ElementsOnPage)
+										.Skip((presidentsCurrentPage - 1) * DefaultElementsOnPage)
+										.Take(DefaultElementsOnPage)
 										.ToListAsync()
 			};
 
 			ViewBag.InactiveCashiers = new InactiveCashiersPageViewModel
 			{
-				Position = ManagerPosition.Cashier,
+				PresidentCurrentPage = presidentsCurrentPage,
 				CurrentPage = cashiersCurrentPage,
-				ElementsPerPage = ElementsOnPage,
 				TotalElements = inactiveCashiers.Count(),
 				Collection = await inactiveCashiers
-										.Skip((cashiersCurrentPage - 1) * ElementsOnPage)
-										.Take(ElementsOnPage)
+										.Skip((cashiersCurrentPage - 1) * DefaultElementsOnPage)
+										.Take(DefaultElementsOnPage)
 										.ToListAsync()
 			};
 

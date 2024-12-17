@@ -3,10 +3,6 @@ using HouseManager.Core.Models.OccupantModel;
 
 using Microsoft.AspNetCore.Mvc;
 
-using NuGet.Protocol.Plugins;
-
-using static HouseManager.Core.Constants.DataConstants;
-
 namespace HouseManager.Controllers
 {
 	public class OccupantsController(

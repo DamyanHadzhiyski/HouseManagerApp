@@ -52,22 +52,24 @@
 		<form aria-label="...">
 			<ul class="pagination justify-content-center">
 				<li class="page-item">
-					<a class="btn btn-secondary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+					<a class="page-link btn rounded-0 rounded-start-5 @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
 					   asp-area="" asp-controller="Finances"
 					   asp-action="Index"
 					   asp-route-houseOrgId="@houseOrgId"
-					   asp-route-expensesCurrentPage="@previousPage">Previous</a>
+					   asp-route-incomesCurrentPage="@Model.IncomesCurrentPager"
+					   asp-route-expensesCurrentPage="@previousPage">&laquo;</a>
 				</li>
 
 				@for (int i = 1; i <= maxPage; i++)
 				{
 					<li class="page-item @(Model.CurrentPage == i ? "active" : string.Empty)" aria-current="page">
-							<a class="page-link btn-outline-secondary"
-							   asp-area="" asp-controller="Finances"
-							   asp-action="Index"
-							   asp-route-houseOrgId="@houseOrgId"
-							   asp-route-expensesCurrentPage="@i">@i</a>
-						</li>
+						<a class="page-link btn-outline-secondary"
+						   asp-area="" asp-controller="Finances"
+						   asp-action="Index"
+						   asp-route-houseOrgId="@houseOrgId"
+						   asp-route-incomesCurrentPage="@Model.IncomesCurrentPager"
+						   asp-route-expensesCurrentPage="@i">@i</a>
+					</li>
 				}
 
 				@{
@@ -75,11 +77,12 @@
 					!Model.Collection.Any();
 				}
 				<li class="page-item">
-					<a class="btn btn-secondary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+					<a class="page-link btn rounded-0 rounded-start-5 @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
 					   asp-area="" asp-controller="Finances"
 					   asp-action="Index"
 					   asp-route-houseOrgId="@houseOrgId"
-					   asp-route-expensesCurrentPage="@(Model.CurrentPage + 1)">Next</a>
+					   asp-route-incomesCurrentPage="@Model.IncomesCurrentPager"
+					   asp-route-expensesCurrentPage="@(Model.CurrentPage + 1)">&raquo;</a>
 				</li>
 			</ul>
 		</form>

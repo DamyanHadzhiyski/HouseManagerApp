@@ -111,9 +111,9 @@ namespace HouseManager.Core.Services
 							  .AsNoTracking();
 		}
 
-		public async Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId)
+		public IQueryable<UnitViewModel> GetAllFromHOAsync(int houseOrgId)
 		{
-			return await context.Units
+			return context.Units
 								.Where(u => u.HouseOrganizationId == houseOrgId)
 								.Select(u => new UnitViewModel
 								{
@@ -123,8 +123,7 @@ namespace HouseManager.Core.Services
 									Type = u.UnitType.ToString(),
 								})
 								.OrderBy(u => u.Floor)
-								.ThenBy(u => u.Number)
-								.ToListAsync();
+								.ThenBy(u => u.Number);
 		}
 
 		public async Task<List<UnitViewModel>> GetAllByOccupantAsync(int houseOrgId, List<int> occupantIds)

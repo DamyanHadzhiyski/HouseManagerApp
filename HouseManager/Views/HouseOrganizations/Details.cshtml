@@ -1,12 +1,14 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http.Extensions
 
 @model HouseOrganizationDetailViewModel
 
 @{
-
+	ViewBag.Id = HttpContextAccessor.HttpContext.GetRouteValue("id") ?? string.Empty;
 	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 	var name = Model.Name;
 	var id = Model.Id;
+	var units = Model.Units;
 }
 
 <h4 class="mb-4 text-center">@name - Details</h4>
@@ -40,7 +42,56 @@
 	@if (houseOrgId == id)
 	{
 		<div class="row col-12 col-lg-7 justify-content-center mb-3">
-			<partial name="~/Views/Units/_AllUnitsPartial.cshtml" model="@Model.Units" /> 
+			<partial name="~/Views/Units/_AllUnitsPartial.cshtml" model="@Model.Units" />
+			@* @{
+				var previousPage = units.CurrentPage - 1;
+				if (previousPage < 1)
+				{
+					previousPage = 1;
+				}
+
+				var maxPage = Math.Ceiling((double)units.TotalElements /
+				units.ElementsPerPage);
+			}
+
+			@if (units.Collection.Any())
+			{
+
+				<form aria-label="...">
+					<ul class="pagination justify-content-center">
+						<li class="page-item">
+							<a class="page-link btn rounded-0 rounded-start-5 @(units.CurrentPage == 1 ? "disabled" : string.Empty)"
+							   asp-area="" asp-controller="HouseOrganizations"
+							   asp-action="Details"
+							   asp-route-houseOrgId="@houseOrgId"
+							   asp-route-currentPage="@previousPage">&laquo;</a>
+						</li>
+
+						@for (int i = 1; i <= maxPage; i++)
+						{
+							<li class="page-item @(units.CurrentPage == i ? "active" : string.Empty)" aria-current="page">
+								<a class="page-link"
+								   asp-area="" asp-controller="HouseOrganizations"
+								   asp-action="Details"
+								   asp-route-houseOrgId="@houseOrgId"
+								   asp-route-currentPage="@i">@i</a>
+							</li>
+						}
+
+						@{
+							var shouldButtonBeDisabled = units.CurrentPage == maxPage ||
+							!units.Collection.Any();
+						}
+						<li class="page-item">
+							<a class="page-link btn rounded-0 rounded-end-2 @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+							   asp-area="" asp-controller="HouseOrganizations"
+							   asp-action="Details"
+							   asp-route-houseOrgId="@houseOrgId"
+							   asp-route-currentPage="@(units.CurrentPage + 1)">&raquo;</a>
+						</li>
+					</ul>
+				</form>
+			} *@
 		</div>
 	}
 </div>

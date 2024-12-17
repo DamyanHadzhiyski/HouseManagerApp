@@ -1,11 +1,15 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
 @inject IUserService userService
 
-@model List<UnitViewModel>
+@model UnitsPageViewModel
 
 @{
 	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 	var userCurrentRole = await userService.GetCurrentRoleAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+	var collection = Model.Collection;
+	var returnController = ViewBag.Controller;
+	var returnAction = ViewBag.Action;
+	var returnId = ViewBag.Id;
 }
 
 <div class="card border-2 p-0 mb-5 mx-3 col-12">
@@ -20,24 +24,37 @@
 						<th style="width: 10%" scope="col">Floor</th>
 						<th style="width: 20%" scope="col">Type</th>
 						<th style="width: 10%" scope="col">Details</th>
-							<th style="width: 10%" scope="col">Edit</th>
+						<th style="width: 10%" scope="col">Edit</th>
 					</tr>
 				</thead>
 				<tbody class="align-middle col-10">
-					@for (int i = 0; i < Model.Count(); i++)
+					@for (int i = 0; i < collection.Count(); i++)
 					{
 						<tr class="text-center border-2 bg-white p-1">
 							<td class="bg-light p-1" scope="row">@(i + 1)</td>
-							<td class="p-1">@Model[i].Number</td>
-							<td class="p-1">@Model[i].Floor</td>
-							<td class="p-1">@Model[i].Type</td>
+							<td class="p-1">@collection[i].Number</td>
+							<td class="p-1">@collection[i].Floor</td>
+							<td class="p-1">@collection[i].Type</td>
 							<form>
 							<td class="p-1">
-								<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Units" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
+								<button asp-area="" asp-controller="Units"
+										asp-action="Details"
+										asp-route-id="@collection[i].Id"
+										type="submit"
+										class="btn btn-outline-info rounded-bottom-circle p-0"
+										style="width: 25px; height: 25px">
+									<i class="fa-solid fa-info"></i>
+								</button>
 							</td>
-								<td class="p-1">
-									<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Units" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
-								</td>
+							<td class="p-1">
+								<button asp-area="" asp-controller="Units"
+										asp-action="Edit"
+										asp-route-id="@collection[i].Id"
+										class="btn btn-outline-warning rounded-bottom-circle p-0"
+										style="width: 25px; height: 25px">
+									<i class="fa-solid fa-pencil"></i>
+								</button>
+							</td>
 							</form>
 						</tr>
 					}
@@ -45,4 +62,53 @@
 			</table>
 		</div>
 	</div>
+	@{
+		var previousPage = Model.CurrentPage - 1;
+		if (previousPage < 1)
+		{
+			previousPage = 1;
+		}
+
+		var maxPage = Math.Ceiling((double)Model.TotalElements /
+		Model.ElementsPerPage);
+	}
+
+	@if (collection.Any())
+	{
+
+		<form aria-label="...">
+			<ul class="pagination justify-content-center">
+				<li class="page-item">
+					<a class="page-link btn rounded-0 rounded-start-5 @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+					   asp-area="" asp-controller="@returnController"
+					   asp-action="@returnAction"
+					   asp-route-houseOrgId="@returnId"
+					   asp-route-currentPage="@previousPage">&laquo;</a>
+				</li>
+
+				@for (int i = 1; i <= maxPage; i++)
+				{
+					<li class="page-item @(Model.CurrentPage == i ? "active" : string.Empty)" aria-current="page">
+						<a class="page-link"
+						   asp-area="" asp-controller="@returnController"
+						   asp-action="@returnAction"
+						   asp-route-houseOrgId="@returnId"
+						   asp-route-currentPage="@i">@i</a>
+					</li>
+				}
+
+				@{
+					var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+					!collection.Any();
+				}
+				<li class="page-item">
+					<a class="page-link btn rounded-0 rounded-end-2 @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+					   asp-area="" asp-controller="@returnController"
+					   asp-action="@returnAction"
+					   asp-route-houseOrgId="@returnId"
+					   asp-route-currentPage="@(Model.CurrentPage + 1)">&raquo;</a>
+				</li>
+			</ul>
+		</form>
+	}
 </div>

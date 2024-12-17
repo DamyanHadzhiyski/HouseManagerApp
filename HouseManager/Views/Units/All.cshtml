@@ -1,19 +1,19 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
 
-@model List<UnitViewModel>
+@model UnitsPageViewModel
 
 @{
 	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(HouseOrgName) ?? "none";
 	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? 0;
 }
 
-@if (!Model.Any())
+@if (!Model.Collection.Any())
 {
 	<form class="row justify-content-center">
 		<h2 class="text-center">You don't have any units added in @houseOrgName, yet!</h2>
 		<h3 class="text-center">Do you want to add one?</h3>
-		<button asp-area="" asp-controller="Units" 
-				asp-action="Add" 
+		<button asp-area="" asp-controller="Units"
+				asp-action="Add"
 				asp-route-houseOrgId="@houseOrgId"
 				class="btn btn-lg btn-success col-6 col-md-2 text-center mt-4">
 			<i class="fa-solid fa-circle-plus me-2"></i>Add Unit

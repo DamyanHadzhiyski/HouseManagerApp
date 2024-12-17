@@ -30,23 +30,25 @@ namespace HouseManager.Controllers
 				CurrentBalance = balance,
 				Incomes = new IncomesPageViewModel
 				{
+					ExpensesCurrentPage = expensesCurrentPage,
 					CurrentPage = incomesCurrentPage,
-					ElementsPerPage = ElementsOnPage,
+					ElementsPerPage = DefaultElementsOnPage,
 					TotalElements = incomes.Count,
 					Collection = incomes
-								.Skip((incomesCurrentPage - 1) * ElementsOnPage)
-								.Take(ElementsOnPage)
+								.Skip((incomesCurrentPage - 1) * DefaultElementsOnPage)
+								.Take(DefaultElementsOnPage)
 								.ToList()
 				},
 
 				Expenses = new ExpensesPageViewModel
 				{
+					IncomesCurrentPager = incomesCurrentPage,
 					CurrentPage = expensesCurrentPage,
-					ElementsPerPage = ElementsOnPage,
+					ElementsPerPage = DefaultElementsOnPage,
 					TotalElements = expenses.Count,
 					Collection = expenses
-								.Skip((expensesCurrentPage - 1) * ElementsOnPage)
-								.Take(ElementsOnPage)
+								.Skip((expensesCurrentPage - 1) * DefaultElementsOnPage)
+								.Take(DefaultElementsOnPage)
 								.ToList()
 				}
 			};

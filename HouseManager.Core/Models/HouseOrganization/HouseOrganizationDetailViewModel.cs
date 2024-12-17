@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using HouseManager.Core.Models.Pagination;
 using HouseManager.Core.Models.Unit;
 
 namespace HouseManager.Core.Models.HouseOrganization
@@ -37,6 +38,6 @@ namespace HouseManager.Core.Models.HouseOrganization
 		/// <summary>
 		/// Information for the units in the house organization
 		/// </summary>
-		public ICollection<UnitViewModel> Units { get; set; } = [];
+		public UnitsPageViewModel Units { get; set; } = null!;
 	}
 }
