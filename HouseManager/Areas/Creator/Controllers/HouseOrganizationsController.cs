@@ -2,6 +2,7 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Filters;
 using HouseManager.Infrastructure.Data;
 
 using Microsoft.AspNetCore.Authorization;
@@ -21,13 +22,9 @@ namespace HouseManager.Areas.Creator.Controllers
 	{
 		#region Edit House Organization
 		[HttpGet]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> Edit(int id)
 		{
-			if (!await houseOrgService.ExistById(id))
-			{
-				return BadRequest();
-			}
-
 			var model = await houseOrgService
 								.GetByIdReadOnly(id)
 								.FirstOrDefaultAsync();
@@ -36,13 +33,9 @@ namespace HouseManager.Areas.Creator.Controllers
 		}
 
 		[HttpPost]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
-			if (!await houseOrgService.ExistById(model.Id))
-			{
-				return BadRequest();
-			}
-
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -50,19 +43,15 @@ namespace HouseManager.Areas.Creator.Controllers
 
 			await houseOrgService.EditAsync(model);
 
-			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id = model.Id, area="President"});
+			return RedirectToAction(nameof(Details), "HouseOrganizations", new { id = model.Id, area = "President" });
 		}
 		#endregion
 
 		#region Show House Organization Details
 		[HttpGet]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> Details(int id)
 		{
-			if (!await houseOrgService.ExistById(id))
-			{
-				return BadRequest();
-			}
-
 			var model = await houseOrgService
 								.GetDetailsByIdReadOnly(id)
 								.FirstOrDefaultAsync();
@@ -87,8 +76,8 @@ namespace HouseManager.Areas.Creator.Controllers
 									.ToListAsync();
 
 			model = await houseOrgService
-								.GetAllByManagerIdReadOnly(ids)
-							.ToListAsync();
+								.GetAllManagedByAsync(ids)
+								.ToListAsync();
 
 			await userService.SetCurrentRoleAsync(userId, PresidentRole);
 

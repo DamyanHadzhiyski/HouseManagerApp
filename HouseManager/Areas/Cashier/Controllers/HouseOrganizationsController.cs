@@ -2,6 +2,7 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
+using HouseManager.Filters;
 using HouseManager.Infrastructure.Data;
 
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +21,9 @@ namespace HouseManager.Areas.Cashier.Controllers
     {
         #region Show House Organization Details
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		public async Task<IActionResult> Details(int id)
         {
-            if (!await houseOrgService.ExistById(id))
-            {
-                return BadRequest();
-            }
-
             var model = await houseOrgService
                                 .GetDetailsByIdReadOnly(id)
                                 .FirstOrDefaultAsync();
@@ -51,7 +48,7 @@ namespace HouseManager.Areas.Cashier.Controllers
                                     .ToListAsync();
 
             model = await houseOrgService
-                                .GetAllByManagerIdReadOnly(ids)
+                                .GetAllManagedByAsync(ids)
                                 .ToListAsync();
 
             await userService.SetCurrentRoleAsync(userId, CashierRole);

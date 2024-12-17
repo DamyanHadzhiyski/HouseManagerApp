@@ -26,7 +26,7 @@ namespace HouseManager.Areas.User.Controllers
 											.ToListAsync();
 
 			var model = await houseOrgService
-							.GetAllByOccupantIdReadOnly(ids)
+							.GetAllOccupiedByAsync(ids)
 									.ToListAsync();
 
 			await userService.SetCurrentRoleAsync(userId, UserRole);

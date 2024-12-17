@@ -2,7 +2,7 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.HouseOrganization;
-using HouseManager.Infrastructure.Data;
+using HouseManager.Filters;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +17,7 @@ namespace HouseManager.Controllers
 	public class HouseOrganizationsController(
 		IHouseOrganizationService houseOrgService,
 		IUnitService unitService,
-		IUserService userService,
-		HouseManagerDbContext context) : Controller
+		IUserService userService) : Controller
 	{
 		#region Add New House Organization
 		[HttpGet]
@@ -33,6 +32,7 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> Add(HouseOrganizationFormModel model)
 		{
 			if (!ModelState.IsValid)
@@ -50,14 +50,10 @@ namespace HouseManager.Controllers
 
 		#region Edit House Organization
 		[HttpGet]
-		[Authorize(Roles = AdminRole)]
+		[Authorize(Roles = $"{AdminRole}")]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> Edit(int id)
 		{
-			if (!await houseOrgService.ExistById(id))
-			{
-				return BadRequest();
-			}
-
 			var model = await houseOrgService
 								.GetByIdReadOnly(id)
 								.FirstOrDefaultAsync();
@@ -66,14 +62,9 @@ namespace HouseManager.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = AdminRole)]
+		[Authorize(Roles = $"{AdminRole}")]
 		public async Task<IActionResult> Edit(HouseOrganizationFormModel model)
 		{
-			if (!await houseOrgService.ExistById(model.Id))
-			{
-				return BadRequest();
-			}
-
 			if (!ModelState.IsValid)
 			{
 				return View(model);
@@ -87,13 +78,10 @@ namespace HouseManager.Controllers
 
 		#region Show House Organization Details
 		[HttpGet]
+		[Authorize]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> Details(int id)
 		{
-			if (!await houseOrgService.ExistById(id))
-			{
-				return BadRequest();
-			}
-
 			var model = await houseOrgService
 								.GetDetailsByIdReadOnly(id)
 								.FirstOrDefaultAsync();
@@ -123,22 +111,13 @@ namespace HouseManager.Controllers
 		#region Manage House Organization
 		[HttpGet]
 		[Authorize(Roles = AdminRole)]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> Manage(int id)
 		{
 			var houseOrgName = await houseOrgService
-								.GetByIdReadOnly(id)
-								.Select(ho => new
-								{
-									ho.Name
-								})
-								.FirstOrDefaultAsync();
+										.GetNameByIdAsync(id);
 
-			if (houseOrgName == null)
-			{
-				BadRequest();
-			}
-
-			HttpContext.Session.SetString(HouseOrgName, houseOrgName.Name);
+			HttpContext.Session.SetString(HouseOrgName, houseOrgName);
 			HttpContext.Session.SetInt32(HouseOrgId, id);
 
 			return RedirectToAction(nameof(Details), new { id });

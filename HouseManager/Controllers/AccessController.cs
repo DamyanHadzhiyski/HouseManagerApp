@@ -21,7 +21,7 @@ namespace HouseManager.Controllers
 		#region Generate Access Codes
 		[HttpGet]
 		[Authorize(Roles = $"{AdminRole},{PresidentRole}")]
-		[TypeFilter(typeof(ActiveOccupantExistsFilterAttribute))]
+		[TypeFilter<ActiveOccupantExistsFilterAttribute>]
 		public async Task<IActionResult> GenerateOccupantCode(int id)
 		{
 			TempData["AccessCode"] = await accessService.AddAccessCodeToOccupant(id);
@@ -31,7 +31,7 @@ namespace HouseManager.Controllers
 
 		[HttpGet]
 		[Authorize(Roles = $"{AdminRole},{PresidentRole}")]
-		[TypeFilter(typeof(ActiveManagerExistsFilterAttribute))]
+		[TypeFilter<ActiveOccupantExistsFilterAttribute>]
 		public async Task<IActionResult> GenerateManagerCode(int id)
 		{
 			TempData["AccessCode"] = await accessService.AddAccessCodeToManager(id);

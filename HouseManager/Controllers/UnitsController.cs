@@ -1,8 +1,7 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Pagination;
 using HouseManager.Core.Models.Unit;
-using HouseManager.Infrastructure.Data;
-using HouseManager.Infrastructure.Data.Models;
+using HouseManager.Filters;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +11,17 @@ using static HouseManager.Core.Constants.DataConstants;
 namespace HouseManager.Controllers
 {
 	public class UnitsController(
-		HouseManagerDbContext context,
-		IHouseOrganizationService houseOrgService,
 		IUnitService unitService,
 		IOccupantService occupantService) : BaseController
 	{
 		#region Add New Unit
 		[HttpGet]
-		public IActionResult Add(int houseOrgId)
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		public IActionResult Add(int id)
 		{
 			var model = new UnitFormModel();
+
+			model.HouseOrganizationId = id;
 
 			return View(model);
 		}
@@ -34,83 +34,40 @@ namespace HouseManager.Controllers
 				return View(model);
 			}
 
-			var addUnit = new Unit
-			{
-				UnitNumber = model.Number,
-				Floor = model.Floor,
-				UnitType = model.Type,
-				CommonParts = model.CommonParts,
-				TotalArea = model.TotalArea,
-				HouseOrganizationId = model.HouseOrganizationId
+			var id = await unitService.AddAsync(model);
 
-			};
-
-			await context.Units.AddAsync(addUnit);
-			await context.SaveChangesAsync();
-
-			return RedirectToAction("All", "Units", new { houseOrgId = model.HouseOrganizationId });
+			return RedirectToAction("Details", "Units", new { id });
 		}
 		#endregion
 
 		#region Edit Unit
 		[HttpGet]
+		[TypeFilter<UnitExistsFilterAttribute>]
 		public async Task<IActionResult> Edit(int id)
 		{
-			try
-			{
-				var unitFromDb = await unitService.GetByIdAsync(id);
+			var model = await unitService.GetByIdReadOnly(id)
+											.FirstOrDefaultAsync();
 
-				//TODO: ViewBag.UnitTypes = unit types
-
-				var model = new UnitFormModel
-				{
-					Id = unitFromDb.Id,
-					Number = unitFromDb.UnitNumber,
-					Floor = unitFromDb.Floor,
-					Type = unitFromDb.UnitType,
-					TotalArea = unitFromDb.TotalArea,
-					CommonParts = unitFromDb.CommonParts,
-					HouseOrganizationId = unitFromDb.HouseOrganizationId
-				};
-
-				return View(model);
-			}
-			catch (NullReferenceException argNullEx)
-			{
-				throw new NullReferenceException("There is no unit with the provided Id", argNullEx);
-			}
+			return View(model);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Edit(UnitFormModel model)
 		{
-
-
 			if (!ModelState.IsValid)
 			{
-				//TODO: ViewBag.UnitTypes = get all unit types
-
-				//TODO: add exception handling
-
 				return View(model);
 			}
 
-			var unitFromDb = await unitService.GetByIdAsync(model.Id);
+			int id = await unitService.EditAsync(model);
 
-			unitFromDb.UnitNumber = model.Number;
-			unitFromDb.Floor = model.Floor;
-			unitFromDb.UnitType = model.Type;
-			unitFromDb.TotalArea = model.TotalArea;
-			unitFromDb.CommonParts = model.CommonParts;
-
-			await context.SaveChangesAsync();
-
-			return RedirectToAction("All", "Units", new { houseOrgId = unitFromDb.HouseOrganizationId });
+			return RedirectToAction("Details", "Units", new { id });
 		}
 		#endregion
 
 		#region Show Unit Details
 		[HttpGet]
+		[TypeFilter<UnitExistsFilterAttribute>]
 		public async Task<IActionResult> Details(int id, int activeCurrentPage = 1, int inactiveCurrentPage = 1)
 		{
 			var model = await unitService.GetDetailsByIdAsync(id);
@@ -154,16 +111,12 @@ namespace HouseManager.Controllers
 
 		#region Show All Units
 		[HttpGet]
-		public async Task<IActionResult> All(int houseOrgId)
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		public async Task<IActionResult> All(int id)
 		{
-			if (!await houseOrgService.ExistById(houseOrgId))
-			{
-				return BadRequest();
-			}
+			var model = await unitService.GetAllFromHOAsync(id);
 
-			var model = await unitService.GetAllFromHOAsync(houseOrgId);
-
-			ViewBag.HouseOrgId = houseOrgId;
+			ViewBag.HouseOrgId = id;
 
 			return View(model);
 		}

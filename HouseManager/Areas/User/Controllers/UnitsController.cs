@@ -2,6 +2,7 @@
 
 using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Pagination;
+using HouseManager.Filters;
 using HouseManager.Infrastructure.Data;
 
 using Microsoft.AspNetCore.Mvc;
@@ -47,18 +48,13 @@ namespace HouseManager.Areas.User.Controllers
 
 		#region Show All Units
 		[HttpGet]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> All(int id)
 		{
 			var ids = await context.UsersOccupants
 											.Where(uo => uo.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
 											.Select(uo => uo.OccupantId)
 											.ToListAsync();
-
-			if (!await houseOrgService.ExistById(id))
-			{
-				return BadRequest();
-			}
-
 			var model = await unitService
 								.GetAllByOccupantAsync(id, ids);
 

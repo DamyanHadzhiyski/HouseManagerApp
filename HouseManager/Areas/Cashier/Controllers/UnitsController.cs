@@ -1,6 +1,7 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Pagination;
 using HouseManager.Core.Models.Unit;
+using HouseManager.Filters;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
 
@@ -62,13 +63,9 @@ namespace HouseManager.Areas.Cashier.Controllers
 
 		#region Show All Units
 		[HttpGet]
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
 		public async Task<IActionResult> All(int houseOrgId)
 		{
-			if (!await houseOrgService.ExistById(houseOrgId))
-			{
-				return BadRequest();
-			}
-
 			var model = await unitService.GetAllFromHOAsync(houseOrgId);
 
 			ViewBag.HouseOrgId = houseOrgId;

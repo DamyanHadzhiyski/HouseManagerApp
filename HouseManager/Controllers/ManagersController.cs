@@ -1,6 +1,7 @@
 ﻿using HouseManager.Core.Contracts;
 using HouseManager.Core.Models.Managers;
 using HouseManager.Core.Models.Pagination;
+using HouseManager.Filters;
 using HouseManager.Infrastructure.Enums;
 
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +58,7 @@ namespace HouseManager.Controllers
 
 		#region Edit Manager
 		[HttpGet]
+		[TypeFilter<ActiveManagerExistsFilterAttribute>]
 		public async Task<IActionResult> Edit(int id)
 		{
 			var manager = await managementService
@@ -100,25 +102,26 @@ namespace HouseManager.Controllers
 
 		#region Show Managers
 		[HttpGet]
-		public async Task<IActionResult> All(int houseOrgId, int presidentsCurrentPage = 1, int cashiersCurrentPage = 1)
+		[TypeFilter<HouseOrganizationExistsFilterAttribute>]
+		public async Task<IActionResult> All(int id, int presidentsCurrentPage = 1, int cashiersCurrentPage = 1)
 		{
 			ViewBag.ActivePresident = await managementService
-									.GetActiveReadOnlyAsync(houseOrgId)
+									.GetActiveReadOnlyAsync(id)
 									.Where(m => m.Position == ManagerPosition.President)
 									.FirstOrDefaultAsync();
 
 			var inactivePresidents = await managementService
-												.GetAllInactiveReadOnlyAsync(houseOrgId)
+												.GetAllInactiveReadOnlyAsync(id)
 												.Where(m => m.Position == ManagerPosition.President)
 												.ToListAsync();
 
 			ViewBag.ActiveCashier = await managementService
-									.GetActiveReadOnlyAsync(houseOrgId)
+									.GetActiveReadOnlyAsync(id)
 									.Where(m => m.Position == ManagerPosition.Cashier)
 									.FirstOrDefaultAsync();
 
 			var inactiveCashiers = await managementService
-												.GetAllInactiveReadOnlyAsync(houseOrgId)
+												.GetAllInactiveReadOnlyAsync(id)
 												.Where(m => m.Position == ManagerPosition.Cashier)
 												.ToListAsync();
 
@@ -152,18 +155,9 @@ namespace HouseManager.Controllers
 
 		#region End Term
 		[HttpGet]
+		[TypeFilter<ActiveManagerExistsFilterAttribute>]
 		public async Task<IActionResult> EndTerm(int id)
 		{
-			if (!await managementService.ExistsByIdAsync(id))
-			{
-				return NotFound();
-			}
-
-			if (!await managementService.IsActiveAsync(id))
-			{
-				return BadRequest();
-			}
-
 			var houseOrgId = await managementService.EndTermAsync(id);
 
 			return RedirectToAction(nameof(All), new { houseOrgId });
