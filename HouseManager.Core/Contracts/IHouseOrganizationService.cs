@@ -32,13 +32,6 @@ namespace HouseManager.Core.Contracts
         IQueryable<HouseOrganizationViewModel> GetAllReadOnly();
 
 		/// <summary>
-		/// Method that returns readonly information for all House Organization created by a specifgic user as a view model
-		/// </summary>
-		/// <returns></returns>
-		IQueryable<HouseOrganizationViewModel> GetAllByCreatorReadOnly(string creatorId);
-
-
-		/// <summary>
 		///  Method that returns readonly detailed information for specific House Organization as a view model
 		/// </summary>
 		/// <param name="houseOrgId"></param>
@@ -57,7 +50,7 @@ namespace HouseManager.Core.Contracts
         /// </summary>
         /// <param name="houseOrgId">House Organization Id</param>
         /// <returns></returns>
-        Task<bool> ExistById(int houseOrgId);
+        Task<bool> ExistByIdAsync(int houseOrgId);
 
 		/// <summary>
 		/// Method that returns specific House Organization in order it's data to be editable
@@ -66,8 +59,12 @@ namespace HouseManager.Core.Contracts
 		/// <returns></returns>
 		IQueryable<HouseOrganization?> GetByIdAsync(int houseOrgId);
 
-		IQueryable<HouseOrganizationViewModel> GetAllByManagerIdReadOnly(List<int> id);
+		IQueryable<HouseOrganizationViewModel> GetAllManagedByAsync(List<int> id);
 
-		IQueryable<HouseOrganizationViewModel> GetAllByOccupantIdReadOnly(List<int> id);
+		IQueryable<HouseOrganizationViewModel> GetAllOccupiedByAsync(List<int> id);
+
+		IQueryable<HouseOrganizationViewModel> GetAllByCreatorIdAsync(string creatorId);
+
+		Task<string> GetNameByIdAsync(int houseOrgId);
 	}
 }

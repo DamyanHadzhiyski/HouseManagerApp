@@ -9,9 +9,13 @@ namespace HouseManager.Core.Contracts
 	/// </summary>
 	public interface IUnitService
     {
-        //Task EditUnitAsync(UnitModel model);
+		Task<int> AddAsync(UnitFormModel model);
 
-        Task<List<UnitViewModel>> GetAllAsync();
+		Task<int> EditAsync(UnitFormModel model);
+
+		Task<bool> ExistsByIdAsync(int id);
+
+		Task<List<UnitViewModel>> GetAllAsync();
 
         Task<Unit?> GetByIdAsync(int id);
 
@@ -22,5 +26,7 @@ namespace HouseManager.Core.Contracts
 		Task<List<UnitShortViewModel>> GetUnitsShortInfoAsync(int houseOrgId);
 
 		Task<List<UnitViewModel>> GetAllByOccupantAsync(int houseOrgId, List<int> occupantIds);
+
+		IQueryable<UnitFormModel> GetByIdReadOnly(int id);
 	}
 }

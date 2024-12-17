@@ -1,5 +1,4 @@
 ﻿using HouseManager.Core.Contracts;
-using HouseManager.Core.Models.HouseOrganization;
 using HouseManager.Core.Models.Unit;
 using HouseManager.Infrastructure.Data;
 using HouseManager.Infrastructure.Data.Models;
@@ -12,9 +11,43 @@ namespace HouseManager.Core.Services
 	public class UnitService(
 		HouseManagerDbContext context) : IUnitService
 	{
-		public async Task EditAsync(UnitViewModel model)
+		public async Task<int> AddAsync(UnitFormModel model)
 		{
-			throw new NotImplementedException();
+			var unit = new Unit
+			{
+				UnitNumber = model.Number,
+				Floor = model.Floor,
+				UnitType = model.Type,
+				CommonParts = model.CommonParts,
+				TotalArea = model.TotalArea,
+				HouseOrganizationId = model.HouseOrganizationId
+
+			};
+
+			await context.Units.AddAsync(unit);
+			await context.SaveChangesAsync();
+
+			return await GetUnitIdByNumber(model.HouseOrganizationId, model.Number);
+		}
+
+		public async Task<int> EditAsync(UnitFormModel model)
+		{
+			var unit = await GetByIdAsync(model.Id);
+
+			unit.UnitNumber = model.Number;
+			unit.Floor = model.Floor;
+			unit.UnitType = model.Type;
+			unit.TotalArea = model.TotalArea;
+			unit.CommonParts = model.CommonParts;
+
+			await context.SaveChangesAsync();
+
+			return unit.Id;
+		}
+
+		public Task<bool> ExistsByIdAsync(int id)
+		{
+			return context.Units.AnyAsync(x => x.Id == id);
 		}
 
 		public async Task<List<UnitViewModel>> GetAllAsync()
@@ -57,24 +90,41 @@ namespace HouseManager.Core.Services
 							.FirstOrDefaultAsync();
 		}
 
-        public async Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId)
-        {
-            return await context.Units
+		public IQueryable<UnitFormModel> GetByIdReadOnly(int id)
+		{
+			return context.Units
+							  .Where(u => u.Id == id)
+							  .Select(u => new UnitFormModel
+							  {
+								  Id = u.Id,
+								  Number = u.UnitNumber,
+								  Floor = u.Floor,
+								  Type = u.UnitType,
+								  TotalArea = u.TotalArea,
+								  CommonParts = u.CommonParts,
+								  HouseOrganizationId = u.HouseOrganizationId
+							  })
+							  .AsNoTracking();
+		}
+
+		public async Task<List<UnitViewModel>> GetAllFromHOAsync(int houseOrgId)
+		{
+			return await context.Units
 								.Where(u => u.HouseOrganizationId == houseOrgId)
-                                .Select(u => new UnitViewModel
-                                {
-                                    Id = u.Id,
-                                    Number = u.UnitNumber,
-                                    Floor = u.Floor.ToString(),
-                                    Type = u.UnitType.ToString(),
-                                })
-                                .ToListAsync();
-        }
+								.Select(u => new UnitViewModel
+								{
+									Id = u.Id,
+									Number = u.UnitNumber,
+									Floor = u.Floor.ToString(),
+									Type = u.UnitType.ToString(),
+								})
+								.ToListAsync();
+		}
 
 		public async Task<List<UnitViewModel>> GetAllByOccupantAsync(int houseOrgId, List<int> occupantIds)
 		{
 			var result = context.Units
-							.Where(u => u.HouseOrganizationId == houseOrgId 
+							.Where(u => u.HouseOrganizationId == houseOrgId
 											&& u.Occupants.Any(o => occupantIds.Contains(o.Id) && o.IsActive))
 							.Select(u => new UnitViewModel
 							{
@@ -98,5 +148,17 @@ namespace HouseManager.Core.Services
 								})
 								.ToListAsync();
 		}
+
+		#region Private Methods
+		private async Task<int> GetUnitIdByNumber(int houseOrgId, string unitNumber)
+		{
+			return await context.Units
+								.Where(u => u.HouseOrganizationId == houseOrgId
+												&& u.UnitNumber == unitNumber)
+								.OrderByDescending(u => u.Id)
+								.Select(u => u.Id)
+								.FirstOrDefaultAsync();
+		}
+		#endregion
 	}
 }
