@@ -13,7 +13,7 @@
 		<h1 class="display-4 text-center mb-3">Welcome to House Manager App</h1>
 		<h3 class="text-center w-50 mb-5">This is a simple app, that aims to facilitate the management of houses with multiple units/apartments.</h3>
 		<div class="text-center align-middle">
-			<img class="m-4 rounded-circle" src="~/img/HomePageImg.png" />
+			<img class="m-4 mx-0 justify-content-center rounded-circle" src="~/img/HomePageImg.png" />
 		</div>
 	</div>
 }
@@ -32,7 +32,8 @@ else
 			<div class="card border-2 p-0 col-12 mb-3">
 				<h4 class="card-header p-2 text-center">Actions</h4>
 				<form class="card-body row justify-content-center align-items-top mx-0">
-					<button asp-area="" asp-controller="HouseOrganizations" asp-action="Add"
+					<button asp-area="" asp-controller="HouseOrganizations" 
+							asp-action="Add"
 							class="btn btn-success col-5 m-2"
 							type="submit">
 						<i class="fa-solid fa-house-medical fa-3x mt-2 mb-3"></i>
