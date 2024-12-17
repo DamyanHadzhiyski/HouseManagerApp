@@ -1,0 +1,24 @@
+﻿@model HouseOrganizationFormModel
+
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Name" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.Name" class="form-control">
+		<span asp-validation-for="@Model.Name" class="text-danger"></span>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Address" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.Address" class="form-control p-2">
+		<span asp-validation-for="@Model.Address" class="text-danger"></span>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Town" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.Town" class="form-control">
+		<span asp-validation-for="@Model.Town" class="text-danger"></span>
+	</div>
+</div>
+<input hidden asp-for="@Model.CreatorId">

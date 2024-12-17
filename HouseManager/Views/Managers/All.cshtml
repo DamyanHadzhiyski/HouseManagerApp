@@ -8,31 +8,53 @@
 
 <h4 class="text-center mb-4">@houseOrgName - Management</h4>
 <hr />
-<div class="row row-cols-1 row-cols-md-3 justify-content-center">
-	@if (activePresident == null && activeCashier == null)
-	{
-		<partial name="_AddBothManagersPartial" />
-	}
-	else if (activePresident == null)
-	{
-		<partial name="_AddPresidentPartial" model="@activeCashier" />
-	}
-	else if (activeCashier == null)
-	{
-		<partial name="_AddCashierPartial" model="@activePresident" />
-	}
-	else
-	{
-		<partial name="_ActiveManagerViewPartial" model="@activePresident" />
-		<partial name="_ActiveManagerViewPartial" model="@activeCashier" />
-	}
-</div>
-<div class="row row-cols-1 row-cols-md-2 justify-content-center">
-	<div class="row justify-content-center">
-		<partial name="_InactivePresidentsViewPartial" model="@ViewBag.InactivePresidents" />
+<div class="row justify-content-around">
+	<div class="col-12 col-lg-3 justify-content-center mb-5">
+		@if (activePresident == null)
+		{
+			<div class="card border-2 p-0 col-12 mb-3">
+				<h4 class="card-header p-2 text-center">President</h4>
+				<form class="card-body row justify-content-center align-items-center mx-0">
+					<button asp-area="" asp-controller="Managers" asp-action="Add" asp-route-position="@ManagerPosition.President"
+							class="btn btn-success align-self-center col-5 m-2"
+							type="submit">
+						<i class="fa-solid fa-user-tie fa-3x mt-2 mb-3"></i>
+						<p class="fw-bold">Add President</p>
+					</button>
+				</form>
+			</div>
+		}
+		else
+		{
+			<partial name="_ActiveManagerViewPartial" model="@activePresident" />
+		}
+
+		@if (activeCashier == null)
+		{
+			<div class="card border-2 p-0 col-12 mb-3">
+				<h4 class="card-header p-2 text-center">Cashier</h4>
+				<form class="card-body row justify-content-center align-items-center mx-0">
+					<button asp-area="" asp-controller="Managers" asp-action="Add" asp-route-position="@ManagerPosition.Cashier"
+							class="btn btn-success align-self-center col-5 m-2"
+							type="submit">
+						<i class="fa-solid fa-cash-register fa-3x mt-2 mb-3"></i>
+						<p class="fw-bold">Add Cashier</p>
+					</button>
+				</form>
+			</div>
+		}
+		else
+		{
+			<partial name="_ActiveManagerViewPartial" model="@activeCashier" />
+		}
 	</div>
-	<div class="row justify-content-center">
-		<partial name="_InactiveCashiersViewPartial" model="@ViewBag.InactiveCashiers" />
+	<div class="col-12 col-lg-6 justify-content-around align-items-center mb-5">
+		<div class="row h-50 justify-content-center">
+			<partial name="_InactivePresidentsViewPartial" model="@ViewBag.InactivePresidents" />
+		</div>
+		<div class="row h-50 justify-content-center">
+			<partial name="_InactiveCashiersViewPartial" model="@ViewBag.InactiveCashiers" />
+		</div>
 	</div>
 </div>
 

@@ -7,7 +7,7 @@
 	var houseOrgName = HttpContextAccessor?.HttpContext?.Session.GetString(HouseOrgName) ?? "none";
 	var userCurrentRole = User.FindFirstValue(ClaimTypes.Role);
 	var loggedIn = SignInManager.IsSignedIn(User);
-	var sidebar = HttpContextAccessor.HttpContext.Session.GetInt32(SideBarOpen) == 1 ? true : false; 
+	var sidebar = HttpContextAccessor.HttpContext.Session.GetInt32(SideBarOpen) == 1 ? true : false;
 }
 
 <!DOCTYPE html>
@@ -36,7 +36,9 @@
 		{
 			<div class="sidebar @(sidebar ? string.Empty : "open") pe-4 pb-3">
 				<nav class="navbar bg-light navbar-light">
-					<a class="navbar-brand mb-3 mt-1 mx-4" asp-area="" asp-controller="Home" asp-action="Index">
+					<a asp-area="" asp-controller="Home"
+					   asp-action="Index"
+					   class="navbar-brand mb-3 mt-1 mx-4">
 						<h2 class="text-success mb-0">House Manager</h2>
 					</a>
 					<div class="d-flex align-items-center ms-4 mb-4">
@@ -49,36 +51,54 @@
 						</div>
 					</div>
 					<div class="navbar-nav w-100">
-						<a asp-area="" asp-controller="HouseOrganizations" asp-action="All" class="row align-items-center nav-item nav-link fw-bold" style="color: #000000;opacity: 0.7;">
+						<a asp-area="" asp-controller="HouseOrganizations"
+						   asp-action="All"
+						   class="row align-items-center nav-item nav-link fw-bold"
+						   style="color: #000000;opacity: 0.7;">
 							<i class="fa fa-city me-2"></i>All
 						</a>
 						<hr class="m-0 mb-3" />
 
 						@if (houseOrgName != "none")
 						{
-							<h6 class="ms-4 fw-bolder" style="color: #000000;opacity: 0.7"><i class="fa fa-house me-2"></i>@houseOrgName</h6>
+							<h6 class="ms-4 fw-bolder"
+								style="color: #000000;opacity: 0.7">
+								<i class="fa fa-house me-2"></i>@houseOrgName
+							</h6>
 							<ul class="list-unstyled">
 								<li>
-									<a asp-area="" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@houseOrgId"
-									   class="nav-item nav-link fw-bold" style="color: #000000;opacity: 0.7">
+									<a asp-area="" asp-controller="HouseOrganizations"
+									   asp-action="Details"
+									   asp-route-id="@houseOrgId"
+									   class="nav-item nav-link fw-bold"
+									   style="color: #000000;opacity: 0.7">
 										<i class="fa fa-info me-2"></i>Details
 									</a>
 								</li>
 								<li>
-									<a asp-area="" asp-controller="Managers" asp-action="All" asp-route-houseOrgId="@houseOrgId"
-									   class="nav-item nav-link fw-bold" style="color: #000000;opacity: 0.7">
+									<a asp-area="" asp-controller="Managers"
+									   asp-action="All"
+									   asp-route-id="@houseOrgId"
+									   class="nav-item nav-link fw-bold"
+									   style="color: #000000;opacity: 0.7">
 										<i class="fa fa-user-tie me-2"></i>Management
 									</a>
 								</li>
 								<li>
-									<a asp-area="" asp-controller="Units" asp-action="All" asp-route-houseOrgId="@houseOrgId"
-									   class="nav-item nav-link fw-bold" style="color: #000000;opacity: 0.7">
+									<a asp-area="" asp-controller="Units"
+									   asp-action="All"
+									   asp-route-id="@houseOrgId"
+									   class="nav-item nav-link fw-bold"
+									   style="color: #000000;opacity: 0.7">
 										<i class="fa fa-key me-2"></i>Units
 									</a>
 								</li>
 								<li>
-									<a asp-area="" asp-controller="Finances" asp-action="Index" asp-route-houseOrgId="@houseOrgId"
-									   class="nav-item nav-link fw-bold" style="color: #000000;opacity: 0.7">
+									<a asp-area="" asp-controller="Finances"
+									   asp-action="Index"
+									   asp-route-id="@houseOrgId"
+									   class="nav-item nav-link fw-bold"
+									   style="color: #000000;opacity: 0.7">
 										<i class="fa fa-coins me-2"></i>Finances
 									</a>
 								</li>
@@ -93,13 +113,13 @@
 			<nav class="navbar navbar-expand navbar-light bg-light sticky-top align-items-center px-4">
 				<a class="navbar-brand my-1 mx-0" asp-area="" asp-controller="Home" asp-action="Index">
 					<h2 @(sidebar ? "hidden" : string.Empty) class="text-success mb-0">House Manager</h2>
-					</a>
+				</a>
 				<partial name="_LoginPartial" />
 			</nav>
 
 			@*Main Content*@
 			<div class="container-fluid pt-4 px-4">
-				<div class="row bg-light vh-100 rounded align-items-top justify-content-center mx-0">
+				<div class="row bg-light rounded min-vh-100 align-items-top justify-content-center mx-0">
 					<main role="main" class="main container-fluid p-4">
 						@RenderBody()
 					</main>

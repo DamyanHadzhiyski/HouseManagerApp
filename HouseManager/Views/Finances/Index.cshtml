@@ -9,46 +9,37 @@
 
 <h4 class="text-center mb-4">@houseOrgName - Finances</h4>
 <hr />
-<div class="row row-cols-2 justify-content-around align-items-top mb-5">
-	<div class="card row border-2 p-0 col-12 col-xl-3 mb-3">
-		<h4 class="card-header p-2 text-center">Create New</h4>
-		<form class="card-body row justify-content-between align-items-center mx-0">
-			<button asp-area="" asp-controller="Finances" asp-action="NewIncome" asp-route-houseOrgId="@houseOrgId"
-					class="btn btn-success col-5 rounded m-2"
-					type="submit">
-				<i class="fa fa-donate fa-3x mt-2 mb-3"></i>
-				<p class="fw-bold">Income</p>
-			</button>
-			<button asp-area="" asp-controller="Finances" asp-action="NewExpense" asp-route-houseOrgId="@houseOrgId"
-					class="btn btn-danger col-5 rounded m-2"
-					type="submit">
-				<i class="fa fa-hand-holding-usd fa-3x mt-2 mb-3"></i>
-				<p class="fw-bold">Expense</p>
-			</button>
-		</form>
+<div class="row justify-content-around">
+	<div class="col-12 col-lg-4 justify-content-center mb-5">
+		<div class="card row border-2 p-0 mb-3 col-12">
+			<h4 class="card-header p-2 text-center">Create New</h4>
+			<form class="card-body row justify-content-between align-items-center mx-0">
+				<button asp-area="" asp-controller="Finances" asp-action="NewIncome" asp-route-houseOrgId="@houseOrgId"
+						class="btn btn-success col-5 rounded m-2"
+						type="submit">
+					<i class="fa fa-donate fa-3x mt-2 mb-3"></i>
+					<p class="fw-bold">Income</p>
+				</button>
+				<button asp-area="" asp-controller="Finances" asp-action="NewExpense" asp-route-houseOrgId="@houseOrgId"
+						class="btn btn-danger col-5 rounded m-2"
+						type="submit">
+					<i class="fa fa-hand-holding-usd fa-3x mt-2 mb-3"></i>
+					<p class="fw-bold">Expense</p>
+				</button>
+			</form>
+		</div>
+		<partial name="_CurrentBalancePartial" model="@Model.CurrentBalance" />
 	</div>
-	<div class="card row border-2 p-0 col-12 col-xl-3 mb-3">
-		<h4 class="card-header p-2 text-center">Current Balance</h4>
-		<div class="card-body row justify-content-between align-items-center mx-0">
-			@if (Model.CurrentBalance <= 0)
-			{
-				<h2 class="display-4 text-center text-danger align-middle mx-0">@Model.CurrentBalance BGN</h2>
-			}
-			else
-			{
-				<h2 class="display-4 text-center align-middle mx-0">@Model.CurrentBalance BGN</h2>
-			}
+	<div class="col-12 col-lg-6 justify-content-around align-items-center mb-5">
+		<div class="row h-50">
+			<partial name="_IncomesViewPartial" model="@Model.Incomes" />
+		</div>
+		<div class="row h-50">
+			<partial name="_ExpensesViewPartial" model="@Model.Expenses" />
 		</div>
 	</div>
 </div>
-<div class="row row-cols-1 row-cols-2 justify-content-center justify-content-md-around">
-	<div class="card row border-2 p-0 mb-3 mx-0 col-12 col-lg-5">
-		<partial name="_IncomesViewPartial" model="@Model.Incomes" />
-	</div>
-	<div class="card row border-2 p-0 mb-3 mx-0 col-12 col-lg-5">
-		<partial name="_ExpensesViewPartial" model="@Model.Expenses" />
-	</div>
-</div>
+
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />

@@ -1,0 +1,56 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model List<HouseOrganizationViewModel>
+
+@{
+	var houseOrgId = HttpContextAccessor?.HttpContext?.Session.GetInt32(HouseOrgId) ?? default;
+}
+
+<div class="card border-2 p-0 mb-5 mx-3 col-12">
+	<div class="card-body justify-content-center">
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr class="text-center border-2 align-middle bg-light">
+						<th style="width: 5%" scope="col">#</th>
+						<th style="width: 25%" scope="col">Name</th>
+						<th style="width: 40%" scope="col">Address</th>
+						<th style="width: 15%" scope="col">Town</th>
+						<th style="width: 5%" scope="col">Manage</th>
+						<th style="width: 5%" scope="col">Details</th>
+						<th style="width: 5%" scope="col">Edit</th>
+					</tr>
+				</thead>
+				<tbody class="align-middle">
+					@for (int i = 0; i < Model.Count(); i++)
+					{
+						<tr class="text-center border-2 bg-white">
+							<td class="bg-light p-1" scope="row">@(i + 1)</td>
+							<td class="p-1">@Model[i].Name</td>
+							<td class="p-1">@Model[i].Address</td>
+							<td class="p-1">@Model[i].Town</td>
+							@if (Model[i].Id == houseOrgId)
+							{
+								<td class="p-1">
+									<button class="btn btn-success rounded-bottom-circle p-0" style="width: 25px; height: 25px"><i class="fa-solid fa-check"></i></button>
+								</td>
+							}
+							else
+							{
+								<td class="p-1">
+									<button class="btn btn-outline-secondary rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="HouseOrganizations" asp-action="Manage" asp-route-id="@Model[i].Id"><i class="fa-solid fa-check"></i></button>
+								</td>
+							}
+							<td class="p-1">
+								<button type="submit" class="btn btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="HouseOrganizations" asp-action="Details" asp-route-id="@Model[i].Id"><i class="fa-solid fa-info"></i></button>
+							</td>
+							<td class="p-1">
+								<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="HouseOrganizations" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fa-solid fa-pencil"></i></button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

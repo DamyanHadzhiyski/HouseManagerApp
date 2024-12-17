@@ -1,0 +1,44 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@model UnitFormModel
+
+@{
+	var unitTypes = Html.GetEnumSelectList(typeof(UnitType));
+}
+
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Number" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.Number" class="form-control" placeholder="@Model.Number">
+		<span asp-validation-for="@Model.Number" class="text-danger"></span>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Floor" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.Floor" class="form-control" placeholder="@Model.Floor">
+		<span asp-validation-for="@Model.Floor" class="text-danger"></span>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.Type" class="col-lg-3 control-label text-start text-lg-end pt-2">Select Unit Type</label>
+	<div class="col-lg-9">
+		<select asp-for="@Model.Type" class="form-select" id="floatingSelect" asp-items="@unitTypes">
+			<option selected value="@Model.Type"></option>
+		</select>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.TotalArea" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.TotalArea" class="form-control" placeholder="@Model.TotalArea">
+		<span asp-validation-for="@Model.TotalArea" class="text-danger"></span>
+	</div>
+</div>
+<div class="form-group row mb-3">
+	<label asp-for="@Model.CommonParts" class="col-lg-3 control-label text-start text-lg-end pt-2"></label>
+	<div class="col-lg-9">
+		<input asp-for="@Model.CommonParts" class="form-control" placeholder="@Model.CommonParts">
+		<span asp-validation-for="@Model.CommonParts" class="text-danger"></span>
+	</div>
+</div>

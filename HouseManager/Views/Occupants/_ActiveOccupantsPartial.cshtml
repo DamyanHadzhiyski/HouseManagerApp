@@ -4,94 +4,99 @@
 	var collection = Model.Collection;
 }
 
-<div class="table-responsive">
-	<table class="table table-bordered table-hover">
-		<thead>
-			<tr class="text-center border-2 bg-light align-middle">
-				<th style="width:5%" scope="col">#</th>
-				<th style="width:45%" scope="col">Full Name</th>
-				<th style="width:20%" scope="col">Phone Number</th>
-				<th style="width:10%" scope="col">Owner</th>
-				<th style="width:10%" scope="col">Details</th>
-				<th style="width:10%" scope="col">Edit</th>
-			</tr>
-		</thead>
-		<tbody class="align-middle">
-			@for (int i = 0; i < collection.Count; i++)
-			{
-				<tr class="bg-white border-2 align-middle text-center">
-					<td class="bg-light p-1" scope="row">@(i + 1)</td>
-					<td class="p-1">@collection[i].FullName</td>
-					<td class="p-1">@collection[i].PhoneNumber</td>
-					<td class="p-1">@collection[i].IsOwner</td>
-					<form>
-					<td class="p-1">
-						<button type="submit" class="btn  btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Occupants" asp-action="Details" asp-route-id="@collection[i].Id"><i class="fa-solid fa-info"></i></button>
-					</td>
-					<td class="p-1">
-						<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Occupants" asp-action="Edit" asp-route-id="@collection[i].Id"><i class="fa-solid fa-pencil"></i></button>
-					</td>
-					</form>
-				</tr>
-			}
-		</tbody>
-	</table>
+<div class="card border-2 p-0 mb-3 mx-1 col-12">
+	<h4 class="card-header p-2 text-center">Active Occupants list</h4>
+	<div class="card-body p-4">
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr class="text-center border-2 bg-light align-middle">
+						<th style="width:5%" scope="col">#</th>
+						<th style="width:45%" scope="col">Full Name</th>
+						<th style="width:20%" scope="col">Phone Number</th>
+						<th style="width:10%" scope="col">Owner</th>
+						<th style="width:10%" scope="col">Details</th>
+						<th style="width:10%" scope="col">Edit</th>
+					</tr>
+				</thead>
+				<tbody class="align-middle">
+					@for (int i = 0; i < collection.Count; i++)
+					{
+						<tr class="bg-white border-2 align-middle text-center">
+							<td class="bg-light p-1" scope="row">@(i + 1)</td>
+							<td class="p-1">@collection[i].FullName</td>
+							<td class="p-1">@collection[i].PhoneNumber</td>
+							<td class="p-1">@collection[i].IsOwner</td>
+							<form>
+							<td class="p-1">
+								<button type="submit" class="btn  btn-outline-info rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Occupants" asp-action="Details" asp-route-id="@collection[i].Id"><i class="fa-solid fa-info"></i></button>
+							</td>
+							<td class="p-1">
+								<button class="btn btn-outline-warning rounded-bottom-circle p-0" style="width: 25px; height: 25px" asp-area="" asp-controller="Occupants" asp-action="Edit" asp-route-id="@collection[i].Id"><i class="fa-solid fa-pencil"></i></button>
+							</td>
+							</form>
+						</tr>
+					}
+				</tbody>
+			</table>
 
-	@{
-		var previousPage = Model.CurrentPage - 1;
-		if (previousPage < 1)
-		{
-			previousPage = 1;
-		}
-
-		var maxPage = Math.Ceiling((double)Model.TotalElements /
-		Model.ElementsPerPage);
-	}
-
-	@if (collection.Any())
-	{
-		<nav aria-label="...">
-			<ul class="pagination">
-				<li class="page-item">
-					<a class="btn btn-secondary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-					   asp-area="" asp-controller="Units"
-					   asp-action="Details"
-					   asp-route-activeCurrentPage="@previousPage">Previous</a>
-				</li>
-
-				@for (int i = 1; i <= maxPage; i++)
+			@{
+				var previousPage = Model.CurrentPage - 1;
+				if (previousPage < 1)
 				{
-					if (Model.CurrentPage == i)
-					{
-						<li class="page-item active" aria-current="page">
-							<a class="page-link"
-							   asp-area="" asp-controller="Units"
-							   asp-action="Details"
-							   asp-route-activeCurrentPage="@i">@i</a>
-						</li>
-					}
-					else
-					{
-						<li class="page-item" aria-current="page">
-							<a class="page-link"
-							   asp-area="" asp-controller="Units"
-							   asp-action="Details"
-							   asp-route-activeCurrentPage="@i">@i</a>
-						</li>
-					}
+					previousPage = 1;
 				}
 
-				@{
-					var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-					!Model.Collection.Any();
-				}
-				<li class="page-item">
-					<a class="btn btn-secondary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-					   asp-area="" asp-controller="Units"
-					   asp-action="Details"
-					   asp-route-activeCurrentPage="@(Model.CurrentPage + 1)">Next</a>
-				</li>
-			</ul>
-		</nav>
-	}
+				var maxPage = Math.Ceiling((double)Model.TotalElements /
+				Model.ElementsPerPage);
+			}
+
+			@if (collection.Any())
+			{
+				<nav aria-label="...">
+					<ul class="pagination">
+						<li class="page-item">
+							<a class="btn btn-secondary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+							   asp-area="" asp-controller="Units"
+							   asp-action="Details"
+							   asp-route-activeCurrentPage="@previousPage">Previous</a>
+						</li>
+
+						@for (int i = 1; i <= maxPage; i++)
+						{
+							if (Model.CurrentPage == i)
+							{
+								<li class="page-item active" aria-current="page">
+									<a class="page-link"
+									   asp-area="" asp-controller="Units"
+									   asp-action="Details"
+									   asp-route-activeCurrentPage="@i">@i</a>
+								</li>
+							}
+							else
+							{
+								<li class="page-item" aria-current="page">
+									<a class="page-link"
+									   asp-area="" asp-controller="Units"
+									   asp-action="Details"
+									   asp-route-activeCurrentPage="@i">@i</a>
+								</li>
+							}
+						}
+
+						@{
+							var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+							!Model.Collection.Any();
+						}
+						<li class="page-item">
+							<a class="btn btn-secondary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+							   asp-area="" asp-controller="Units"
+							   asp-action="Details"
+							   asp-route-activeCurrentPage="@(Model.CurrentPage + 1)">Next</a>
+						</li>
+					</ul>
+				</nav>
+			}
+		</div>
+	</div>
 </div>
